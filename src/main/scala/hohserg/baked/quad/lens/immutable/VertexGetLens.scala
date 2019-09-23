@@ -1,12 +1,14 @@
 package hohserg.baked.quad.lens.immutable
 
+import hohserg.baked.quad.lens.lambda.Combiners._
+
+import hohserg.baked.quad.lens.immutable.VertexLens._
 import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType._
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
-import hohserg.baked.quad.lens.immutable.VertexLens._
 
 object VertexGetLens extends VertexLens {
 
-  def getPos[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: (Float, Float, Float) => A): A = {
+  def getPos[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Float3Combiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
     combine(
@@ -16,7 +18,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getColor[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: (Float, Float, Float, Float) => A): A = {
+  def getColor[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Float4Combiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
 
     combine(
@@ -27,7 +29,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getUV[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: (Float, Float) => A): A = {
+  def getUV[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Float2Combiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.TEX_2F
 
     combine(
@@ -36,7 +38,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getNormal[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: (Byte, Byte, Byte) => A): A = {
+  def getNormal[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Byte3Combiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
 
     combine(
@@ -46,7 +48,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getLightmap[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: (Short, Short) => A): A = {
+  def getLightmap[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Short2Combiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
 
     combine(
