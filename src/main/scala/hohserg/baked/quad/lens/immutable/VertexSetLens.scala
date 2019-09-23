@@ -23,7 +23,7 @@ object VertexSetLens extends VertexLens {
     )
   }
 
-  def setColor(quadData: Array[Int], r:Float,g:Float,b:Float,a:Float)(implicit format: VertexFormat, vertex: Int): Array[Int] = {
+  def setColor(quadData: Array[Int], r: Float, g: Float, b: Float, a: Float)(implicit format: VertexFormat, vertex: Int): Array[Int] = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
 
     withCopyOfArray(quadData)(

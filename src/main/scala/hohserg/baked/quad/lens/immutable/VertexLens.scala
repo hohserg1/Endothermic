@@ -1,8 +1,7 @@
 package hohserg.baked.quad.lens.immutable
 
+import hohserg.baked.quad.lens.immutable.VertexLens._
 import net.minecraft.client.renderer.vertex.{VertexFormat, VertexFormatElement}
-
-import VertexLens._
 
 trait VertexLens {
 
