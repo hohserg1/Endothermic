@@ -38,6 +38,10 @@ minecraft {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.chuusai/shapeless
+    compile group: 'com.chuusai', name: 'shapeless_2.11', version: '2.3.3'
+
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
