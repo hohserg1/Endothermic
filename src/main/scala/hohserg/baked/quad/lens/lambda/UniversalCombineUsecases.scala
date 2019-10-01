@@ -1,7 +1,7 @@
 package hohserg.baked.quad.lens.lambda
 
 import net.minecraft.client.renderer.block.model.BakedQuad
-import shapeless.{::, Generic, HList, HNil}
+import shapeless.{::, FromProductArgs, Generic, HList, HNil, ProductArgs}
 
 object UniversalCombineUsecases {
 
@@ -19,9 +19,15 @@ object UniversalCombineUsecases {
                     x4: Float, y4: Float, z4: Float
                   ): (Float, Float, Float) = ???
 
+  object Foo extends ProductArgs {
+    def applyProduct(args: Int :: Float :: HNil): Int = 0
+  }
 
-  def testLens1[A, R <: HList, RV](requirements: R, combiner: RV => A)
-                                  (implicit exist: AttributeValue.Aux[R, RV]): A = {
+  val i: Int = Foo(1, 1f)
+
+
+  def testLens1[A, R <: HList, RV, RA](requirements: R, combiner: RV => A)
+                                      (implicit exist: AttributeValue.Aux[R, RV] /*, combinerArgs:FromProductArgs[RV,]*/): A = {
     combiner(exist.calc())
   }
 
