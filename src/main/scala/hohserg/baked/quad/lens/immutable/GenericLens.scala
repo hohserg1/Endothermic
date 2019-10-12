@@ -88,7 +88,7 @@ object GenericLens extends App with VertexLens {
     if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
     bits &= mask.v
 
-    `type`.v match {
+    `type`.v match {//todo: use implicits for determine parsing alghoritm rom type A
       case FLOAT => java.lang.Float.intBitsToFloat(bits)
       case UBYTE | USHORT => bits.toFloat / mask.v
       case UINT => ((bits & 0xFFFFFFFFL).toDouble / 0xFFFFFFFFL).toFloat
