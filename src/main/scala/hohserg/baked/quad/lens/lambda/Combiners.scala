@@ -2,8 +2,24 @@ package hohserg.baked.quad.lens.lambda
 
 object Combiners {
 
+  abstract class UVCombiner {
+    def apply(u: Float, v: Float): Any
+  }
+
+  abstract class ColorCombiner {
+    def apply(r: Float, g: Float, b: Float, a: Float): Any
+  }
+
   abstract class PosCombiner {
     def apply(x: Float, y: Float, z: Float): Any
+  }
+
+  abstract class LightmapCombiner {
+    def apply(x: Short, y: Short): Any
+  }
+
+  abstract class NormalCombiner {
+    def apply(x: Byte, y: Byte, z: Byte): Any
   }
 
   object PosCombiner {
