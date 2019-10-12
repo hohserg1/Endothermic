@@ -5,8 +5,6 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 
 object VertexSetLens extends VertexLens {
 
-  case class ElementIndex(v: Int) extends AnyVal
-
   def withCopyOfArray(quadData: Array[Int])(actions: Array[Int] => Unit*): Array[Int] = {
     val r = quadData.clone()
     actions.foreach(_ (r))

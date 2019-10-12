@@ -1,11 +1,11 @@
 package hohserg.baked.quad.lens
-
+/*
 import hohserg.baked.quad.lens.lambda.Combiners._
 
 package object lambda {
 
-  implicit def func2Combiner3f[A](f: (Float, Float, Float) => A): Float3Combiner[A] =
-    new Float3Combiner[A] {
+  implicit def func2Combiner3f[A](f: (Float, Float, Float) => A): PosCombiner[A] =
+    new PosCombiner[A] {
       override def apply(x: Float, y: Float, z: Float): A = f(x, y, z)
     }
 
@@ -30,3 +30,4 @@ package object lambda {
     }
 
 }
+*/

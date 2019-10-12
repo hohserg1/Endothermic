@@ -1,5 +1,7 @@
 package hohserg.baked.quad.lens.immutable
 
+/*
+
 import hohserg.baked.quad.lens.immutable.VertexLens._
 import hohserg.baked.quad.lens.lambda.Combiners._
 import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType._
@@ -7,7 +9,17 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 
 object VertexGetLens extends VertexLens {
 
-  def getPos[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: Float3Combiner[A]): A = {
+  def getAll[A](implicit quadData: Array[Int], format: VertexFormat, combine: AllCombiner[A]): A = {
+    implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
+
+    combine(
+      unpack(quadData, 0),
+      unpack(quadData, 1),
+      unpack(quadData, 2)
+    )
+  }
+
+  def getPos[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: PosCombiner[A]): A = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
     combine(
@@ -75,3 +87,4 @@ object VertexGetLens extends VertexLens {
     }
   }
 }
+*/
