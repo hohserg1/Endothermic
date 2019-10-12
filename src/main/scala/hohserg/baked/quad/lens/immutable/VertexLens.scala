@@ -1,34 +1,71 @@
 package hohserg.baked.quad.lens.immutable
 
 import hohserg.baked.quad.lens.immutable.VertexLens._
-import net.minecraft.client.renderer.vertex.{VertexFormat, VertexFormatElement}
+import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
 trait VertexLens {
 
 
-  protected implicit def elementMask[V <: Vertex](implicit size: ElementSize[V]): ElementMask[V] =
+  protected implicit def elementMask[V <: Vertex, A <: VertexAttribute](implicit size: ElementSize[V, A]): ElementMask[V, A] =
     ElementMask((256 << (8 * (size.v - 1))) - 1)
 
-  protected implicit def elementSize[V <: Vertex](implicit `type`: VertexFormatElement.EnumType): ElementSize[V] =
-    ElementSize(`type`.getSize)
+  protected implicit def elementSize[V <: Vertex, A <: VertexAttribute](implicit `type`: ElementEnumType[V, A]): ElementSize[V, A] =
+    ElementSize(`type`.v.getSize)
 
-  protected implicit def elementType[V <: Vertex](implicit format: VertexFormat, e: ElementIndex[V]): VertexFormatElement.EnumType =
-    format.getElement(e.v).getType
+  protected implicit def elementType[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[V, A]): ElementEnumType[V, A] =
+    ElementEnumType(format.getElement(e.v).getType)
 
-  protected implicit def vertexStart[V <: Vertex](implicit vertex: V, format: VertexFormat, e: ElementIndex[V]): VertexStart[V] =
+  protected implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[V, A]): VertexStart[V, A] =
     VertexStart(vertex.index * format.getNextOffset + format.getOffset(e.v))
 
-  protected implicit def indexOfElement[V <: Vertex](implicit format: VertexFormat, element: VertexFormatElement): ElementIndex[V] =
-    ElementIndex(format.getElements.indexOf(element))
+  protected implicit def indexOfElement[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, attribute: A): ElementIndex[V, A] =
+    ElementIndex(format.getElements.indexOf(attribute.element))
 
 }
 
 object VertexLens {
 
-  implicit val v1: _1 = _1
-  implicit val v2: _2 = _2
-  implicit val v3: _3 = _3
-  implicit val v4: _4 = _4
+
+  sealed trait VertexAttribute {
+    def element: VertexFormatElement
+  }
+
+  sealed trait POSITION_3F extends VertexAttribute
+
+  implicit case object POSITION_3F extends POSITION_3F {
+    override val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
+  }
+
+  sealed trait COLOR_4UB extends VertexAttribute
+
+  implicit case object COLOR_4UB extends COLOR_4UB {
+    override val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
+  }
+
+  sealed trait TEX_2F extends VertexAttribute
+
+  implicit case object TEX_2F extends TEX_2F {
+    override val element: VertexFormatElement = DefaultVertexFormats.TEX_2F
+  }
+
+  sealed trait TEX_2S extends VertexAttribute
+
+  implicit case object TEX_2S extends TEX_2S {
+    override val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
+  }
+
+  sealed trait NORMAL_3B extends VertexAttribute
+
+  implicit case object NORMAL_3B extends NORMAL_3B {
+    override val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+  }
+
+  sealed trait PADDING_1B extends VertexAttribute
+
+  implicit case object PADDING_1B extends PADDING_1B {
+    override val element: VertexFormatElement = DefaultVertexFormats.PADDING_1B
+  }
+
 
   sealed trait Vertex {
     def index: Int
@@ -36,34 +73,36 @@ object VertexLens {
 
   sealed trait _1 extends Vertex
 
-  case object _1 extends _1 {
+  implicit case object _1 extends _1 {
     override val index: Int = 0
   }
 
   sealed trait _2 extends Vertex
 
-  case object _2 extends _2 {
+  implicit case object _2 extends _2 {
     override val index: Int = 1
   }
 
   sealed trait _3 extends Vertex
 
-  case object _3 extends _3 {
+  implicit case object _3 extends _3 {
     override val index: Int = 2
   }
 
   sealed trait _4 extends Vertex
 
-  case object _4 extends _4 {
+  implicit case object _4 extends _4 {
     override val index: Int = 3
   }
 
-  case class ElementIndex[V <: Vertex](v: Int) extends AnyVal
+  case class ElementIndex[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class VertexStart[V <: Vertex](v: Int) extends AnyVal
+  case class VertexStart[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class ElementSize[V <: Vertex](v: Int) extends AnyVal
+  case class ElementSize[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class ElementMask[V <: Vertex](v: Int) extends AnyVal
+  case class ElementMask[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
+
+  case class ElementEnumType[V <: Vertex, A <: VertexAttribute](v: VertexFormatElement.EnumType) extends AnyVal
 
 }

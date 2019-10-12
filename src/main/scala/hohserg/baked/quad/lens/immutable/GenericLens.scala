@@ -2,7 +2,6 @@ package hohserg.baked.quad.lens.immutable
 
 import hohserg.baked.quad.lens.immutable.VertexLens._
 import hohserg.baked.quad.lens.lambda.Combiners.{AllPosCombiner, PosCombiner}
-import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType
 import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType._
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 import shapeless.{::, HList, HNil}
@@ -22,8 +21,8 @@ object GenericLens extends App with VertexLens {
   println(test)
 
 
-  def unpack[V <: Vertex](quadData: Array[Int], i: Int)(implicit vertexStart: VertexStart[V], `type`: EnumType,
-                                                        size: ElementSize[V], mask: ElementMask[V]): Float = {
+  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit vertexStart: VertexStart[V, A], `type`: ElementEnumType[V, A],
+                                                                              size: ElementSize[V, A], mask: ElementMask[V, A]): Float = {
     val pos = vertexStart.v + size.v * i
     val index = pos >> 2
     val offset = pos & 3
@@ -32,7 +31,7 @@ object GenericLens extends App with VertexLens {
     if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
     bits &= mask.v
 
-    `type` match {
+    `type`.v match {
       case FLOAT => java.lang.Float.intBitsToFloat(bits)
       case UBYTE | USHORT => bits.toFloat / mask.v
       case UINT => ((bits & 0xFFFFFFFFL).toDouble / 0xFFFFFFFFL).toFloat
@@ -47,24 +46,23 @@ object GenericLens extends App with VertexLens {
     override type C = AllPosCombiner
 
     override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
-      implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
       combiner(
-        unpack[_1](quadData, 0),
-        unpack[_1](quadData, 1),
-        unpack[_1](quadData, 2),
+        unpack[_1, POSITION_3F](quadData, 0),
+        unpack[_1, POSITION_3F](quadData, 1),
+        unpack[_1, POSITION_3F](quadData, 2),
 
-        unpack[_2](quadData, 0),
-        unpack[_2](quadData, 1),
-        unpack[_2](quadData, 2),
+        unpack[_2, POSITION_3F](quadData, 0),
+        unpack[_2, POSITION_3F](quadData, 1),
+        unpack[_2, POSITION_3F](quadData, 2),
 
-        unpack[_3](quadData, 0),
-        unpack[_3](quadData, 1),
-        unpack[_3](quadData, 2),
+        unpack[_3, POSITION_3F](quadData, 0),
+        unpack[_3, POSITION_3F](quadData, 1),
+        unpack[_3, POSITION_3F](quadData, 2),
 
-        unpack[_4](quadData, 0),
-        unpack[_4](quadData, 1),
-        unpack[_4](quadData, 2)
+        unpack[_4, POSITION_3F](quadData, 0),
+        unpack[_4, POSITION_3F](quadData, 1),
+        unpack[_4, POSITION_3F](quadData, 2)
       )
     }
   }
@@ -77,25 +75,11 @@ object GenericLens extends App with VertexLens {
       implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
       combiner(
-        unpack[_1](quadData, 0),
-        unpack[_1](quadData, 1),
-        unpack[_1](quadData, 2)
+        unpack[_1, POSITION_3F](quadData, 0),
+        unpack[_1, POSITION_3F](quadData, 1),
+        unpack[_1, POSITION_3F](quadData, 2)
       )
     }
   }
-
-  sealed trait VertexAttribute
-
-  case object POSITION_3F extends VertexAttribute
-
-  case object COLOR_4UB extends VertexAttribute
-
-  case object TEX_2F extends VertexAttribute
-
-  case object TEX_2S extends VertexAttribute
-
-  case object NORMAL_3B extends VertexAttribute
-
-  case object PADDING_1B extends VertexAttribute
 
 }
