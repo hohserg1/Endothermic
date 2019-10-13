@@ -9,22 +9,23 @@ import scala.language.higherKinds
 
 object GenericLens extends App with VertexLens {
 
-  def get[R <: HList, C, Result](quadData: Array[Int], format: VertexFormat, requirements: R, combiner: C)
-                                (implicit
-                                 relevantCombiner: RelevantCombiner.Aux[R, C]): Result = {
-    relevantCombiner.apply(quadData, format, combiner).asInstanceOf[Result]
+  def get[R <: HList, C[_], Result](quadData: Array[Int], format: VertexFormat, requirements: R, combiner: C[Result])
+                                   (implicit
+                                    relevantCombiner: RelevantCombiner.Aux[R, C]): Result = {
+    relevantCombiner.apply(quadData, format, combiner)
   }
 
   implicit val colorCombiner: RelevantCombiner.Aux[COLOR_4UB.type :: HNil, ColorCombiner] = new RelevantCombiner[COLOR_4UB.type :: HNil] {
-    override type C = ColorCombiner
+    override type C[Result] = ColorCombiner[Result]
 
-    override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: ColorCombiner): Any = {
+    override def apply[Result](implicit quadData: Array[Int], format: VertexFormat, combiner: C[Result]): Result = {
 
-      implicit val ei1: ElementIndex[COLOR_4UB] = indexOfElement
+      implicit lazy val ei1: ElementIndex[COLOR_4UB] = indexOfElement
 
-      implicit val es1: ElementSize[COLOR_4UB] = elementSize
+      implicit lazy val et1: ElementEnumType[COLOR_4UB] = elementType
 
-      implicit val et1: ElementEnumType[COLOR_4UB] = elementType
+      implicit lazy val es1: ElementSize[COLOR_4UB] = elementSize
+
 
       combiner(
         unpack[_1, COLOR_4UB](quadData, 0),
@@ -37,15 +38,15 @@ object GenericLens extends App with VertexLens {
 
 
   implicit val allPosCombiner: RelevantCombiner.Aux[POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: HNil, AllPosCombiner] = new RelevantCombiner[POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: HNil] {
-    override type C = AllPosCombiner
+    override type C[Result] = AllPosCombiner[Result]
 
-    override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
+    override def apply[Result](implicit quadData: Array[Int], format: VertexFormat, combiner: C[Result]): Result = {
 
-      implicit val ei1: ElementIndex[POSITION_3F] = indexOfElement
+      implicit lazy val ei1: ElementIndex[POSITION_3F] = indexOfElement
 
-      implicit val es1: ElementSize[POSITION_3F] = elementSize
+      implicit lazy val es1: ElementSize[POSITION_3F] = elementSize
 
-      implicit val et1: ElementEnumType[POSITION_3F] = elementType
+      implicit lazy val et1: ElementEnumType[POSITION_3F] = elementType
 
 
       combiner(
@@ -70,15 +71,15 @@ object GenericLens extends App with VertexLens {
 
 
   implicit val posCombiner: RelevantCombiner.Aux[POSITION_3F.type :: HNil, PosCombiner] = new RelevantCombiner[POSITION_3F.type :: HNil] {
-    override type C = PosCombiner
+    override type C[Result] = PosCombiner[Result]
 
-    override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
+    override def apply[Result](implicit quadData: Array[Int], format: VertexFormat, combiner: C[Result]): Result = {
 
-      implicit val ei1: ElementIndex[POSITION_3F] = indexOfElement
+      implicit lazy val ei1: ElementIndex[POSITION_3F] = indexOfElement
 
-      implicit val es1: ElementSize[POSITION_3F] = elementSize
+      implicit lazy val es1: ElementSize[POSITION_3F] = elementSize
 
-      implicit val et1: ElementEnumType[POSITION_3F] = elementType
+      implicit lazy val et1: ElementEnumType[POSITION_3F] = elementType
 
       combiner(
         unpack[_1, POSITION_3F](quadData, 0),
@@ -106,11 +107,6 @@ object GenericLens extends App with VertexLens {
 
     parser.parse(bits, mask)
   }
-
-  def test[A, C[_],B](v1: C[B])(implicit bound: B =:= A) {
-  }
-
-  test[POSITION_3F, ElementMask,POSITION_3F](elementMask(null))
 
 
   val test: Float = get(Array(), DefaultVertexFormats.ITEM, POSITION_3F :: HNil, PosCombiner((x: Float, y: Float, z: Float) => 0f))

@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 
 object VertexGetLens extends VertexLens {
 
-  def getAll[A](implicit quadData: Array[Int], format: VertexFormat, combine: AllCombiner): A = {
+  def getAll[B](implicit quadData: Array[Int], format: VertexFormat, combine: AllCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
     combine(
@@ -19,7 +19,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getPos[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: PosCombiner): A = {
+  def getPos[B](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: PosCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
     combine(
@@ -29,7 +29,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getColor[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: ColorCombiner): A = {
+  def getColor[B](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: ColorCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
 
     combine(
@@ -40,7 +40,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getUV[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: UVCombiner): A = {
+  def getUV[B](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: UVCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.TEX_2F
 
     combine(
@@ -49,7 +49,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getNormal[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: NormalCombiner): A = {
+  def getNormal[B](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: NormalCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
 
     combine(
@@ -59,7 +59,7 @@ object VertexGetLens extends VertexLens {
     )
   }
 
-  def getLightmap[A](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: LightmapCombiner): A = {
+  def getLightmap[B](implicit quadData: Array[Int], format: VertexFormat, vertex: Int, combine: LightmapCombiner): B = {
     implicit val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
 
     combine(
