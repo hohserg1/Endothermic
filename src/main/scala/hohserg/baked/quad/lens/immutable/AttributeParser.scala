@@ -2,7 +2,7 @@ package hohserg.baked.quad.lens.immutable
 
 import hohserg.baked.quad.lens.immutable.VertexLens._
 
-trait AttributeParser[A] {
+trait AttributeParser[A <: VertexAttribute] {
   def parse(bits: Int, mask: ElementMask[A]): Float
 
 }
