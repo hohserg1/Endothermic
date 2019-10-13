@@ -1,9 +1,9 @@
 package hohserg.baked.quad.lens.immutable
 
 import hohserg.baked.quad.lens.immutable.VertexLens._
-import hohserg.baked.quad.lens.lambda.Combiners.{AllPosCombiner, PosCombiner}
+import hohserg.baked.quad.lens.lambda.Combiners._
 import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType._
-import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
+import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat}
 import shapeless.{::, HList, HNil}
 
 import scala.language.higherKinds
@@ -16,15 +16,16 @@ object GenericLens extends App with VertexLens {
     relevantCombiner.apply(quadData, format, combiner).asInstanceOf[Result]
   }
 
+  implicit val colorCombiner: RelevantCombiner.Aux[COLOR_4UB.type :: HNil, ColorCombiner] = new RelevantCombiner[COLOR_4UB.type :: HNil] {
+    override type C = ColorCombiner
 
-  val test: Float = get(Array(), DefaultVertexFormats.ITEM, POSITION_3F :: HNil, PosCombiner((x: Float, y: Float, z: Float) => 0f))
-  println(test)
+    override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: ColorCombiner): Any = {
 
-  implicit val colorCombiner: RelevantCombiner.Aux[COLOR_4UB.type :: HNil, PosCombiner] = new RelevantCombiner[COLOR_4UB.type :: HNil] {
-    override type C = PosCombiner
+      implicit val ei1: ElementIndex[COLOR_4UB] = indexOfElement
 
-    override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
-      implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
+      implicit val es1: ElementSize[COLOR_4UB] = elementSize
+
+      implicit val et1: ElementEnumType[COLOR_4UB] = elementType
 
       combiner(
         unpack[_1, COLOR_4UB](quadData, 0),
@@ -36,11 +37,17 @@ object GenericLens extends App with VertexLens {
   }
 
 
-
   implicit val allPosCombiner: RelevantCombiner.Aux[POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: HNil, AllPosCombiner] = new RelevantCombiner[POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: POSITION_3F.type :: HNil] {
     override type C = AllPosCombiner
 
     override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
+
+      implicit val ei1: ElementIndex[POSITION_3F] = indexOfElement
+
+      implicit val es1: ElementSize[POSITION_3F] = elementSize
+
+      implicit val et1: ElementEnumType[POSITION_3F] = elementType
+
 
       combiner(
         unpack[_1, POSITION_3F](quadData, 0),
@@ -67,7 +74,12 @@ object GenericLens extends App with VertexLens {
     override type C = PosCombiner
 
     override def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any = {
-      implicit val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
+
+      implicit val ei1: ElementIndex[POSITION_3F] = indexOfElement
+
+      implicit val es1: ElementSize[POSITION_3F] = elementSize
+
+      implicit val et1: ElementEnumType[POSITION_3F] = elementType
 
       combiner(
         unpack[_1, POSITION_3F](quadData, 0),
@@ -78,8 +90,8 @@ object GenericLens extends App with VertexLens {
   }
 
 
-  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit vertexStart: VertexStart[V, A], `type`: ElementEnumType[V, A],
-                                                                              size: ElementSize[V, A], mask: ElementMask[V, A]): Float = {
+  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit vertexStart: VertexStart[V, A], `type`: ElementEnumType[A],
+                                                                              size: ElementSize[A], mask: ElementMask[V, A]): Float = {
     val pos = vertexStart.v + size.v * i
     val index = pos >> 2
     val offset = pos & 3
@@ -88,7 +100,8 @@ object GenericLens extends App with VertexLens {
     if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
     bits &= mask.v
 
-    `type`.v match {//todo: use implicits for determine parsing alghoritm rom type A
+    `type`.v match {
+      //todo: use implicits for determine parsing alghoritm rom type A
       case FLOAT => java.lang.Float.intBitsToFloat(bits)
       case UBYTE | USHORT => bits.toFloat / mask.v
       case UINT => ((bits & 0xFFFFFFFFL).toDouble / 0xFFFFFFFFL).toFloat
@@ -97,5 +110,9 @@ object GenericLens extends App with VertexLens {
       case INT => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat
     }
   }
+
+
+  val test: Float = get(Array(), DefaultVertexFormats.ITEM, POSITION_3F :: HNil, PosCombiner((x: Float, y: Float, z: Float) => 0f))
+  println(test)
 
 }

@@ -7,7 +7,7 @@ import scala.language.higherKinds
 trait RelevantCombiner[R] {
   type C
 
-  def apply(quadData: Array[Int], format: VertexFormat, combiner: C): Any
+  def apply(implicit quadData: Array[Int], format: VertexFormat, combiner: C): Any
 }
 
 object RelevantCombiner {

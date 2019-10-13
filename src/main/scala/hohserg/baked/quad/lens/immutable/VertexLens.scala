@@ -6,19 +6,19 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 trait VertexLens {
 
 
-  protected implicit def elementMask[V <: Vertex, A <: VertexAttribute](implicit size: ElementSize[V, A]): ElementMask[V, A] =
+  protected implicit def elementMask[V <: Vertex, A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[V, A] =
     ElementMask((256 << (8 * (size.v - 1))) - 1)
 
-  protected implicit def elementSize[V <: Vertex, A <: VertexAttribute](implicit `type`: ElementEnumType[V, A]): ElementSize[V, A] =
+  protected implicit def elementSize[A <: VertexAttribute](implicit `type`: ElementEnumType[A]): ElementSize[A] =
     ElementSize(`type`.v.getSize)
 
-  protected implicit def elementType[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[V, A]): ElementEnumType[V, A] =
+  protected implicit def elementType[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[A]): ElementEnumType[A] =
     ElementEnumType(format.getElement(e.v).getType)
 
-  protected implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[V, A]): VertexStart[V, A] =
+  protected implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[A]): VertexStart[V, A] =
     VertexStart(vertex.index * format.getNextOffset + format.getOffset(e.v))
 
-  protected implicit def indexOfElement[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, attribute: A): ElementIndex[V, A] =
+  protected implicit def indexOfElement[A <: VertexAttribute](implicit format: VertexFormat, attribute: A): ElementIndex[A] =
     ElementIndex(format.getElements.indexOf(attribute.element))
 
 }
@@ -95,14 +95,14 @@ object VertexLens {
     override val index: Int = 3
   }
 
-  case class ElementIndex[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
+  case class ElementIndex[A <: VertexAttribute](v: Int) extends AnyVal
 
   case class VertexStart[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class ElementSize[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
+  case class ElementSize[A <: VertexAttribute](v: Int) extends AnyVal
 
   case class ElementMask[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class ElementEnumType[V <: Vertex, A <: VertexAttribute](v: VertexFormatElement.EnumType) extends AnyVal
+  case class ElementEnumType[A <: VertexAttribute](v: VertexFormatElement.EnumType) extends AnyVal
 
 }
