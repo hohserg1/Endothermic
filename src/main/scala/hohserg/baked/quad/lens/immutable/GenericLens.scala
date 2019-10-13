@@ -2,7 +2,6 @@ package hohserg.baked.quad.lens.immutable
 
 import hohserg.baked.quad.lens.immutable.VertexLens._
 import hohserg.baked.quad.lens.lambda.Combiners._
-import net.minecraft.client.renderer.vertex.VertexFormatElement.EnumType._
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat}
 import shapeless.{::, HList, HNil}
 
@@ -90,26 +89,28 @@ object GenericLens extends App with VertexLens {
   }
 
 
-  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit vertexStart: VertexStart[V, A], `type`: ElementEnumType[A],
-                                                                              size: ElementSize[A], mask: ElementMask[V, A]): Float = {
+  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit
+                                                                              vertexStart: VertexStart[V, A],
+                                                                              `type`: ElementEnumType[A],
+                                                                              size: ElementSize[A],
+                                                                              mask: ElementMask[A],
+                                                                              parser: AttributeParser[A]
+  ): Float = {
     val pos = vertexStart.v + size.v * i
     val index = pos >> 2
     val offset = pos & 3
-    var bits = quadData(index)
+    var bits: Int = quadData(index)
     bits = bits >>> (offset * 8)
     if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
     bits &= mask.v
 
-    `type`.v match {
-      //todo: use implicits for determine parsing alghoritm rom type A
-      case FLOAT => java.lang.Float.intBitsToFloat(bits)
-      case UBYTE | USHORT => bits.toFloat / mask.v
-      case UINT => ((bits & 0xFFFFFFFFL).toDouble / 0xFFFFFFFFL).toFloat
-      case BYTE => bits.toByte.toFloat / (mask.v >> 1)
-      case SHORT => bits.toShort.toFloat / (mask.v >> 1)
-      case INT => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat
-    }
+    parser.parse(bits, mask)
   }
+
+  def test[A, C[_],B](v1: C[B])(implicit bound: B =:= A) {
+  }
+
+  test[POSITION_3F, ElementMask,POSITION_3F](elementMask(null))
 
 
   val test: Float = get(Array(), DefaultVertexFormats.ITEM, POSITION_3F :: HNil, PosCombiner((x: Float, y: Float, z: Float) => 0f))

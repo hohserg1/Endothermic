@@ -5,14 +5,13 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 
 trait VertexLens {
 
-
-  protected implicit def elementMask[V <: Vertex, A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[V, A] =
+  protected implicit def elementMask[A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[A] =
     ElementMask((256 << (8 * (size.v - 1))) - 1)
 
   protected implicit def elementSize[A <: VertexAttribute](implicit `type`: ElementEnumType[A]): ElementSize[A] =
     ElementSize(`type`.v.getSize)
 
-  protected implicit def elementType[V <: Vertex, A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[A]): ElementEnumType[A] =
+  protected implicit def elementType[A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[A]): ElementEnumType[A] =
     ElementEnumType(format.getElement(e.v).getType)
 
   protected implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[A]): VertexStart[V, A] =
@@ -24,7 +23,6 @@ trait VertexLens {
 }
 
 object VertexLens {
-
 
   sealed trait VertexAttribute {
     def element: VertexFormatElement
@@ -101,7 +99,7 @@ object VertexLens {
 
   case class ElementSize[A <: VertexAttribute](v: Int) extends AnyVal
 
-  case class ElementMask[V <: Vertex, A <: VertexAttribute](v: Int) extends AnyVal
+  case class ElementMask[A <: VertexAttribute](v: Int) extends AnyVal
 
   case class ElementEnumType[A <: VertexAttribute](v: VertexFormatElement.EnumType) extends AnyVal
 
