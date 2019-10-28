@@ -52,7 +52,7 @@ object VertexSetLens extends VertexLens {
   }
 
   def setLightmap(quadData: Array[Int], x: Short, y: Short)(implicit format: VertexFormat, vertex: Int): Array[Int] = {
-    implicit val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+    implicit val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
 
     withCopyOfArray(quadData)(
       pack(x, _, 0),

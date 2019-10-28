@@ -1,28 +1,104 @@
 package hohserg.baked.quad.lens.immutable
 
-import hohserg.baked.quad.lens.immutable.VertexLens._
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
-trait VertexLens {
-
-  protected implicit def elementMask[A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[A] =
-    ElementMask((256 << (8 * (size.v - 1))) - 1)
-
-  protected implicit def elementSize[A <: VertexAttribute](implicit `type`: ElementEnumType[A]): ElementSize[A] =
-    ElementSize(`type`.v.getSize)
-
-  protected implicit def elementType[A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[A]): ElementEnumType[A] =
-    ElementEnumType(format.getElement(e.v).getType)
-
-  protected implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[A]): VertexStart[V, A] =
-    VertexStart(vertex.index * format.getNextOffset + format.getOffset(e.v))
-
-  protected implicit def indexOfElement[A <: VertexAttribute](implicit format: VertexFormat, attribute: A): ElementIndex[A] =
-    ElementIndex(format.getElements.indexOf(attribute.element))
-
-}
+import scala.language.higherKinds
 
 object VertexLens {
+
+  def pack[V <: Vertex, A <: VertexAttribute](value: Float, to: Array[Int], i: Int)(implicit
+                                                                                    vertexStart: VertexStart[V, A],
+                                                                                    `type`: ElementEnumType[A],
+                                                                                    size: ElementSize[A],
+                                                                                    mask: ElementMask[A]): Unit = {
+    val pos = vertexStart.v + size.v * i
+    val index = pos >> 2
+    val offset = pos & 3
+    var bits = 0
+    if (`type`.v eq VertexFormatElement.EnumType.FLOAT)
+      bits = java.lang.Float.floatToRawIntBits(value)
+    else if ((`type`.v eq VertexFormatElement.EnumType.UBYTE) || (`type`.v eq VertexFormatElement.EnumType.USHORT) || (`type`.v eq VertexFormatElement.EnumType.UINT))
+      bits = (value * mask.v).round
+    else
+      bits = (value * (mask.v >> 1)).round
+
+    to(index) &= ~mask.v << (offset * 8)
+    to(index) |= (bits & mask.v) << (offset * 8)
+    // TODO handle overflow into to[index + 1]
+  }
+
+  sealed abstract class AttributeElementValue[V <: Vertex, A <: VertexAttribute] {
+    type T
+
+    def apply(s: Float): T
+
+    def unwrap(lbl: T): Float
+  }
+
+  type AEV[V <: Vertex, A <: VertexAttribute] = AttributeElementValue[V, A]#T
+
+  implicit def attributeElementValue[V <: Vertex, A <: VertexAttribute]: AttributeElementValue[V, A] = new AttributeElementValue[V, A] {
+    type T = Float
+
+    override def apply(s: Float): T = s
+
+    override def unwrap(lbl: T): Float = lbl
+  }
+
+  {
+    sealed abstract class TargetedValue[V, A] {
+      type TargetedType
+
+      def apply(s: Int): TargetedType
+
+      def unwrap(lbl: TargetedType): Int
+    }
+
+    type Briefly[V, A] = TargetedValue[V, A]#TargetedType
+
+    implicit def targetedValue[V, A]: TargetedValue[V, A] = new TargetedValue[V, A] {
+      override type TargetedType = Int
+
+      override def apply(original: Int): TargetedType = original
+
+      override def unwrap(targeted: TargetedType): Int = targeted
+    }
+  }
+
+  def unpack[V <: Vertex, A <: VertexAttribute](i: Int)(implicit
+                                                        quadData: Array[Int],
+                                                        vertexStart: VertexStart[V, A],
+                                                        `type`: ElementEnumType[A],
+                                                        size: ElementSize[A],
+                                                        mask: ElementMask[A],
+                                                        parser: AttributeParser[A],
+                                                        valuePacker: AttributeElementValue[V, A]
+  ): AEV[V, A] = {
+    val pos = vertexStart.v + size.v * i
+    val index = pos >> 2
+    val offset = pos & 3
+    var bits: Int = quadData(index)
+    bits = bits >>> (offset * 8)
+    if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
+    bits &= mask.v
+
+    valuePacker(parser.parse(bits, mask))
+  }
+
+  implicit def elementMask[A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[A] =
+    ElementMask((256 << (8 * (size.v - 1))) - 1)
+
+  implicit def elementSize[A <: VertexAttribute](implicit `type`: ElementEnumType[A]): ElementSize[A] =
+    ElementSize(`type`.v.getSize)
+
+  implicit def elementType[A <: VertexAttribute](implicit format: VertexFormat, e: ElementIndex[A]): ElementEnumType[A] =
+    ElementEnumType(format.getElement(e.v).getType)
+
+  implicit def vertexStart[V <: Vertex, A <: VertexAttribute](implicit vertex: V, format: VertexFormat, e: ElementIndex[A]): VertexStart[V, A] =
+    VertexStart(vertex.index * format.getNextOffset + format.getOffset(e.v))
+
+  implicit def indexOfElement[A <: VertexAttribute](implicit format: VertexFormat, attribute: A): ElementIndex[A] =
+    ElementIndex(format.getElements.indexOf(attribute.element))
 
   sealed trait VertexAttribute {
     def element: VertexFormatElement
@@ -30,37 +106,37 @@ object VertexLens {
 
   sealed trait POSITION_3F extends VertexAttribute
 
-  implicit case object POSITION_3F extends POSITION_3F {
+  implicit val POSITION_3F: POSITION_3F = new POSITION_3F {
     override val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
   }
 
   sealed trait COLOR_4UB extends VertexAttribute
 
-  implicit case object COLOR_4UB extends COLOR_4UB {
+  implicit val COLOR_4UB: COLOR_4UB = new COLOR_4UB {
     override val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
   }
 
   sealed trait TEX_2F extends VertexAttribute
 
-  implicit case object TEX_2F extends TEX_2F {
+  implicit val TEX_2F: TEX_2F = new TEX_2F {
     override val element: VertexFormatElement = DefaultVertexFormats.TEX_2F
   }
 
   sealed trait TEX_2S extends VertexAttribute
 
-  implicit case object TEX_2S extends TEX_2S {
+  implicit val TEX_2S: TEX_2S = new TEX_2S {
     override val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
   }
 
   sealed trait NORMAL_3B extends VertexAttribute
 
-  implicit case object NORMAL_3B extends NORMAL_3B {
+  implicit val NORMAL_3B: NORMAL_3B = new NORMAL_3B {
     override val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
   }
 
   sealed trait PADDING_1B extends VertexAttribute
 
-  implicit case object PADDING_1B extends PADDING_1B {
+  implicit val PADDING_1B: PADDING_1B = new PADDING_1B {
     override val element: VertexFormatElement = DefaultVertexFormats.PADDING_1B
   }
 
@@ -71,25 +147,25 @@ object VertexLens {
 
   sealed trait _1 extends Vertex
 
-  implicit case object _1 extends _1 {
+  implicit val _1: _1 = new _1 {
     override val index: Int = 0
   }
 
   sealed trait _2 extends Vertex
 
-  implicit case object _2 extends _2 {
+  implicit val _2: _2 = new _2 {
     override val index: Int = 1
   }
 
   sealed trait _3 extends Vertex
 
-  implicit case object _3 extends _3 {
+  implicit val _3: _3 = new _3 {
     override val index: Int = 2
   }
 
   sealed trait _4 extends Vertex
 
-  implicit case object _4 extends _4 {
+  implicit val _4: _4 = new _4 {
     override val index: Int = 3
   }
 
