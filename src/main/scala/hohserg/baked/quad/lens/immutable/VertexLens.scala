@@ -45,26 +45,6 @@ object VertexLens {
     override def unwrap(lbl: T): Float = lbl
   }
 
-  {
-    sealed abstract class TargetedValue[V, A] {
-      type TargetedType
-
-      def apply(s: Int): TargetedType
-
-      def unwrap(lbl: TargetedType): Int
-    }
-
-    type Briefly[V, A] = TargetedValue[V, A]#TargetedType
-
-    implicit def targetedValue[V, A]: TargetedValue[V, A] = new TargetedValue[V, A] {
-      override type TargetedType = Int
-
-      override def apply(original: Int): TargetedType = original
-
-      override def unwrap(targeted: TargetedType): Int = targeted
-    }
-  }
-
   def unpack[V <: Vertex, A <: VertexAttribute](i: Int)(implicit
                                                         quadData: Array[Int],
                                                         vertexStart: VertexStart[V, A],
@@ -73,7 +53,7 @@ object VertexLens {
                                                         mask: ElementMask[A],
                                                         parser: AttributeParser[A],
                                                         valuePacker: AttributeElementValue[V, A]
-  ): AEV[V, A] = {
+  ): Float = {
     val pos = vertexStart.v + size.v * i
     val index = pos >> 2
     val offset = pos & 3
@@ -82,7 +62,9 @@ object VertexLens {
     if ((pos + size.v - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
     bits &= mask.v
 
-    valuePacker(parser.parse(bits, mask))
+    //valuePacker(
+    parser.parse(bits, mask)
+    //)
   }
 
   implicit def elementMask[A <: VertexAttribute](implicit size: ElementSize[A]): ElementMask[A] =
