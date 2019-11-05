@@ -1,6 +1,7 @@
 package hohserg.endothermic.immutable
 
 import hohserg.endothermic.BaseUnpackedVertex
+import hohserg.endothermic.BaseUnpackedVertex.defaultValue
 import hohserg.endothermic.format.AttributeRepresentation.Vertex
 import net.minecraft.client.renderer.vertex.VertexFormat
 
@@ -27,105 +28,105 @@ class UnpackedVertex[V <: Vertex]()(implicit protected val quadData: Array[Int],
           ): UnpackedVertex[V] = {
     val result = new UnpackedVertex[V]()(quadData, format, vertex)
 
-    if (x != _x || (initFlag & (1 << 0)) == 0) {
+    if (x != _x || ((initFlag & (1 << 0)) == 0 && x != defaultValue)) {
       result.initFlag |= (1 << 0)
       result.changeFlag |= (1 << 0)
       result._x = x
     }
 
 
-    if (y != _y || (initFlag & (1 << 1)) == 0) {
+    if (y != _y || ((initFlag & (1 << 1)) == 0 && y != defaultValue)) {
       result.initFlag |= (1 << 1)
       result.changeFlag |= (1 << 1)
       result._y = y
     }
 
 
-    if (z != _z || (initFlag & (1 << 2)) == 0) {
+    if (z != _z || ((initFlag & (1 << 2)) == 0 && z != defaultValue)) {
       result.initFlag |= (1 << 2)
       result.changeFlag |= (1 << 2)
       result._z = z
     }
 
 
-    if (u != _u || (initFlag & (1 << 3)) == 0) {
+    if (u != _u || ((initFlag & (1 << 3)) == 0 && u != defaultValue)) {
       result.initFlag |= (1 << 3)
       result.changeFlag |= (1 << 3)
       result._u = u
     }
 
 
-    if (v != _v || (initFlag & (1 << 4)) == 0) {
+    if (v != _v || ((initFlag & (1 << 4)) == 0 && v != defaultValue)) {
       result.initFlag |= (1 << 4)
       result.changeFlag |= (1 << 4)
       result._v = v
     }
 
 
-    if (r != _r || (initFlag & (1 << 5)) == 0) {
+    if (r != _r || ((initFlag & (1 << 5)) == 0 && r != defaultValue)) {
       result.initFlag |= (1 << 5)
       result.changeFlag |= (1 << 5)
       result._r = r
     }
 
 
-    if (g != _g || (initFlag & (1 << 6)) == 0) {
+    if (g != _g || ((initFlag & (1 << 6)) == 0 && g != defaultValue)) {
       result.initFlag |= (1 << 6)
       result.changeFlag |= (1 << 6)
       result._g = g
     }
 
 
-    if (b != _b || (initFlag & (1 << 7)) == 0) {
+    if (b != _b || ((initFlag & (1 << 7)) == 0 && b != defaultValue)) {
       result.initFlag |= (1 << 7)
       result.changeFlag |= (1 << 7)
       result._b = b
     }
 
 
-    if (a != _a || (initFlag & (1 << 8)) == 0) {
+    if (a != _a || ((initFlag & (1 << 8)) == 0 && a != defaultValue)) {
       result.initFlag |= (1 << 8)
       result.changeFlag |= (1 << 8)
       result._a = a
     }
 
 
-    if (lx != _lx || (initFlag & (1 << 9)) == 0) {
+    if (lx != _lx || ((initFlag & (1 << 9)) == 0 && lx != defaultValue)) {
       result.initFlag |= (1 << 9)
       result.changeFlag |= (1 << 9)
       result._lx = lx
     }
 
 
-    if (ly != _ly || (initFlag & (1 << 10)) == 0) {
+    if (ly != _ly || ((initFlag & (1 << 10)) == 0 && ly != defaultValue)) {
       result.initFlag |= (1 << 10)
       result.changeFlag |= (1 << 10)
       result._ly = ly
     }
 
 
-    if (nx != _nx || (initFlag & (1 << 11)) == 0) {
+    if (nx != _nx || ((initFlag & (1 << 11)) == 0 && nx != defaultValue)) {
       result.initFlag |= (1 << 11)
       result.changeFlag |= (1 << 11)
       result._nx = nx
     }
 
 
-    if (ny != _ny || (initFlag & (1 << 12)) == 0) {
+    if (ny != _ny || ((initFlag & (1 << 12)) == 0 && ny != defaultValue)) {
       result.initFlag |= (1 << 12)
       result.changeFlag |= (1 << 12)
       result._ny = ny
     }
 
 
-    if (nz != _nz || (initFlag & (1 << 13)) == 0) {
+    if (nz != _nz || ((initFlag & (1 << 13)) == 0 && nz != defaultValue)) {
       result.initFlag |= (1 << 13)
       result.changeFlag |= (1 << 13)
       result._nz = nz
     }
 
 
-    if (padding != _padding || (initFlag & (1 << 14)) == 0) {
+    if (padding != _padding || ((initFlag & (1 << 14)) == 0 && padding != defaultValue)) {
       result.initFlag |= (1 << 14)
       result.changeFlag |= (1 << 14)
       result._padding = padding

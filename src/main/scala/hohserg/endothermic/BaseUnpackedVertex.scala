@@ -1,5 +1,7 @@
 package hohserg.endothermic
 
+import BaseUnpackedVertex._
+
 import hohserg.endothermic.format.AttributeRepresentation.{COLOR_4UB, NORMAL_3B, PADDING_1B, POSITION_3F, TEX_2F, TEX_2S, Vertex}
 import hohserg.endothermic.format.UnpackEvaluations.{pack, unpack}
 import net.minecraft.client.renderer.vertex.VertexFormat
@@ -11,35 +13,35 @@ trait BaseUnpackedVertex[V <: Vertex] {
 
   implicit protected def vertex: V
 
-  protected var _x: Float = 0
+  protected var _x: Float = defaultValue
 
-  protected var _y: Float = 0
+  protected var _y: Float = defaultValue
 
-  protected var _z: Float = 0
+  protected var _z: Float = defaultValue
 
-  protected var _u: Float = 0
+  protected var _u: Float = defaultValue
 
-  protected var _v: Float = 0
+  protected var _v: Float = defaultValue
 
-  protected var _r: Float = 0
+  protected var _r: Float = defaultValue
 
-  protected var _g: Float = 0
+  protected var _g: Float = defaultValue
 
-  protected var _b: Float = 0
+  protected var _b: Float = defaultValue
 
-  protected var _a: Float = 0
+  protected var _a: Float = defaultValue
 
-  protected var _lx: Float = 0
+  protected var _lx: Float = defaultValue
 
-  protected var _ly: Float = 0
+  protected var _ly: Float = defaultValue
 
-  protected var _nx: Float = 0
+  protected var _nx: Float = defaultValue
 
-  protected var _ny: Float = 0
+  protected var _ny: Float = defaultValue
 
-  protected var _nz: Float = 0
+  protected var _nz: Float = defaultValue
 
-  protected var _padding: Float = 0
+  protected var _padding: Float = defaultValue
 
   private[endothermic] var initFlag: Int = 0
   private[endothermic] var changeFlag: Int = 0
@@ -202,5 +204,10 @@ trait BaseUnpackedVertex[V <: Vertex] {
       pack[V, PADDING_1B](_padding, r, 0)
 
   }
+
+}
+
+object BaseUnpackedVertex {
+  val defaultValue = Float.MinValue + 11
 
 }
