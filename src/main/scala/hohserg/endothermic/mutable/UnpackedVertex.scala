@@ -1,67 +1,136 @@
 package hohserg.endothermic.mutable
 
-import hohserg.endothermic.format.AttributeParser
-import hohserg.endothermic.format.AttributeRepresentation.{POSITION_3F, TEX_2F, Vertex, VertexAttribute}
-import hohserg.endothermic.format.UnpackEvaluations.{pack, unpack}
+import hohserg.endothermic.BaseUnpackedVertex
+import hohserg.endothermic.format.AttributeRepresentation.Vertex
 import net.minecraft.client.renderer.vertex.VertexFormat
 
-class UnpackedVertex[V <: Vertex]()(implicit quadData: Array[Int], format: VertexFormat, vertex: V) {
+class UnpackedVertex[V <: Vertex]()(implicit protected val quadData: Array[Int], protected val format: VertexFormat, protected val vertex: V) extends BaseUnpackedVertex[V] {
 
-  private val values: Array[Float] = new Array[Float](5)
+  /**
+    * Setters
+    */
 
-  private[endothermic] var initFlag: Int = _
-  private[endothermic] var changeFlag: Int = _
-
-  private def genericLazyVal[A <: VertexAttribute](index: Int, vertexElement: Int)(implicit a: A, parser: AttributeParser[A]) = {
-    if ((initFlag & (1 << index)) == 0) {
-      initFlag |= (1 << index)
-      values(index) = unpack[V, A](quadData,vertexElement)
-    }
-    values(index)
+  def x_=(v: Float): Unit = {
+    initFlag |= (1 << 0)
+    changeFlag |= (1 << 0)
+    _x = v
   }
 
-  def x: Float = genericLazyVal[POSITION_3F](0, 0)
-
-
-  def y: Float = genericLazyVal[POSITION_3F](1, 1)
-
-
-  def z: Float = genericLazyVal[POSITION_3F](2, 2)
-
-
-  def u: Float = genericLazyVal[TEX_2F](3, 0)
-
-
-  def v: Float = genericLazyVal[TEX_2F](4, 1)
-
-  def updateAttributeElement(value: Float, index: Int): Unit = {
-    initFlag |= (1 << index)
-    changeFlag |= (1 << index)
-    values(index) = value
+  def y_=(v: Float): Unit = {
+    initFlag |= (1 << 1)
+    changeFlag |= (1 << 1)
+    _y = v
   }
 
-  def x_=(v: Float): Unit = updateAttributeElement(v, 0)
-
-  def y_=(v: Float): Unit = updateAttributeElement(v, 1)
-
-  def z_=(v: Float): Unit = updateAttributeElement(v, 2)
-
-  def u_=(v: Float): Unit = updateAttributeElement(v, 3)
-
-  def v_=(v: Float): Unit = updateAttributeElement(v, 4)
-
-  private[endothermic] def toRawArray(r: Array[Int]): Unit = {
-    def checkChangedAndPack[A <: VertexAttribute](index: Int, vertexElement: Int)(implicit a: A, parser: AttributeParser[A]): Unit = {
-      if ((changeFlag & (1 << index)) != 0)
-        pack[V, A](values(index), r, vertexElement)
-    }
-
-    checkChangedAndPack[POSITION_3F](0, 0)
-    checkChangedAndPack[POSITION_3F](1, 1)
-    checkChangedAndPack[POSITION_3F](2, 2)
-    checkChangedAndPack[TEX_2F](3, 0)
-    checkChangedAndPack[TEX_2F](4, 1)
-
+  def z_=(v: Float): Unit = {
+    initFlag |= (1 << 2)
+    changeFlag |= (1 << 2)
+    _z = v
   }
 
+  def u_=(v: Float): Unit = {
+    initFlag |= (1 << 3)
+    changeFlag |= (1 << 3)
+    _u = v
+  }
+
+  def v_=(v: Float): Unit = {
+    initFlag |= (1 << 4)
+    changeFlag |= (1 << 4)
+    _v = v
+  }
+
+  def r_=(v: Float): Unit = {
+    initFlag |= (1 << 5)
+    changeFlag |= (1 << 5)
+    _r = v
+  }
+
+  def g_=(v: Float): Unit = {
+    initFlag |= (1 << 6)
+    changeFlag |= (1 << 6)
+    _g = v
+  }
+
+  def b_=(v: Float): Unit = {
+    initFlag |= (1 << 7)
+    changeFlag |= (1 << 7)
+    _b = v
+  }
+
+  def a_=(v: Float): Unit = {
+    initFlag |= (1 << 8)
+    changeFlag |= (1 << 8)
+    _a = v
+  }
+
+  def lx_=(v: Float): Unit = {
+    initFlag |= (1 << 9)
+    changeFlag |= (1 << 9)
+    _lx = v
+  }
+
+  def ly_=(v: Float): Unit = {
+    initFlag |= (1 << 10)
+    changeFlag |= (1 << 10)
+    _ly = v
+  }
+
+  def nx_=(v: Float): Unit = {
+    initFlag |= (1 << 11)
+    changeFlag |= (1 << 11)
+    _nx = v
+  }
+
+  def ny_=(v: Float): Unit = {
+    initFlag |= (1 << 12)
+    changeFlag |= (1 << 12)
+    _ny = v
+  }
+
+  def nz_=(v: Float): Unit = {
+    initFlag |= (1 << 13)
+    changeFlag |= (1 << 13)
+    _nz = v
+  }
+
+  def padding_=(v: Float): Unit = {
+    initFlag |= (1 << 14)
+    changeFlag |= (1 << 14)
+    _padding = v
+  }
+
+  /**
+    * Getters - only for scala 2.11
+    */
+
+  override def x: Float = super.x
+
+  override def y: Float = super.y
+
+  override def z: Float = super.z
+
+  override def u: Float = super.u
+
+  override def v: Float = super.v
+
+  override def r: Float = super.r
+
+  override def g: Float = super.g
+
+  override def b: Float = super.b
+
+  override def a: Float = super.a
+
+  override def lx: Float = super.lx
+
+  override def ly: Float = super.ly
+
+  override def nx: Float = super.nx
+
+  override def ny: Float = super.ny
+
+  override def nz: Float = super.nz
+
+  override def padding: Float = super.padding
 }
