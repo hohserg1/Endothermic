@@ -33,7 +33,7 @@ class UnpackedQuad(
     r
   }
 
-  override type VertexType[V] = UnpackedVertex[V]
+  override type VertexType[V<:Vertex] = UnpackedVertex[V]
   override type Self = UnpackedQuad
 
   override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): UnpackedQuad = this

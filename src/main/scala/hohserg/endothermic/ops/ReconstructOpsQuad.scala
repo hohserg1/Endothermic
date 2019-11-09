@@ -1,12 +1,12 @@
 package hohserg.endothermic.ops
 
 import hohserg.endothermic.BaseUnpackedVertex
-import hohserg.endothermic.format.AttributeRepresentation.{_1, _2, _3, _4}
+import hohserg.endothermic.format.AttributeRepresentation.{Vertex, _1, _2, _3, _4}
 
 import scala.language.higherKinds
 
 trait ReconstructOpsQuad {
-  type VertexType[V] <: BaseUnpackedVertex[V]
+  type VertexType[V<:Vertex] <: BaseUnpackedVertex[V]
   type Self <: ReconstructOpsQuad
 
   def v1: VertexType[_1]

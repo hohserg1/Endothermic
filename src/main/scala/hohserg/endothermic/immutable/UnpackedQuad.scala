@@ -42,7 +42,7 @@ case class UnpackedQuad(
     r
   }
 
-  override type VertexType[V] = UnpackedVertex[V]
+  override type VertexType[V<:Vertex] = UnpackedVertex[V]
 
   override type Self = UnpackedQuad
 }
