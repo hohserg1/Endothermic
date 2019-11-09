@@ -12,9 +12,7 @@ trait BaseUnpackedVertex[V <: Vertex] {
 
   implicit protected def vertex: V
 
-  type Self <: BaseUnpackedVertex[V]
-
-  def getUpdateDestination(): Self
+  def getUpdateDestination(): this.type
 
   def reconstruct(
                    x: Float = _x,
@@ -32,7 +30,7 @@ trait BaseUnpackedVertex[V <: Vertex] {
                    ny: Float = _ny,
                    nz: Float = _nz,
                    padding: Float = _padding
-                 ): Self = {
+                 ): this.type = {
     val result = getUpdateDestination()
 
     if (x != _x || ((initFlag & (1 << 0)) == 0 && x != defaultValue)) {

@@ -1,7 +1,7 @@
 package hohserg.endothermic.ops
 
 object Translation {
-  def apply[Quad <: ReconstructOpsQuad](quad: Quad, x: Float, y: Float, z: Float): quad.Self =
+  def apply[Quad <: ReconstructOpsQuad](quad: Quad, x: Float, y: Float, z: Float):Quad =
     quad.reconstruct(
       quad.v1.reconstruct(quad.v1.x + x, quad.v1.y + y, quad.v1.z + z),
       quad.v2.reconstruct(quad.v2.x + x, quad.v2.y + y, quad.v2.z + z),

@@ -6,8 +6,7 @@ import hohserg.endothermic.format.AttributeRepresentation.{Vertex, _1, _2, _3, _
 import scala.language.higherKinds
 
 trait ReconstructOpsQuad {
-  type VertexType[V<:Vertex] <: BaseUnpackedVertex[V]
-  type Self <: ReconstructOpsQuad
+  type VertexType[V <: Vertex] <: BaseUnpackedVertex[V]
 
   def v1: VertexType[_1]
 
@@ -17,8 +16,8 @@ trait ReconstructOpsQuad {
 
   def v4: VertexType[_4]
 
-  def reconstruct(v1: VertexType[_1]#Self,
-                  v2: VertexType[_2]#Self,
-                  v3: VertexType[_3]#Self,
-                  v4: VertexType[_4]#Self): Self
+  def reconstruct(v1: VertexType[_1],
+                  v2: VertexType[_2],
+                  v3: VertexType[_3],
+                  v4: VertexType[_4]): this.type
 }

@@ -13,8 +13,8 @@ case class UnpackedQuad(
                          v4: UnpackedVertex[_4]
                        ) extends ReconstructOpsQuad {
 
-  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): UnpackedQuad =
-    UnpackedQuad(quadData, v1, v2, v3, v4)
+  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): this.type =
+    UnpackedQuad(quadData, v1, v2, v3, v4).asInstanceOf[this.type]
 
   def updated(
                v1f: VertexType[_1] => VertexType[_1] = identity,
@@ -42,9 +42,7 @@ case class UnpackedQuad(
     r
   }
 
-  override type VertexType[V<:Vertex] = UnpackedVertex[V]
-
-  override type Self = UnpackedQuad
+  override type VertexType[V <: Vertex] = UnpackedVertex[V]
 }
 
 object UnpackedQuad {
