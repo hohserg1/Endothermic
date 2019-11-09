@@ -2,6 +2,7 @@ package hohserg.endothermic.format
 
 import hohserg.endothermic.format.AttributeRepresentation._
 import net.minecraft.client.renderer.vertex.{VertexFormat, VertexFormatElement}
+import net.minecraftforge.client.model.pipeline.LightUtil
 
 import scala.collection.mutable
 

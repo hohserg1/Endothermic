@@ -1,6 +1,7 @@
 package hohserg.endothermic.immutable
 
 import hohserg.endothermic.format.AttributeRepresentation._
+import hohserg.endothermic.ops.ReconstructOpsQuad
 import net.minecraft.client.renderer.vertex.VertexFormat
 
 
@@ -10,34 +11,22 @@ case class UnpackedQuad(
                          v2: UnpackedVertex[_2],
                          v3: UnpackedVertex[_3],
                          v4: UnpackedVertex[_4]
-                       ) {
+                       ) extends ReconstructOpsQuad {
+
+  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): UnpackedQuad =
+    UnpackedQuad(quadData, v1, v2, v3, v4)
 
   def updated(
-               v1f: UnpackedVertex[_1] => UnpackedVertex[_1] = null,
-               v2f: UnpackedVertex[_2] => UnpackedVertex[_2] = null,
-               v3f: UnpackedVertex[_3] => UnpackedVertex[_3] = null,
-               v4f: UnpackedVertex[_4] => UnpackedVertex[_4] = null
+               v1f: VertexType[_1] => VertexType[_1] = identity,
+               v2f: VertexType[_2] => VertexType[_2] = identity,
+               v3f: VertexType[_3] => VertexType[_3] = identity,
+               v4f: VertexType[_4] => VertexType[_4] = identity
              ): UnpackedQuad = {
     UnpackedQuad(quadData,
-      if (v1f == null)
-        v1
-      else
-        v1f(v1)
-      ,
-      if (v2f == null)
-        v2
-      else
-        v2f(v2)
-      ,
-      if (v3f == null)
-        v3
-      else
-        v3f(v3)
-      ,
-      if (v4f == null)
-        v4
-      else
-        v4f(v4)
+      v1f(v1),
+      v2f(v2),
+      v3f(v3),
+      v4f(v4)
     )
 
   }
@@ -52,6 +41,10 @@ case class UnpackedQuad(
 
     r
   }
+
+  override type VertexType[V] = UnpackedVertex[V]
+
+  override type Self = UnpackedQuad
 }
 
 object UnpackedQuad {
@@ -67,5 +60,5 @@ object UnpackedQuad {
     )
   }
 
-  UnpackedQuad(???, ???).updated(v2f = v => v.copy(x = v.x + 1)).toRawArray
+  UnpackedQuad(???, ???).updated(v2f = v => v.reconstruct(x = v.x + 1)).toRawArray
 }
