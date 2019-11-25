@@ -7,22 +7,22 @@ import net.minecraft.client.renderer.vertex.VertexFormat
 
 case class UnpackedQuad(
                          quadData: Array[Int],
-                         v1: UnpackedVertex[_1],
-                         v2: UnpackedVertex[_2],
-                         v3: UnpackedVertex[_3],
-                         v4: UnpackedVertex[_4]
+                         v1: UnpackedVertex,
+                         v2: UnpackedVertex,
+                         v3: UnpackedVertex,
+                         v4: UnpackedVertex
                        ) extends BaseUnpackedQuad {
 
   override type Self = UnpackedQuad
 
-  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): Self =
+  override def reconstruct(v1: VertexType, v2: VertexType, v3: VertexType, v4: VertexType): Self =
     UnpackedQuad(quadData, v1, v2, v3, v4)
 
   def updated(
-               v1f: VertexType[_1] => VertexType[_1] = identity,
-               v2f: VertexType[_2] => VertexType[_2] = identity,
-               v3f: VertexType[_3] => VertexType[_3] = identity,
-               v4f: VertexType[_4] => VertexType[_4] = identity
+               v1f: VertexType => VertexType = identity,
+               v2f: VertexType => VertexType = identity,
+               v3f: VertexType => VertexType = identity,
+               v4f: VertexType => VertexType = identity
              ): UnpackedQuad = {
     UnpackedQuad(quadData,
       v1f(v1),
@@ -44,7 +44,7 @@ case class UnpackedQuad(
     r
   }
 
-  override type VertexType[V <: Vertex] = UnpackedVertex[V]
+  override type VertexType = UnpackedVertex
 }
 
 object UnpackedQuad {
@@ -53,12 +53,12 @@ object UnpackedQuad {
   def apply(implicit quadData: Array[Int], format: VertexFormat): UnpackedQuad = {
     UnpackedQuad(
       quadData,
-      new UnpackedVertex[_1](),
-      new UnpackedVertex[_2](),
-      new UnpackedVertex[_3](),
-      new UnpackedVertex[_4]()
+      new UnpackedVertex(_1),
+      new UnpackedVertex(_2),
+      new UnpackedVertex(_3),
+      new UnpackedVertex(_4)
     )
   }
 
-  UnpackedQuad(???, ???).updated(v2f = v => v.reconstruct[_2](x = v.x + 1)).toRawArray
+  UnpackedQuad(???, ???).updated(v2f = v => v.reconstruct(x = v.x + 1)).toRawArray
 }

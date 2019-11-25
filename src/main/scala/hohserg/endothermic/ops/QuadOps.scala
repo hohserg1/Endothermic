@@ -1,6 +1,5 @@
 package hohserg.endothermic.ops
 
-import hohserg.endothermic.BaseUnpackedVertex
 import hohserg.endothermic.format.AttributeRepresentation._
 
 import scala.math._
@@ -10,10 +9,10 @@ trait QuadOps {
 
   def translate(x: Float, y: Float, z: Float): Self =
     reconstruct(
-      v1.reconstruct[_1](v1.x + x, v1.y + y, v1.z + z),
-      v2.reconstruct[_2](v2.x + x, v2.y + y, v2.z + z),
-      v3.reconstruct[_3](v3.x + x, v3.y + y, v3.z + z),
-      v4.reconstruct[_4](v4.x + x, v4.y + y, v4.z + z)
+      v1.reconstruct(v1.x + x, v1.y + y, v1.z + z),
+      v2.reconstruct(v2.x + x, v2.y + y, v2.z + z),
+      v3.reconstruct(v3.x + x, v3.y + y, v3.z + z),
+      v4.reconstruct(v4.x + x, v4.y + y, v4.z + z)
     )
 
   def scale(factor: Float): Self =
@@ -37,14 +36,14 @@ trait QuadOps {
   }
 
   def slice(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float, x4: Float, y4: Float): Self = {
-    val v1i: BaseUnpackedVertex[_1] = v1.toImmutable
+    val v1i = v1.toImmutable
     val v2i = v2.toImmutable
     val v3i = v3.toImmutable
     val v4i = v4.toImmutable
 
-    def calcVertex[V <: Vertex](x: Float, y: Float)(implicit vertex2: V): VertexType[V] = {
+    def calcVertex[V <: Vertex](x: Float, y: Float): VertexType = {
       val a: Float = x * y
-      val r = (v1i * (-a) + v2i * a + v3i * (-a) + v4i * a + v1i * x + v1i * y - v1 - v2i * x - v4i * y).asInstanceOf[VertexType[V]]
+      val r = v1 * (-a) + v2i * a + v3i * (-a) + v4i * a + v1i * x + v1i * y - v1 - v2i * x - v4i * y
       //r.vertex = vertex2
       r
     }
@@ -57,14 +56,5 @@ trait QuadOps {
     )
   }
 
-
-}
-
-object QuadOps {
-
-  implicit class MathSyntax[F: Numeric](v: F) {
-    def *[V <: Vertex, UV <: BaseUnpackedVertex[V]](vertex: UV): UV =
-      vertex * implicitly[Numeric[F]].toFloat(v)
-  }
 
 }

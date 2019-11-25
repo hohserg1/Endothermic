@@ -8,20 +8,31 @@ import net.minecraft.client.renderer.vertex.VertexFormat
 
 import scala.language.higherKinds
 
-trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
-  type Self[V1 <: Vertex] <: BaseUnpackedVertex[V1]
+trait BaseUnpackedVertex[Self <: BaseUnpackedVertex[Self]]/* extends VertexOps[Self] */{
+
+  def +(c: Float) =
+    reconstruct(x + c, y + c, z + c, u + c, v + c, r + c, g + c, b + c, a + c, lx + c, ly + c, nx + c, ny + c, nz + c, padding + c)
+
+  def +(c: BaseUnpackedVertex[_]) =
+    reconstruct(x + c.x, y + c.y, z + c.z, u + c.u, v + c.v, r + c.r, g + c.g, b + c.b, a + c.a, lx + c.lx, ly + c.ly, nx + c.nx, ny + c.ny, nz + c.nz, padding + c.padding)
+
+  def -(c: BaseUnpackedVertex[_]) =
+    reconstruct(x - c.x, y - c.y, z - c.z, u - c.u, v - c.v, r - c.r, g - c.g, b - c.b, a - c.a, lx - c.lx, ly - c.ly, nx - c.nx, ny - c.ny, nz - c.nz, padding - c.padding)
+
+  def *(c: Float) =
+    reconstruct(x * c, y * c, z * c, u * c, v * c, r * c, g * c, b * c, a * c, lx * c, ly * c, nx * c, ny * c, nz * c, padding * c)
 
   protected def quadData: Array[Int]
 
   implicit protected def format: VertexFormat
 
-  implicit private[endothermic] def vertex: V
+  implicit private[endothermic] def vertex: Vertex
 
-  def toImmutable: immutable.UnpackedVertex[V]
+  def toImmutable: immutable.UnpackedVertex
 
-  def getUpdateDestination[A<: Vertex]()(implicit newVertex:A): Self[A]
+  def getUpdateDestination: Self
 
-  def reconstruct[A<: Vertex](
+  def reconstruct(
                       x: Float = _x,
                       y: Float = _y,
                       z: Float = _z,
@@ -37,8 +48,8 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
                       ny: Float = _ny,
                       nz: Float = _nz,
                       padding: Float = _padding
-                    )(implicit newVertex:A): Self[A] = {
-    val result = getUpdateDestination[A]()
+                    ): Self = {
+    val result = getUpdateDestination
 
     if (x != _x || ((initFlag & (1 << 0)) == 0 && x != defaultValue)) {
       result.initFlag |= (1 << 0)
@@ -183,7 +194,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def x: Float = {
     if ((initFlag & (1 << 0)) == 0) {
       initFlag |= (1 << 0)
-      _x = unpack[V, POSITION_3F](quadData, 0)
+      _x = unpack[POSITION_3F](quadData, 0)
     }
     _x
   }
@@ -191,7 +202,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def y: Float = {
     if ((initFlag & (1 << 1)) == 0) {
       initFlag |= (1 << 1)
-      _y = unpack[V, POSITION_3F](quadData, 1)
+      _y = unpack[POSITION_3F](quadData, 1)
     }
     _y
   }
@@ -199,7 +210,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def z: Float = {
     if ((initFlag & (1 << 2)) == 0) {
       initFlag |= (1 << 2)
-      _z = unpack[V, POSITION_3F](quadData, 2)
+      _z = unpack[POSITION_3F](quadData, 2)
     }
     _z
   }
@@ -207,7 +218,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def u: Float = {
     if ((initFlag & (1 << 3)) == 0) {
       initFlag |= (1 << 3)
-      _u = unpack[V, TEX_2F](quadData, 0)
+      _u = unpack[TEX_2F](quadData, 0)
     }
     _u
   }
@@ -215,7 +226,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def v: Float = {
     if ((initFlag & (1 << 4)) == 0) {
       initFlag |= (1 << 4)
-      _v = unpack[V, TEX_2F](quadData, 1)
+      _v = unpack[TEX_2F](quadData, 1)
     }
     _v
   }
@@ -223,7 +234,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def r: Float = {
     if ((initFlag & (1 << 5)) == 0) {
       initFlag |= (1 << 5)
-      _r = unpack[V, COLOR_4UB](quadData, 0)
+      _r = unpack[COLOR_4UB](quadData, 0)
     }
     _r
   }
@@ -231,7 +242,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def g: Float = {
     if ((initFlag & (1 << 6)) == 0) {
       initFlag |= (1 << 6)
-      _g = unpack[V, COLOR_4UB](quadData, 1)
+      _g = unpack[COLOR_4UB](quadData, 1)
     }
     _g
   }
@@ -239,7 +250,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def b: Float = {
     if ((initFlag & (1 << 7)) == 0) {
       initFlag |= (1 << 7)
-      _b = unpack[V, COLOR_4UB](quadData, 2)
+      _b = unpack[COLOR_4UB](quadData, 2)
     }
     _b
   }
@@ -247,7 +258,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def a: Float = {
     if ((initFlag & (1 << 8)) == 0) {
       initFlag |= (1 << 8)
-      _a = unpack[V, COLOR_4UB](quadData, 3)
+      _a = unpack[COLOR_4UB](quadData, 3)
     }
     _a
   }
@@ -255,7 +266,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def lx: Float = {
     if ((initFlag & (1 << 9)) == 0) {
       initFlag |= (1 << 9)
-      _lx = unpack[V, TEX_2S](quadData, 0)
+      _lx = unpack[TEX_2S](quadData, 0)
     }
     _lx
   }
@@ -263,7 +274,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def ly: Float = {
     if ((initFlag & (1 << 10)) == 0) {
       initFlag |= (1 << 10)
-      _ly = unpack[V, TEX_2S](quadData, 1)
+      _ly = unpack[TEX_2S](quadData, 1)
     }
     _ly
   }
@@ -271,7 +282,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def nx: Float = {
     if ((initFlag & (1 << 11)) == 0) {
       initFlag |= (1 << 11)
-      _nx = unpack[V, NORMAL_3B](quadData, 0)
+      _nx = unpack[NORMAL_3B](quadData, 0)
     }
     _nx
   }
@@ -279,7 +290,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def ny: Float = {
     if ((initFlag & (1 << 12)) == 0) {
       initFlag |= (1 << 12)
-      _ny = unpack[V, NORMAL_3B](quadData, 1)
+      _ny = unpack[NORMAL_3B](quadData, 1)
     }
     _ny
   }
@@ -287,7 +298,7 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def nz: Float = {
     if ((initFlag & (1 << 13)) == 0) {
       initFlag |= (1 << 13)
-      _nz = unpack[V, NORMAL_3B](quadData, 2)
+      _nz = unpack[NORMAL_3B](quadData, 2)
     }
     _nz
   }
@@ -295,47 +306,47 @@ trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
   def padding: Float = {
     if ((initFlag & (1 << 14)) == 0) {
       initFlag |= (1 << 14)
-      _padding = unpack[V, PADDING_1B](quadData, 0)
+      _padding = unpack[PADDING_1B](quadData, 0)
     }
     _padding
   }
 
   private[endothermic] def toRawArray(r: Array[Int]) = {
     if ((changeFlag & (1 << 0)) != 0)
-      pack[V, POSITION_3F](_x, r, 0)
+      pack[POSITION_3F](_x, r, 0)
     if ((changeFlag & (1 << 1)) != 0)
-      pack[V, POSITION_3F](_y, r, 1)
+      pack[POSITION_3F](_y, r, 1)
     if ((changeFlag & (1 << 2)) != 0)
-      pack[V, POSITION_3F](_z, r, 2)
+      pack[POSITION_3F](_z, r, 2)
 
     if ((changeFlag & (1 << 3)) != 0)
-      pack[V, TEX_2F](_u, r, 0)
+      pack[TEX_2F](_u, r, 0)
     if ((changeFlag & (1 << 4)) != 0)
-      pack[V, TEX_2F](_v, r, 1)
+      pack[TEX_2F](_v, r, 1)
 
     if ((changeFlag & (1 << 5)) != 0)
-      pack[V, COLOR_4UB](_r, r, 0)
+      pack[COLOR_4UB](_r, r, 0)
     if ((changeFlag & (1 << 6)) != 0)
-      pack[V, COLOR_4UB](_g, r, 1)
+      pack[COLOR_4UB](_g, r, 1)
     if ((changeFlag & (1 << 7)) != 0)
-      pack[V, COLOR_4UB](_b, r, 2)
+      pack[COLOR_4UB](_b, r, 2)
     if ((changeFlag & (1 << 8)) != 0)
-      pack[V, COLOR_4UB](_a, r, 3)
+      pack[COLOR_4UB](_a, r, 3)
 
     if ((changeFlag & (1 << 9)) != 0)
-      pack[V, TEX_2S](_lx, r, 0)
+      pack[TEX_2S](_lx, r, 0)
     if ((changeFlag & (1 << 10)) != 0)
-      pack[V, TEX_2S](_ly, r, 1)
+      pack[TEX_2S](_ly, r, 1)
 
     if ((changeFlag & (1 << 11)) != 0)
-      pack[V, NORMAL_3B](_nx, r, 0)
+      pack[NORMAL_3B](_nx, r, 0)
     if ((changeFlag & (1 << 12)) != 0)
-      pack[V, NORMAL_3B](_ny, r, 1)
+      pack[NORMAL_3B](_ny, r, 1)
     if ((changeFlag & (1 << 13)) != 0)
-      pack[V, NORMAL_3B](_nz, r, 2)
+      pack[NORMAL_3B](_nz, r, 2)
 
     if ((changeFlag & (1 << 14)) != 0)
-      pack[V, PADDING_1B](_padding, r, 0)
+      pack[PADDING_1B](_padding, r, 0)
 
   }
 

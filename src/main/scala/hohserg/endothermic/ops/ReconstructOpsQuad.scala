@@ -1,33 +1,32 @@
 package hohserg.endothermic.ops
 
 import hohserg.endothermic.BaseUnpackedVertex
-import hohserg.endothermic.format.AttributeRepresentation.{Vertex, _1, _2, _3, _4}
 
 import scala.language.higherKinds
 
 trait ReconstructOpsQuad {
   type Self <: ReconstructOpsQuad
-  type VertexType[+V <: Vertex] <: BaseUnpackedVertex[V]
+  type VertexType <: BaseUnpackedVertex[VertexType]
 
-  def v1: VertexType[_1]
+  def v1: VertexType
 
-  def v2: VertexType[_2]
+  def v2: VertexType
 
-  def v3: VertexType[_3]
+  def v3: VertexType
 
-  def v4: VertexType[_4]
+  def v4: VertexType
 
-  def reconstruct(v1: VertexType[_1],
-                  v2: VertexType[_2],
-                  v3: VertexType[_3],
-                  v4: VertexType[_4]): Self
+  def reconstruct(v1: VertexType,
+                  v2: VertexType,
+                  v3: VertexType,
+                  v4: VertexType): Self
 
 
-  def foreachVertex(f: VertexType[Vertex] => VertexType[Vertex]): Self =
+  def foreachVertex(f: VertexType => VertexType): Self =
     reconstruct(
-      f(v1).asInstanceOf[VertexType[_1]],
-      f(v2).asInstanceOf[VertexType[_2]],
-      f(v3).asInstanceOf[VertexType[_3]],
-      f(v4).asInstanceOf[VertexType[_4]]
+      f(v1).asInstanceOf[VertexType],
+      f(v2).asInstanceOf[VertexType],
+      f(v3).asInstanceOf[VertexType],
+      f(v4).asInstanceOf[VertexType]
     )
 }
