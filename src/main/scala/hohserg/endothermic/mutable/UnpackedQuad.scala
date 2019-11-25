@@ -11,3 +11,11 @@ case class UnpackedQuad(
   override type LocalVertex = UnpackedVertex
 
 }
+
+object UnpackedQuad {
+  def apply(): UnpackedQuad = ???
+
+  val q = UnpackedQuad()
+  q.reconstruct(q.v1.reconstruct())
+
+}
