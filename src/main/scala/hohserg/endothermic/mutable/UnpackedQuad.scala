@@ -16,6 +16,11 @@ object UnpackedQuad {
   def apply(): UnpackedQuad = ???
 
   val q = UnpackedQuad()
-  q.reconstruct(q.v1.reconstruct())
+  q.reconstruct(
+    q.v1.reconstruct(),
+    q.v2.reconstruct(),
+    q.v3.reconstruct(),
+    q.v4.reconstruct()
+  )
 
 }

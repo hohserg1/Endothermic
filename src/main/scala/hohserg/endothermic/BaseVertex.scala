@@ -5,8 +5,7 @@ import hohserg.endothermic.format.AttributeRepresentation.{COLOR_4UB, NORMAL_3B,
 import hohserg.endothermic.format.UnpackEvaluations.unpack
 import net.minecraft.client.renderer.vertex.VertexFormat
 
-trait BaseVertex {
-  type SelfVertex <: BaseVertex
+trait BaseVertex[SelfVertex <: BaseVertex[SelfVertex]] {
   def reconstruct(
                    x: Float = _x,
                    y: Float = _y,
