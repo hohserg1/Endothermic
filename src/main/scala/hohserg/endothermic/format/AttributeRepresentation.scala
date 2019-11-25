@@ -51,25 +51,25 @@ object AttributeRepresentation {
 
   sealed trait _1 extends Vertex
 
-  implicit val _1: _1 = new _1 {
+  val _1: _1 = new _1 {
     override val index: Int = 0
   }
 
   sealed trait _2 extends Vertex
 
-  implicit val _2: _2 = new _2 {
+  val _2: _2 = new _2 {
     override val index: Int = 1
   }
 
   sealed trait _3 extends Vertex
 
-  implicit val _3: _3 = new _3 {
+  val _3: _3 = new _3 {
     override val index: Int = 2
   }
 
   sealed trait _4 extends Vertex
 
-  implicit val _4: _4 = new _4 {
+  val _4: _4 = new _4 {
     override val index: Int = 3
   }
 

@@ -2,7 +2,6 @@ package hohserg.endothermic.format
 
 import hohserg.endothermic.format.AttributeRepresentation._
 import net.minecraft.client.renderer.vertex.{VertexFormat, VertexFormatElement}
-import net.minecraftforge.client.model.pipeline.LightUtil
 
 import scala.collection.mutable
 
@@ -54,7 +53,7 @@ object UnpackEvaluations {
     // TODO handle overflow into to[index + 1]
   }
 
-  def unpack[V <: Vertex, A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit format: VertexFormat, v: V, a: A, parser: AttributeParser[A]): Float = {
+  def unpack[A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit format: VertexFormat, v: Vertex, a: A, parser: AttributeParser[A]): Float = {
 
     val DependentOnFormatAttribute(elementSize, elementMask, _, dependentOnVertex) = getAttributeProperties(format, a)
     //todo: remove tuple allocation
