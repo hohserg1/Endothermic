@@ -1,7 +1,7 @@
 package hohserg.endothermic.immutable
 
+import hohserg.endothermic.BaseUnpackedQuad
 import hohserg.endothermic.format.AttributeRepresentation._
-import hohserg.endothermic.ops.ReconstructOpsQuad
 import net.minecraft.client.renderer.vertex.VertexFormat
 
 
@@ -11,10 +11,12 @@ case class UnpackedQuad(
                          v2: UnpackedVertex[_2],
                          v3: UnpackedVertex[_3],
                          v4: UnpackedVertex[_4]
-                       ) extends ReconstructOpsQuad {
+                       ) extends BaseUnpackedQuad {
 
-  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): this.type =
-    UnpackedQuad(quadData, v1, v2, v3, v4).asInstanceOf[this.type]
+  override type Self = UnpackedQuad
+
+  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): Self =
+    UnpackedQuad(quadData, v1, v2, v3, v4)
 
   def updated(
                v1f: VertexType[_1] => VertexType[_1] = identity,
@@ -58,5 +60,5 @@ object UnpackedQuad {
     )
   }
 
-  UnpackedQuad(???, ???).updated(v2f = v => v.reconstruct(x = v.x + 1)).toRawArray
+  UnpackedQuad(???, ???).updated(v2f = v => v.reconstruct[_2](x = v.x + 1)).toRawArray
 }

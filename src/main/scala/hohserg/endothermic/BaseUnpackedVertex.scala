@@ -3,35 +3,42 @@ package hohserg.endothermic
 import BaseUnpackedVertex._
 import hohserg.endothermic.format.AttributeRepresentation.{COLOR_4UB, NORMAL_3B, PADDING_1B, POSITION_3F, TEX_2F, TEX_2S, Vertex}
 import hohserg.endothermic.format.UnpackEvaluations.{pack, unpack}
+import hohserg.endothermic.ops.VertexOps
 import net.minecraft.client.renderer.vertex.VertexFormat
 
-trait BaseUnpackedVertex[V <: Vertex] {
+import scala.language.higherKinds
+
+trait BaseUnpackedVertex[+V <: Vertex] extends VertexOps[V] {
+  type Self[V1 <: Vertex] <: BaseUnpackedVertex[V1]
+
   protected def quadData: Array[Int]
 
   implicit protected def format: VertexFormat
 
-  implicit protected def vertex: V
+  implicit private[endothermic] def vertex: V
 
-  def getUpdateDestination(): this.type
+  def toImmutable: immutable.UnpackedVertex[V]
 
-  def reconstruct(
-                   x: Float = _x,
-                   y: Float = _y,
-                   z: Float = _z,
-                   u: Float = _u,
-                   v: Float = _v,
-                   r: Float = _r,
-                   g: Float = _g,
-                   b: Float = _b,
-                   a: Float = _a,
-                   lx: Float = _lx,
-                   ly: Float = _ly,
-                   nx: Float = _nx,
-                   ny: Float = _ny,
-                   nz: Float = _nz,
-                   padding: Float = _padding
-                 ): this.type = {
-    val result = getUpdateDestination()
+  def getUpdateDestination[A<: Vertex]()(implicit newVertex:A): Self[A]
+
+  def reconstruct[A<: Vertex](
+                      x: Float = _x,
+                      y: Float = _y,
+                      z: Float = _z,
+                      u: Float = _u,
+                      v: Float = _v,
+                      r: Float = _r,
+                      g: Float = _g,
+                      b: Float = _b,
+                      a: Float = _a,
+                      lx: Float = _lx,
+                      ly: Float = _ly,
+                      nx: Float = _nx,
+                      ny: Float = _ny,
+                      nz: Float = _nz,
+                      padding: Float = _padding
+                    )(implicit newVertex:A): Self[A] = {
+    val result = getUpdateDestination[A]()
 
     if (x != _x || ((initFlag & (1 << 0)) == 0 && x != defaultValue)) {
       result.initFlag |= (1 << 0)
@@ -140,35 +147,35 @@ trait BaseUnpackedVertex[V <: Vertex] {
     result
   }
 
-  protected var _x: Float = defaultValue
+  private[endothermic] var _x: Float = defaultValue
 
-  protected var _y: Float = defaultValue
+  private[endothermic] var _y: Float = defaultValue
 
-  protected var _z: Float = defaultValue
+  private[endothermic] var _z: Float = defaultValue
 
-  protected var _u: Float = defaultValue
+  private[endothermic] var _u: Float = defaultValue
 
-  protected var _v: Float = defaultValue
+  private[endothermic] var _v: Float = defaultValue
 
-  protected var _r: Float = defaultValue
+  private[endothermic] var _r: Float = defaultValue
 
-  protected var _g: Float = defaultValue
+  private[endothermic] var _g: Float = defaultValue
 
-  protected var _b: Float = defaultValue
+  private[endothermic] var _b: Float = defaultValue
 
-  protected var _a: Float = defaultValue
+  private[endothermic] var _a: Float = defaultValue
 
-  protected var _lx: Float = defaultValue
+  private[endothermic] var _lx: Float = defaultValue
 
-  protected var _ly: Float = defaultValue
+  private[endothermic] var _ly: Float = defaultValue
 
-  protected var _nx: Float = defaultValue
+  private[endothermic] var _nx: Float = defaultValue
 
-  protected var _ny: Float = defaultValue
+  private[endothermic] var _ny: Float = defaultValue
 
-  protected var _nz: Float = defaultValue
+  private[endothermic] var _nz: Float = defaultValue
 
-  protected var _padding: Float = defaultValue
+  private[endothermic] var _padding: Float = defaultValue
 
   private[endothermic] var initFlag: Int = 0
   private[endothermic] var changeFlag: Int = 0

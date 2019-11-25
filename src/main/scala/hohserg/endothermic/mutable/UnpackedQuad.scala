@@ -1,7 +1,7 @@
 package hohserg.endothermic.mutable
 
+import hohserg.endothermic.BaseUnpackedQuad
 import hohserg.endothermic.format.AttributeRepresentation._
-import hohserg.endothermic.ops.ReconstructOpsQuad
 import net.minecraft.client.renderer.vertex.VertexFormat
 
 
@@ -11,17 +11,7 @@ class UnpackedQuad(
                     val v2: UnpackedVertex[_2],
                     val v3: UnpackedVertex[_3],
                     val v4: UnpackedVertex[_4]
-                  ) extends ReconstructOpsQuad {
-
-  def foreachVertex(f: VertexType[_] => Unit): UnpackedQuad = {
-    f(v1)
-    f(v2)
-    f(v3)
-    f(v4)
-    this
-  }
-
-
+                  ) extends BaseUnpackedQuad {
   lazy val toRawArray: Array[Int] = {
     val r = quadData.clone()
 
@@ -33,9 +23,11 @@ class UnpackedQuad(
     r
   }
 
-  override type VertexType[V<:Vertex] = UnpackedVertex[V]
+  override type Self = UnpackedQuad
 
-  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]) = this
+  override type VertexType[V <: Vertex] = UnpackedVertex[V]
+
+  override def reconstruct(v1: VertexType[_1], v2: VertexType[_2], v3: VertexType[_3], v4: VertexType[_4]): Self = this
 }
 
 object UnpackedQuad {

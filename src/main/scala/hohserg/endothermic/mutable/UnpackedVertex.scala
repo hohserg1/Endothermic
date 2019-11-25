@@ -1,12 +1,20 @@
 package hohserg.endothermic.mutable
 
-import hohserg.endothermic.BaseUnpackedVertex
+import hohserg.endothermic.{BaseUnpackedVertex, immutable}
 import hohserg.endothermic.format.AttributeRepresentation.Vertex
 import net.minecraft.client.renderer.vertex.VertexFormat
 
-class UnpackedVertex[V <: Vertex]()(implicit protected val quadData: Array[Int], protected val format: VertexFormat, protected val vertex: V) extends BaseUnpackedVertex[V] {
+class UnpackedVertex[V <: Vertex]()(implicit protected val quadData: Array[Int], protected val format: VertexFormat, private var vertexP: V) extends BaseUnpackedVertex[V] {
 
-  override def getUpdateDestination() = this
+  override type Self[A <: Vertex] = UnpackedVertex[A]
+
+  override private[endothermic] implicit def vertex: V = vertexP
+
+  override def getUpdateDestination[A <: Vertex]()(implicit newVertex: A): Self[A] = {
+    val r = this.asInstanceOf[Self[A]]
+    r.vertexP = newVertex
+    r
+  }
 
   /**
     * Setters
@@ -135,4 +143,28 @@ class UnpackedVertex[V <: Vertex]()(implicit protected val quadData: Array[Int],
   override def nz: Float = super.nz
 
   override def padding: Float = super.padding
+
+  override def toImmutable: immutable.UnpackedVertex[V] = {
+    val result = new immutable.UnpackedVertex()(quadData, format, vertex)
+
+    result._x = _x
+    result._y = _y
+    result._z = _z
+    result._u = _u
+    result._v = _v
+    result._r = _r
+    result._g = _g
+    result._b = _b
+    result._a = _a
+    result._lx = _lx
+    result._ly = _ly
+    result._nx = _nx
+    result._ny = _ny
+    result._nz = _nz
+    result._padding = _padding
+    result.initFlag = initFlag
+    result.changeFlag = changeFlag
+
+    result
+  }
 }
