@@ -1,14 +1,9 @@
 package hohserg.endothermic.immutable
 
-import hohserg.endothermic.BaseUnpackedVertex
-import hohserg.endothermic.format.AttributeRepresentation.Vertex
-import net.minecraft.client.renderer.vertex.VertexFormat
+import hohserg.endothermic.BaseVertex
 
-import scala.language.dynamics
+class UnpackedVertex extends BaseVertex{
 
-class UnpackedVertex[+V <: Vertex]()(implicit protected val quadData: Array[Int], protected val format: VertexFormat, protected var vertex: V) extends BaseUnpackedVertex[V] {
+  override type SelfVertex = UnpackedVertex
 
-  override def getUpdateDestination(): this.type = new UnpackedVertex[V]()(quadData, format, vertex).asInstanceOf[this.type]
-
-  override def toImmutable: UnpackedVertex[V] = this
 }
