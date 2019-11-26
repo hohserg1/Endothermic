@@ -43,9 +43,7 @@ trait QuadOps {
 
     def calcVertex[V <: Vertex](x: Float, y: Float): VertexType = {
       val a: Float = x * y
-      val r = v1 * (-a) + v2i * a + v3i * (-a) + v4i * a + v1i * x + v1i * y - v1 - v2i * x - v4i * y
-      //r.vertex = vertex2
-      r
+      v1 * (-a) + v2i * a + v3i * (-a) + v4i * a + v1i * x + v1i * y - v1 - v2i * x - v4i * y
     }
 
     reconstruct(

@@ -1,14 +1,13 @@
 package hohserg.endothermic
 
-import BaseUnpackedVertex._
+import hohserg.endothermic.BaseUnpackedVertex._
 import hohserg.endothermic.format.AttributeRepresentation.{COLOR_4UB, NORMAL_3B, PADDING_1B, POSITION_3F, TEX_2F, TEX_2S, Vertex}
 import hohserg.endothermic.format.UnpackEvaluations.{pack, unpack}
-import hohserg.endothermic.ops.VertexOps
 import net.minecraft.client.renderer.vertex.VertexFormat
 
 import scala.language.higherKinds
 
-trait BaseUnpackedVertex[Self <: BaseUnpackedVertex[Self]]/* extends VertexOps[Self] */{
+trait BaseUnpackedVertex[Self <: BaseUnpackedVertex[Self]] {
 
   def +(c: Float) =
     reconstruct(x + c, y + c, z + c, u + c, v + c, r + c, g + c, b + c, a + c, lx + c, ly + c, nx + c, ny + c, nz + c, padding + c)
@@ -33,22 +32,22 @@ trait BaseUnpackedVertex[Self <: BaseUnpackedVertex[Self]]/* extends VertexOps[S
   def getUpdateDestination: Self
 
   def reconstruct(
-                      x: Float = _x,
-                      y: Float = _y,
-                      z: Float = _z,
-                      u: Float = _u,
-                      v: Float = _v,
-                      r: Float = _r,
-                      g: Float = _g,
-                      b: Float = _b,
-                      a: Float = _a,
-                      lx: Float = _lx,
-                      ly: Float = _ly,
-                      nx: Float = _nx,
-                      ny: Float = _ny,
-                      nz: Float = _nz,
-                      padding: Float = _padding
-                    ): Self = {
+                   x: Float = _x,
+                   y: Float = _y,
+                   z: Float = _z,
+                   u: Float = _u,
+                   v: Float = _v,
+                   r: Float = _r,
+                   g: Float = _g,
+                   b: Float = _b,
+                   a: Float = _a,
+                   lx: Float = _lx,
+                   ly: Float = _ly,
+                   nx: Float = _nx,
+                   ny: Float = _ny,
+                   nz: Float = _nz,
+                   padding: Float = _padding
+                 ): Self = {
     val result = getUpdateDestination
 
     if (x != _x || ((initFlag & (1 << 0)) == 0 && x != defaultValue)) {
