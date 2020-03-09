@@ -109,6 +109,8 @@ object AttributeRepresentation {
 
   sealed trait Vertex {
     def index: Int
+
+    override def toString: String = "Vertex("+index+")"
   }
 
   object Vertex {

@@ -12,9 +12,9 @@ object UnpackEvaluations {
 
   val getFormatParseRule = memoize(getFormatParseRule1)
 
-  private def getFormatParseRule1(format: VertexFormat): Seq[(BakedQuad => Float,(VertexFormatElement, Int, Vertex))] = {
+  private def getFormatParseRule1(format: VertexFormat): Seq[(BakedQuad => Float, (VertexFormatElement, Int, Vertex))] = {
     //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
-    for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
+    for (vfe <- format.getElements.asScala.toList.toSeq; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
       /*
       Position
         x
@@ -109,7 +109,7 @@ object UnpackEvaluations {
       else if (elementType == VertexFormatElement.EnumType.INT) {
         evaluation andThen (bits => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat)
       } else
-        (_: BakedQuad) => 0)->(vfe,i,vertex)
+        (_: BakedQuad) => 0f)->(vfe,i,vertex)
     }
   }
 }
