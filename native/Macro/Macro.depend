@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1579212684 source:c:\users\hohserg\documents\github\bakedquadlens\native\macro\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "normal": { "model": "endothermic:testing_stand" },
+    "inventory": { "model": "endothermic:testing_stand" }
+  }
+}

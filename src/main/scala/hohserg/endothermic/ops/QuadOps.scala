@@ -1,5 +1,6 @@
 package hohserg.endothermic.ops
 
+import hohserg.endothermic.BaseUnpackedVertex
 import hohserg.endothermic.format.AttributeRepresentation._
 
 import scala.math._
@@ -35,16 +36,23 @@ trait QuadOps {
     })
   }
 
-  def slice(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float, x4: Float, y4: Float): Self = {
+  def slice(x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double, x4: Double, y4: Double): Self = {
     val v1i = v1.toImmutable
     val v2i = v2.toImmutable
     val v3i = v3.toImmutable
     val v4i = v4.toImmutable
 
-    def calcVertex[V <: Vertex](x: Float, y: Float): VertexType = {
-      val a: Float = x * y
-      v1 * (-a) + v2i * a + v3i * (-a) + v4i * a + v1i * x + v1i * y - v1 - v2i * x - v4i * y
+    def calcVertex[V <: Vertex](x: Double, y: Double): VertexType = {
+      val a = (x * y).toFloat
+      (v1.copy * (-a)) + (v2i * a) + (v3i * (-a)) + (v4i * a) + (v1i * x.toFloat) + (v1i * y.toFloat) - v1i - (v2i * x.toFloat) - (v4i * y.toFloat)
     }
+
+    def calcVertex1(x: Double, y: Double, vv: BaseUnpackedVertex[_] => Double): Double = {
+      val a = (x * y).toFloat
+      (vv(v1i) * (-a)) + (vv(v2i) * a) + (vv(v3i) * (-a)) + (vv(v4i) * a) + (vv(v1i) * x.toFloat) + (vv(v1i) * y.toFloat) - vv(v1i) - (vv(v2i) * x.toFloat) - (vv(v4i) * y.toFloat)
+    }
+
+    val x21 = calcVertex1(0.5, 0.5,_.z)
 
     reconstruct(
       calcVertex(x1, y1),

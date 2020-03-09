@@ -10,11 +10,50 @@ import scala.collection.JavaConverters._
 object UnpackEvaluations {
 
 
-  val getFormatParseRule: VertexFormat => Seq[BakedQuad => Float] = memoize(getFormatParseRule1)
+  val getFormatParseRule = memoize(getFormatParseRule1)
 
-  private def getFormatParseRule1(format: VertexFormat): Seq[BakedQuad => Float] = {
+  private def getFormatParseRule1(format: VertexFormat): Seq[(BakedQuad => Float,(VertexFormatElement, Int, Vertex))] = {
     //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
     for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
+      /*
+      Position
+        x
+          1 0
+          2 1
+          3 2
+          4 3
+        y
+          1 4
+          2 5
+          3 6
+          4 7
+        z
+          1 8
+          2 9
+          3 10
+          4 11
+      Color
+        r
+          1 12
+          2 13
+          3 14
+          4 15
+        g
+          1 16
+          2 17
+          3 18
+          4 19
+        b
+          1 20
+          2 21
+          3 22
+          4 23
+        a
+          1 24
+          2 25
+          3 26
+          4 27
+       */
 
       val element = vfe
       val v = vertex.index
@@ -52,7 +91,7 @@ object UnpackEvaluations {
 
       }
 
-      if (elementType == VertexFormatElement.EnumType.FLOAT) {
+      (if (elementType == VertexFormatElement.EnumType.FLOAT) {
         evaluation andThen java.lang.Float.intBitsToFloat
       }
       else if (elementType == VertexFormatElement.EnumType.UBYTE || elementType == VertexFormatElement.EnumType.USHORT) {
@@ -70,7 +109,7 @@ object UnpackEvaluations {
       else if (elementType == VertexFormatElement.EnumType.INT) {
         evaluation andThen (bits => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat)
       } else
-        (_: BakedQuad) => 0
+        (_: BakedQuad) => 0)->(vfe,i,vertex)
     }
   }
 }

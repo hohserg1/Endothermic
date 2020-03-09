@@ -6,47 +6,113 @@ object AttributeRepresentation {
 
   sealed trait VertexAttribute {
     def element: VertexFormatElement
+
+    def index: Int
+
+    def default(i: Int): Float = -1
   }
 
-  sealed trait POSITION_3F extends VertexAttribute
+  val POSITION_3F_X = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
-  implicit val POSITION_3F: POSITION_3F = new POSITION_3F {
-    override val element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
+    override def index: Int = 0
   }
 
-  sealed trait COLOR_4UB extends VertexAttribute
+  val POSITION_3F_Y = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
-  implicit val COLOR_4UB: COLOR_4UB = new COLOR_4UB {
-    override val element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
+    override def index: Int = 1
   }
 
-  sealed trait TEX_2F extends VertexAttribute
+  val POSITION_3F_Z = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.POSITION_3F
 
-  implicit val TEX_2F: TEX_2F = new TEX_2F {
-    override val element: VertexFormatElement = DefaultVertexFormats.TEX_2F
+    override def index: Int = 2
   }
 
-  sealed trait TEX_2S extends VertexAttribute
 
-  implicit val TEX_2S: TEX_2S = new TEX_2S {
-    override val element: VertexFormatElement = DefaultVertexFormats.TEX_2S
+  val COLOR_4UB_R = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
+
+    override def index: Int = 0
   }
 
-  sealed trait NORMAL_3B extends VertexAttribute
+  val COLOR_4UB_G = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
 
-  implicit val NORMAL_3B: NORMAL_3B = new NORMAL_3B {
-    override val element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+    override def index: Int = 1
   }
 
-  sealed trait PADDING_1B extends VertexAttribute
+  val COLOR_4UB_B = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
 
-  implicit val PADDING_1B: PADDING_1B = new PADDING_1B {
-    override val element: VertexFormatElement = DefaultVertexFormats.PADDING_1B
+    override def index: Int = 2
+  }
+
+  val COLOR_4UB_A = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.COLOR_4UB
+
+    override def index: Int = 3
+  }
+
+
+  val TEX_2F_U = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.TEX_2F
+
+    override def index: Int = 0
+  }
+
+  val TEX_2F_V = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.TEX_2F
+
+    override def index: Int = 1
+  }
+
+
+  val TEX_2S_U = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.TEX_2S
+
+    override def index: Int = 0
+  }
+
+  val TEX_2S_V = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.TEX_2S
+
+    override def index: Int = 1
+  }
+
+  val NORMAL_3B_X = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+
+    override def index: Int = 0
+  }
+
+  val NORMAL_3B_Y = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+
+    override def index: Int = 1
+  }
+
+  val NORMAL_3B_Z = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.NORMAL_3B
+
+    override def index: Int = 2
+  }
+
+
+  val PADDING_1B = new VertexAttribute {
+    override def element: VertexFormatElement = DefaultVertexFormats.PADDING_1B
+
+    override def index: Int = 0
   }
 
 
   sealed trait Vertex {
     def index: Int
+  }
+
+  object Vertex {
+    val vertices = Seq(_1, _2, _3, _4)
   }
 
   sealed trait _1 extends Vertex

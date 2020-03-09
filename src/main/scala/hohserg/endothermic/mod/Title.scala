@@ -1,9 +1,9 @@
 package hohserg.endothermic.mod
 
-import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import net.minecraftforge.fml.common.event._
 import net.minecraftforge.fml.common.{Mod, SidedProxy}
 
-@Mod(modid = Title.modid,modLanguage = "scala")
+@Mod(modid = Title.modid, modLanguage = "scala")
 object Title {
   final val modid = "endothermic"
   @SidedProxy(clientSide = "hohserg.endothermic.mod.ClientProxy", serverSide = "hohserg.endothermic.mod.CommonProxy")
@@ -14,5 +14,7 @@ object Title {
   @Mod.EventHandler def init(event: FMLInitializationEvent): Unit = proxy.init(event)
 
   @Mod.EventHandler def postinit(event: FMLPostInitializationEvent): Unit = proxy.postinit(event)
+
+  @Mod.EventHandler def serverInit(event: FMLServerStartingEvent): Unit = event.registerServerCommand(new CommandReload)
 
 }
