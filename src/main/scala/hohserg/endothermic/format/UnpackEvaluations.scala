@@ -1,97 +1,76 @@
 package hohserg.endothermic.format
 
-import hohserg.endothermic.format.AttributeRepresentation._
+import hohserg.endothermic.format.AttributeRepresentation.Vertex
+import hohserg.endothermic.format.EvaluationPool.memoize
+import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{VertexFormat, VertexFormatElement}
 
-import scala.collection.mutable
+import scala.collection.JavaConverters._
 
 object UnpackEvaluations {
 
-  private type FirstValue = mutable.OpenHashMap[VertexAttribute, DependentOnFormatAttribute]
 
-  private val map: mutable.OpenHashMap[VertexFormat, FirstValue] =
-    new mutable.OpenHashMap[VertexFormat, FirstValue]()
+  val getFormatParseRule: VertexFormat => Seq[BakedQuad => Float] = memoize(getFormatParseRule1)
 
-  case class DependentOnFormatAttribute(
-                                         elementSize: Int, elementMask: Int, elementEnumType: VertexFormatElement.EnumType,
-                                         dependentOnVertex: Map[Vertex, DependentOnFormatAttributeVertex]
-                                       )
+  private def getFormatParseRule1(format: VertexFormat): Seq[BakedQuad => Float] = {
+    //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
+    for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
 
-  object DependentOnFormatAttribute {
-    def apply(format: VertexFormat, attribute: VertexAttribute): DependentOnFormatAttribute = {
-      val ei = elementIndex(format, attribute)
-      val `type` = elementType(format, ei)
-      val es = elementSize(`type`)
-      val mask = elementMask(es)
-      new DependentOnFormatAttribute(es, mask, `type`,
-        Seq(_1, _2, _3, _4).map(v => v -> DependentOnFormatAttributeVertex(vertexStart(v, format, ei))).toMap
-      )
+      val element = vfe
+      val v = vertex.index
+      val formatFrom = format
+      val vertexStart = v * formatFrom.getNextOffset + formatFrom.getOffset(formatFrom.getElements.indexOf(element))
+      val count = element.getElementCount
+      val elementType = element.getType
+      val size = elementType.getSize
+      val mask = (256 << (8 * (size - 1))) - 1
+      val pos = vertexStart + size * i
+      val index = pos >> 2
+      val offset = pos & 3
+
+      val evaluation: BakedQuad => Int = if ((pos + size - 1) / 4 != index) {
+        quad: BakedQuad => {
+          val from = quad.getVertexData
+          var bits = from(index)
+          bits = bits >>> (offset * 8)
+
+          bits |= from(index + 1) << ((4 - offset) * 8)
+
+          bits &= mask
+          bits
+        }
+      } else {
+
+        quad: BakedQuad => {
+          val from = quad.getVertexData
+          var bits = from(index)
+          bits = bits >>> (offset * 8)
+
+          bits &= mask
+          bits
+        }
+
+      }
+
+      if (elementType == VertexFormatElement.EnumType.FLOAT) {
+        evaluation andThen java.lang.Float.intBitsToFloat
+      }
+      else if (elementType == VertexFormatElement.EnumType.UBYTE || elementType == VertexFormatElement.EnumType.USHORT) {
+        evaluation andThen (_.toFloat / mask)
+      }
+      else if (elementType == VertexFormatElement.EnumType.UINT) {
+        evaluation andThen (bits => ((bits & 0xFFFFFFFFL).toDouble / 0xFFFFFFFFL).toFloat)
+      }
+      else if (elementType == VertexFormatElement.EnumType.BYTE) {
+        evaluation andThen (bits => bits.toByte.toFloat / (mask >> 1))
+      }
+      else if (elementType == VertexFormatElement.EnumType.SHORT) {
+        evaluation andThen (bits => bits.toShort.toFloat / (mask >> 1))
+      }
+      else if (elementType == VertexFormatElement.EnumType.INT) {
+        evaluation andThen (bits => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat)
+      } else
+        (_: BakedQuad) => 0
     }
   }
-
-  case class DependentOnFormatAttributeVertex(vertexStart: Int) extends AnyVal
-
-
-  def pack[A <: VertexAttribute](value: Float, to: Array[Int], i: Int)(implicit format: VertexFormat, v: Vertex, a: A): Unit = {
-    val DependentOnFormatAttribute(elementSize, elementMask, elementEnumType, dependentOnVertex) = getAttributeProperties(format, a)
-    //todo: remove tuple allocation
-    val DependentOnFormatAttributeVertex(vertexStart) = dependentOnVertex(v)
-
-    val pos = vertexStart + elementSize * i
-    val index = pos >> 2
-    val offset = pos & 3
-    var bits = 0
-    if (elementEnumType eq VertexFormatElement.EnumType.FLOAT)
-      bits = java.lang.Float.floatToRawIntBits(value)
-    else if ((elementEnumType eq VertexFormatElement.EnumType.UBYTE) || (elementEnumType eq VertexFormatElement.EnumType.USHORT) || (elementEnumType eq VertexFormatElement.EnumType.UINT))
-      bits = (value * elementMask).round
-    else
-      bits = (value * (elementMask >> 1)).round
-
-    to(index) &= ~elementMask << (offset * 8)
-    to(index) |= (bits & elementMask) << (offset * 8)
-    // TODO handle overflow into to[index + 1]
-  }
-
-  def unpack[A <: VertexAttribute](quadData: Array[Int], i: Int)(implicit format: VertexFormat, v: Vertex, a: A, parser: AttributeParser[A]): Float = {
-
-    val DependentOnFormatAttribute(elementSize, elementMask, _, dependentOnVertex) = getAttributeProperties(format, a)
-    //todo: remove tuple allocation
-    val DependentOnFormatAttributeVertex(vertexStart) = dependentOnVertex(v)
-
-
-    val pos = vertexStart + elementSize * i
-    val index = pos >> 2
-    val offset = pos & 3
-    var bits: Int = quadData(index)
-    bits = bits >>> (offset * 8)
-    if ((pos + elementSize - 1) / 4 != index) bits |= quadData(index + 1) << ((4 - offset) * 8)
-    bits &= elementMask
-
-    //valuePacker(
-    parser.parse(bits, elementMask)
-    //)
-  }
-
-
-  private def getAttributeProperties[A <: VertexAttribute, V <: Vertex](format: VertexFormat, a: A): DependentOnFormatAttribute = {
-    val dependentOnFormat: FirstValue = map.getOrElseUpdate(format, new mutable.OpenHashMap[VertexAttribute, DependentOnFormatAttribute])
-    dependentOnFormat.getOrElseUpdate(a, DependentOnFormatAttribute(format, a))
-  }
-
-
-  def elementMask(elementSize: Int): Int =
-    (256 << (8 * (elementSize - 1))) - 1
-
-  def elementSize(`type`: VertexFormatElement.EnumType): Int =
-    `type`.getSize
-
-  def elementType(format: VertexFormat, elementIndex: Int): VertexFormatElement.EnumType =
-    format.getElement(elementIndex).getType
-
-  def vertexStart[V <: Vertex, A <: VertexAttribute](vertex: V, format: VertexFormat, elementIndex: Int): Int =
-    vertex.index * format.getNextOffset + format.getOffset(elementIndex)
-
-  def elementIndex[A <: VertexAttribute](format: VertexFormat, attribute: A): Int =
-    format.getElements.indexOf(attribute.element)
 }
