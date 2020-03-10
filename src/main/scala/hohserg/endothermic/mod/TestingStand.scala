@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Items
+import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util._
@@ -42,7 +42,8 @@ object TestingStand extends BlockContainer(Material.GLASS) {
   def generateBechmarks(): Map[String, List[BakedQuad]] =
     Map(
       ender_eye -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList,
-      "ender_eye_simplified" -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList.slice(21,22)
+      "ender_eye_simplified" -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList.slice(21,22),
+      "block" -> mc.getBlockRendererDispatcher.getModelForState(Blocks.DIAMOND_BLOCK.getDefaultState).getQuads(Blocks.DIAMOND_BLOCK.getDefaultState, EnumFacing.UP, 0).asScala.toList
     )
 
   val rotation = "rotation"
@@ -57,9 +58,9 @@ object TestingStand extends BlockContainer(Material.GLASS) {
         UnpackedQuad(q)
         .slice(
           0, 0,
-          0.5f, 0,
+          0, 0.5f,
           0.5f, 0.5f,
-          0, 0.5f).toBakedQuad),
+          0.5f, 0).toBakedQuad),
       identity -> (q => q)
     )
 
