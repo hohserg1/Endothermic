@@ -23,15 +23,15 @@ trait BaseUnpackedQuad extends QuadOps {
     UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
 
 
-  var initFlag1: Int = 0
-  var initFlag2: Int = 0
-  var initFlag3: Int = 0
-  var initFlag4: Int = 0
+  private[endothermic] var initFlag1: Int = 0
+  private[endothermic] var initFlag2: Int = 0
+  private[endothermic] var initFlag3: Int = 0
+  private[endothermic] var initFlag4: Int = 0
 
-  var changeFlag1: Int = 0
-  var changeFlag2: Int = 0
-  var changeFlag3: Int = 0
-  var changeFlag4: Int = 0
+  private[endothermic] var changeFlag1: Int = 0
+  private[endothermic] var changeFlag2: Int = 0
+  private[endothermic] var changeFlag3: Int = 0
+  private[endothermic] var changeFlag4: Int = 0
 
 
   private[endothermic] var _v1_x: Float = defaultValue
