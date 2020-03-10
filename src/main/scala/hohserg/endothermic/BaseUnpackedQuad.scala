@@ -16,12 +16,6 @@ trait BaseUnpackedQuad extends QuadOps {
 
   val evaluations: Map[(VertexFormatElement, Int, Vertex), (BakedQuad => Float, (Float, Array[Int]) => Unit)] = UnpackEvaluations.getFormatParseRule(format)
 
-  def flatAttributeKey(vfei: (VertexFormatElement, Int,Vertex), vertex: Vertex): (VertexFormatElement, Int, Vertex) =
-    (vfei._1, vfei._2, vertex)
-
-  implicit def flagIndex(vfei: (VertexFormatElement, Int,Vertex)): Int =
-    UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
-
 
   private[endothermic] var initFlag1: Int = 0
   private[endothermic] var initFlag2: Int = 0
@@ -40,7 +34,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << x_1)) == 0) {
       initFlag1 |= (1 << x_1)
 
-      evaluations.get(x_1).foreach(i=>_v1_x=i._1(quad))
+      evaluations.get(x_1).foreach(i => _v1_x = i._1(quad))
     }
     _v1_x
   }
@@ -52,7 +46,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << y_1)) == 0) {
       initFlag1 |= (1 << y_1)
 
-      evaluations.get(y_1).foreach(i=>_v1_y=i._1(quad))
+      evaluations.get(y_1).foreach(i => _v1_y = i._1(quad))
     }
     _v1_y
   }
@@ -63,7 +57,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << z_1)) == 0) {
       initFlag1 |= (1 << z_1)
 
-      evaluations.get(z_1).foreach(i=>_v1_z=i._1(quad))
+      evaluations.get(z_1).foreach(i => _v1_z = i._1(quad))
     }
     _v1_z
   }
@@ -74,7 +68,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << r_1)) == 0) {
       initFlag1 |= (1 << r_1)
 
-      evaluations.get(r_1).foreach(i=>_v1_r=i._1(quad))
+      evaluations.get(r_1).foreach(i => _v1_r = i._1(quad))
     }
     _v1_r
   }
@@ -85,7 +79,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << g_1)) == 0) {
       initFlag1 |= (1 << g_1)
 
-      evaluations.get(g_1).foreach(i=>_v1_g=i._1(quad))
+      evaluations.get(g_1).foreach(i => _v1_g = i._1(quad))
     }
     _v1_g
   }
@@ -96,7 +90,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << b_1)) == 0) {
       initFlag1 |= (1 << b_1)
 
-      evaluations.get(b_1).foreach(i=>_v1_b=i._1(quad))
+      evaluations.get(b_1).foreach(i => _v1_b = i._1(quad))
     }
     _v1_b
   }
@@ -107,7 +101,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << a_1)) == 0) {
       initFlag1 |= (1 << a_1)
 
-      evaluations.get(a_1).foreach(i=>_v1_a=i._1(quad))
+      evaluations.get(a_1).foreach(i => _v1_a = i._1(quad))
     }
     _v1_a
   }
@@ -118,7 +112,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << u_1)) == 0) {
       initFlag1 |= (1 << u_1)
 
-      evaluations.get(u_1).foreach(i=>_v1_u=i._1(quad))
+      evaluations.get(u_1).foreach(i => _v1_u = i._1(quad))
     }
     _v1_u
   }
@@ -129,7 +123,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << v_1)) == 0) {
       initFlag1 |= (1 << v_1)
 
-      evaluations.get(v_1).foreach(i=>_v1_v=i._1(quad))
+      evaluations.get(v_1).foreach(i => _v1_v = i._1(quad))
     }
     _v1_v
   }
@@ -140,7 +134,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << lu_1)) == 0) {
       initFlag1 |= (1 << lu_1)
 
-      evaluations.get(lu_1).foreach(i=>_v1_lu=i._1(quad))
+      evaluations.get(lu_1).foreach(i => _v1_lu = i._1(quad))
     }
     _v1_lu
   }
@@ -151,7 +145,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << lv_1)) == 0) {
       initFlag1 |= (1 << lv_1)
 
-      evaluations.get(lv_1).foreach(i=>_v1_lv=i._1(quad))
+      evaluations.get(lv_1).foreach(i => _v1_lv = i._1(quad))
     }
     _v1_lv
   }
@@ -162,7 +156,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << nx_1)) == 0) {
       initFlag1 |= (1 << nx_1)
 
-      evaluations.get(nx_1).foreach(i=>_v1_nx=i._1(quad))
+      evaluations.get(nx_1).foreach(i => _v1_nx = i._1(quad))
     }
     _v1_nx
   }
@@ -173,7 +167,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << ny_1)) == 0) {
       initFlag1 |= (1 << ny_1)
 
-      evaluations.get(ny_1).foreach(i=>_v1_ny=i._1(quad))
+      evaluations.get(ny_1).foreach(i => _v1_ny = i._1(quad))
     }
     _v1_ny
   }
@@ -184,7 +178,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << nz_1)) == 0) {
       initFlag1 |= (1 << nz_1)
 
-      evaluations.get(nz_1).foreach(i=>_v1_nz=i._1(quad))
+      evaluations.get(nz_1).foreach(i => _v1_nz = i._1(quad))
     }
     _v1_nz
   }
@@ -195,7 +189,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << p_1)) == 0) {
       initFlag1 |= (1 << p_1)
 
-      evaluations.get(p_1).foreach(i=>_v1_p=i._1(quad))
+      evaluations.get(p_1).foreach(i => _v1_p = i._1(quad))
     }
     _v1_p
   }
@@ -207,7 +201,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << x_1)) == 0) {
       initFlag2 |= (1 << x_1)
 
-      evaluations.get(x_2).foreach(i=>_v2_x=i._1(quad))
+      evaluations.get(x_2).foreach(i => _v2_x = i._1(quad))
     }
     _v2_x
   }
@@ -218,7 +212,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << y_1)) == 0) {
       initFlag2 |= (1 << y_1)
 
-      evaluations.get(y_2).foreach(i=>_v2_y=i._1(quad))
+      evaluations.get(y_2).foreach(i => _v2_y = i._1(quad))
     }
     _v2_y
   }
@@ -229,7 +223,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << z_1)) == 0) {
       initFlag2 |= (1 << z_1)
 
-      evaluations.get(z_2).foreach(i=>_v2_z=i._1(quad))
+      evaluations.get(z_2).foreach(i => _v2_z = i._1(quad))
     }
     _v2_z
   }
@@ -240,7 +234,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << r_1)) == 0) {
       initFlag2 |= (1 << r_1)
 
-      evaluations.get(r_2).foreach(i=>_v2_r=i._1(quad))
+      evaluations.get(r_2).foreach(i => _v2_r = i._1(quad))
     }
     _v2_r
   }
@@ -251,7 +245,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << g_1)) == 0) {
       initFlag2 |= (1 << g_1)
 
-      evaluations.get(g_2).foreach(i=>_v2_g=i._1(quad))
+      evaluations.get(g_2).foreach(i => _v2_g = i._1(quad))
     }
     _v2_g
   }
@@ -262,7 +256,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << b_1)) == 0) {
       initFlag2 |= (1 << b_1)
 
-      evaluations.get(b_2).foreach(i=>_v2_b=i._1(quad))
+      evaluations.get(b_2).foreach(i => _v2_b = i._1(quad))
     }
     _v2_b
   }
@@ -273,7 +267,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << a_1)) == 0) {
       initFlag2 |= (1 << a_1)
 
-      evaluations.get(a_2).foreach(i=>_v2_a=i._1(quad))
+      evaluations.get(a_2).foreach(i => _v2_a = i._1(quad))
     }
     _v2_a
   }
@@ -284,7 +278,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << u_1)) == 0) {
       initFlag2 |= (1 << u_1)
 
-      evaluations.get(u_2).foreach(i=>_v2_u=i._1(quad))
+      evaluations.get(u_2).foreach(i => _v2_u = i._1(quad))
     }
     _v2_u
   }
@@ -295,7 +289,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << v_1)) == 0) {
       initFlag2 |= (1 << v_1)
 
-      evaluations.get(v_2).foreach(i=>_v2_v=i._1(quad))
+      evaluations.get(v_2).foreach(i => _v2_v = i._1(quad))
     }
     _v2_v
   }
@@ -306,7 +300,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << lu_1)) == 0) {
       initFlag2 |= (1 << lu_1)
 
-      evaluations.get(lu_2).foreach(i=>_v2_lu=i._1(quad))
+      evaluations.get(lu_2).foreach(i => _v2_lu = i._1(quad))
     }
     _v2_lu
   }
@@ -317,7 +311,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << lv_1)) == 0) {
       initFlag2 |= (1 << lv_1)
 
-      evaluations.get(lv_2).foreach(i=>_v2_lv=i._1(quad))
+      evaluations.get(lv_2).foreach(i => _v2_lv = i._1(quad))
     }
     _v2_lv
   }
@@ -328,7 +322,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << nx_1)) == 0) {
       initFlag2 |= (1 << nx_1)
 
-      evaluations.get(nx_2).foreach(i=>_v2_nx=i._1(quad))
+      evaluations.get(nx_2).foreach(i => _v2_nx = i._1(quad))
     }
     _v2_nx
   }
@@ -339,7 +333,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << ny_1)) == 0) {
       initFlag2 |= (1 << ny_1)
 
-      evaluations.get(ny_2).foreach(i=>_v2_ny=i._1(quad))
+      evaluations.get(ny_2).foreach(i => _v2_ny = i._1(quad))
     }
     _v2_ny
   }
@@ -350,7 +344,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << nz_1)) == 0) {
       initFlag2 |= (1 << nz_1)
 
-      evaluations.get(nz_2).foreach(i=>_v2_nz=i._1(quad))
+      evaluations.get(nz_2).foreach(i => _v2_nz = i._1(quad))
     }
     _v2_nz
   }
@@ -361,7 +355,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << p_1)) == 0) {
       initFlag2 |= (1 << p_1)
 
-      evaluations.get(p_2).foreach(i=>_v2_p=i._1(quad))
+      evaluations.get(p_2).foreach(i => _v2_p = i._1(quad))
     }
     _v2_p
   }
@@ -373,7 +367,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << x_1)) == 0) {
       initFlag3 |= (1 << x_1)
 
-      evaluations.get(x_3).foreach(i=>_v3_x=i._1(quad))
+      evaluations.get(x_3).foreach(i => _v3_x = i._1(quad))
     }
     _v3_x
   }
@@ -384,7 +378,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << y_1)) == 0) {
       initFlag3 |= (1 << y_1)
 
-      evaluations.get(y_3).foreach(i=>_v3_y=i._1(quad))
+      evaluations.get(y_3).foreach(i => _v3_y = i._1(quad))
     }
     _v3_y
   }
@@ -395,7 +389,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << z_1)) == 0) {
       initFlag3 |= (1 << z_1)
 
-      evaluations.get(z_3).foreach(i=>_v3_z=i._1(quad))
+      evaluations.get(z_3).foreach(i => _v3_z = i._1(quad))
     }
     _v3_z
   }
@@ -406,7 +400,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << r_1)) == 0) {
       initFlag3 |= (1 << r_1)
 
-      evaluations.get(r_3).foreach(i=>_v3_r=i._1(quad))
+      evaluations.get(r_3).foreach(i => _v3_r = i._1(quad))
     }
     _v3_r
   }
@@ -417,7 +411,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << g_1)) == 0) {
       initFlag3 |= (1 << g_1)
 
-      evaluations.get(g_3).foreach(i=>_v3_g=i._1(quad))
+      evaluations.get(g_3).foreach(i => _v3_g = i._1(quad))
     }
     _v3_g
   }
@@ -428,7 +422,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << b_1)) == 0) {
       initFlag3 |= (1 << b_1)
 
-      evaluations.get(b_3).foreach(i=>_v3_b=i._1(quad))
+      evaluations.get(b_3).foreach(i => _v3_b = i._1(quad))
     }
     _v3_b
   }
@@ -439,7 +433,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << a_1)) == 0) {
       initFlag3 |= (1 << a_1)
 
-      evaluations.get(a_3).foreach(i=>_v3_a=i._1(quad))
+      evaluations.get(a_3).foreach(i => _v3_a = i._1(quad))
     }
     _v3_a
   }
@@ -450,7 +444,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << u_1)) == 0) {
       initFlag3 |= (1 << u_1)
 
-      evaluations.get(u_3).foreach(i=>_v3_u=i._1(quad))
+      evaluations.get(u_3).foreach(i => _v3_u = i._1(quad))
     }
     _v3_u
   }
@@ -461,7 +455,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << v_1)) == 0) {
       initFlag3 |= (1 << v_1)
 
-      evaluations.get(v_3).foreach(i=>_v3_v=i._1(quad))
+      evaluations.get(v_3).foreach(i => _v3_v = i._1(quad))
     }
     _v3_v
   }
@@ -472,7 +466,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << lu_1)) == 0) {
       initFlag3 |= (1 << lu_1)
 
-      evaluations.get(lu_3).foreach(i=>_v3_lu=i._1(quad))
+      evaluations.get(lu_3).foreach(i => _v3_lu = i._1(quad))
     }
     _v3_lu
   }
@@ -483,7 +477,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << lv_1)) == 0) {
       initFlag3 |= (1 << lv_1)
 
-      evaluations.get(lv_3).foreach(i=>_v3_lv=i._1(quad))
+      evaluations.get(lv_3).foreach(i => _v3_lv = i._1(quad))
     }
     _v3_lv
   }
@@ -494,7 +488,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << nx_1)) == 0) {
       initFlag3 |= (1 << nx_1)
 
-      evaluations.get(nx_3).foreach(i=>_v3_nx=i._1(quad))
+      evaluations.get(nx_3).foreach(i => _v3_nx = i._1(quad))
     }
     _v3_nx
   }
@@ -505,7 +499,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << ny_1)) == 0) {
       initFlag3 |= (1 << ny_1)
 
-      evaluations.get(ny_3).foreach(i=>_v3_ny=i._1(quad))
+      evaluations.get(ny_3).foreach(i => _v3_ny = i._1(quad))
     }
     _v3_ny
   }
@@ -516,7 +510,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << nz_1)) == 0) {
       initFlag3 |= (1 << nz_1)
 
-      evaluations.get(nz_3).foreach(i=>_v3_nz=i._1(quad))
+      evaluations.get(nz_3).foreach(i => _v3_nz = i._1(quad))
     }
     _v3_nz
   }
@@ -527,7 +521,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << p_1)) == 0) {
       initFlag3 |= (1 << p_1)
 
-      evaluations.get(p_3).foreach(i=>_v3_p=i._1(quad))
+      evaluations.get(p_3).foreach(i => _v3_p = i._1(quad))
     }
     _v3_p
   }
@@ -539,7 +533,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << x_1)) == 0) {
       initFlag4 |= (1 << x_1)
 
-      evaluations.get(x_4).foreach(i=>_v4_x=i._1(quad))
+      evaluations.get(x_4).foreach(i => _v4_x = i._1(quad))
     }
     _v4_x
   }
@@ -550,7 +544,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << y_1)) == 0) {
       initFlag4 |= (1 << y_1)
 
-      evaluations.get(y_4).foreach(i=>_v4_y=i._1(quad))
+      evaluations.get(y_4).foreach(i => _v4_y = i._1(quad))
     }
     _v4_y
   }
@@ -561,7 +555,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << z_1)) == 0) {
       initFlag4 |= (1 << z_1)
 
-      evaluations.get(z_4).foreach(i=>_v4_z=i._1(quad))
+      evaluations.get(z_4).foreach(i => _v4_z = i._1(quad))
     }
     _v4_z
   }
@@ -572,7 +566,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << r_1)) == 0) {
       initFlag4 |= (1 << r_1)
 
-      evaluations.get(r_4).foreach(i=>_v4_r=i._1(quad))
+      evaluations.get(r_4).foreach(i => _v4_r = i._1(quad))
     }
     _v4_r
   }
@@ -583,7 +577,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << g_1)) == 0) {
       initFlag4 |= (1 << g_1)
 
-      evaluations.get(g_4).foreach(i=>_v4_g=i._1(quad))
+      evaluations.get(g_4).foreach(i => _v4_g = i._1(quad))
     }
     _v4_g
   }
@@ -594,7 +588,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << b_1)) == 0) {
       initFlag4 |= (1 << b_1)
 
-      evaluations.get(b_4).foreach(i=>_v4_b=i._1(quad))
+      evaluations.get(b_4).foreach(i => _v4_b = i._1(quad))
     }
     _v4_b
   }
@@ -605,7 +599,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << a_1)) == 0) {
       initFlag4 |= (1 << a_1)
 
-      evaluations.get(a_4).foreach(i=>_v4_a=i._1(quad))
+      evaluations.get(a_4).foreach(i => _v4_a = i._1(quad))
     }
     _v4_a
   }
@@ -616,7 +610,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << u_1)) == 0) {
       initFlag4 |= (1 << u_1)
 
-      evaluations.get(u_4).foreach(i=>_v4_u=i._1(quad))
+      evaluations.get(u_4).foreach(i => _v4_u = i._1(quad))
     }
     _v4_u
   }
@@ -627,7 +621,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << v_1)) == 0) {
       initFlag4 |= (1 << v_1)
 
-      evaluations.get(v_4).foreach(i=>_v4_v=i._1(quad))
+      evaluations.get(v_4).foreach(i => _v4_v = i._1(quad))
     }
     _v4_v
   }
@@ -638,7 +632,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << lu_1)) == 0) {
       initFlag4 |= (1 << lu_1)
 
-      evaluations.get(lu_4).foreach(i=>_v4_lu=i._1(quad))
+      evaluations.get(lu_4).foreach(i => _v4_lu = i._1(quad))
     }
     _v4_lu
   }
@@ -649,7 +643,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << lv_1)) == 0) {
       initFlag4 |= (1 << lv_1)
 
-      evaluations.get(lv_4).foreach(i=>_v4_lv=i._1(quad))
+      evaluations.get(lv_4).foreach(i => _v4_lv = i._1(quad))
     }
     _v4_lv
   }
@@ -660,7 +654,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << nx_1)) == 0) {
       initFlag4 |= (1 << nx_1)
 
-      evaluations.get(nx_4).foreach(i=>_v4_nx=i._1(quad))
+      evaluations.get(nx_4).foreach(i => _v4_nx = i._1(quad))
     }
     _v4_nx
   }
@@ -671,7 +665,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << ny_1)) == 0) {
       initFlag4 |= (1 << ny_1)
 
-      evaluations.get(ny_4).foreach(i=>_v4_ny=i._1(quad))
+      evaluations.get(ny_4).foreach(i => _v4_ny = i._1(quad))
     }
     _v4_ny
   }
@@ -682,7 +676,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << nz_1)) == 0) {
       initFlag4 |= (1 << nz_1)
 
-      evaluations.get(nz_4).foreach(i=>_v4_nz=i._1(quad))
+      evaluations.get(nz_4).foreach(i => _v4_nz = i._1(quad))
     }
     _v4_nz
   }
@@ -693,7 +687,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << p_1)) == 0) {
       initFlag4 |= (1 << p_1)
 
-      evaluations.get(p_4).foreach(i=>_v4_p=i._1(quad))
+      evaluations.get(p_4).foreach(i => _v4_p = i._1(quad))
     }
     _v4_p
   }
@@ -718,128 +712,128 @@ println("v$1_$2",evaluations(flatAttributeKey($2,_$1))._2)
     val result = quad.getVertexData.clone()
 
     if ((changeFlag1 & (1 << x_1)) != 0)
-      evaluations.get(x_1).foreach(i=>i._2(_v1_x,result))
+      evaluations.get(x_1).foreach(i => i._2(_v1_x, result))
     if ((changeFlag1 & (1 << y_1)) != 0)
-      evaluations.get(y_1).foreach(i=>i._2(_v1_y,result))
+      evaluations.get(y_1).foreach(i => i._2(_v1_y, result))
     if ((changeFlag1 & (1 << z_1)) != 0)
-      evaluations.get(z_1).foreach(i=>i._2(_v1_z,result))
+      evaluations.get(z_1).foreach(i => i._2(_v1_z, result))
     if ((changeFlag1 & (1 << r_1)) != 0)
-      evaluations.get(r_1).foreach(i=>i._2(_v1_r,result))
+      evaluations.get(r_1).foreach(i => i._2(_v1_r, result))
     if ((changeFlag1 & (1 << g_1)) != 0)
-      evaluations.get(g_1).foreach(i=>i._2(_v1_g,result))
+      evaluations.get(g_1).foreach(i => i._2(_v1_g, result))
     if ((changeFlag1 & (1 << b_1)) != 0)
-      evaluations.get(b_1).foreach(i=>i._2(_v1_b,result))
+      evaluations.get(b_1).foreach(i => i._2(_v1_b, result))
     if ((changeFlag1 & (1 << a_1)) != 0)
-      evaluations.get(a_1).foreach(i=>i._2(_v1_a,result))
+      evaluations.get(a_1).foreach(i => i._2(_v1_a, result))
     if ((changeFlag1 & (1 << u_1)) != 0)
-      evaluations.get(u_1).foreach(i=>i._2(_v1_u,result))
+      evaluations.get(u_1).foreach(i => i._2(_v1_u, result))
     if ((changeFlag1 & (1 << v_1)) != 0)
-      evaluations.get(v_1).foreach(i=>i._2(_v1_v,result))
+      evaluations.get(v_1).foreach(i => i._2(_v1_v, result))
     if ((changeFlag1 & (1 << lu_1)) != 0)
-      evaluations.get(lu_1).foreach(i=>i._2(_v1_lu,result))
+      evaluations.get(lu_1).foreach(i => i._2(_v1_lu, result))
     if ((changeFlag1 & (1 << lv_1)) != 0)
-      evaluations.get(lv_1).foreach(i=>i._2(_v1_lv,result))
+      evaluations.get(lv_1).foreach(i => i._2(_v1_lv, result))
     if ((changeFlag1 & (1 << nx_1)) != 0)
-      evaluations.get(nx_1).foreach(i=>i._2(_v1_nx,result))
+      evaluations.get(nx_1).foreach(i => i._2(_v1_nx, result))
     if ((changeFlag1 & (1 << ny_1)) != 0)
-      evaluations.get(ny_1).foreach(i=>i._2(_v1_ny,result))
+      evaluations.get(ny_1).foreach(i => i._2(_v1_ny, result))
     if ((changeFlag1 & (1 << nz_1)) != 0)
-      evaluations.get(nz_1).foreach(i=>i._2(_v1_nz,result))
+      evaluations.get(nz_1).foreach(i => i._2(_v1_nz, result))
     if ((changeFlag1 & (1 << p_1)) != 0)
-      evaluations.get(p_1).foreach(i=>i._2(_v1_p,result))
+      evaluations.get(p_1).foreach(i => i._2(_v1_p, result))
 
     if ((changeFlag2 & (1 << x_1)) != 0)
-      evaluations.get(x_2).foreach(i=>i._2(_v2_x,result))
+      evaluations.get(x_2).foreach(i => i._2(_v2_x, result))
     if ((changeFlag2 & (1 << y_1)) != 0)
-      evaluations.get(y_2).foreach(i=>i._2(_v2_y,result))
+      evaluations.get(y_2).foreach(i => i._2(_v2_y, result))
     if ((changeFlag2 & (1 << z_1)) != 0)
-      evaluations.get(z_2).foreach(i=>i._2(_v2_z,result))
+      evaluations.get(z_2).foreach(i => i._2(_v2_z, result))
     if ((changeFlag2 & (1 << r_1)) != 0)
-      evaluations.get(r_2).foreach(i=>i._2(_v2_r,result))
+      evaluations.get(r_2).foreach(i => i._2(_v2_r, result))
     if ((changeFlag2 & (1 << g_1)) != 0)
-      evaluations.get(g_2).foreach(i=>i._2(_v2_g,result))
+      evaluations.get(g_2).foreach(i => i._2(_v2_g, result))
     if ((changeFlag2 & (1 << b_1)) != 0)
-      evaluations.get(b_2).foreach(i=>i._2(_v2_b,result))
+      evaluations.get(b_2).foreach(i => i._2(_v2_b, result))
     if ((changeFlag2 & (1 << a_1)) != 0)
-      evaluations.get(a_2).foreach(i=>i._2(_v2_a,result))
+      evaluations.get(a_2).foreach(i => i._2(_v2_a, result))
     if ((changeFlag2 & (1 << u_1)) != 0)
-      evaluations.get(u_2).foreach(i=>i._2(_v2_u,result))
+      evaluations.get(u_2).foreach(i => i._2(_v2_u, result))
     if ((changeFlag2 & (1 << v_1)) != 0)
-      evaluations.get(v_2).foreach(i=>i._2(_v2_v,result))
+      evaluations.get(v_2).foreach(i => i._2(_v2_v, result))
     if ((changeFlag2 & (1 << lu_1)) != 0)
-      evaluations.get(lu_2).foreach(i=>i._2(_v2_lu,result))
+      evaluations.get(lu_2).foreach(i => i._2(_v2_lu, result))
     if ((changeFlag2 & (1 << lv_1)) != 0)
-      evaluations.get(lv_2).foreach(i=>i._2(_v2_lv,result))
+      evaluations.get(lv_2).foreach(i => i._2(_v2_lv, result))
     if ((changeFlag2 & (1 << nx_1)) != 0)
-      evaluations.get(nx_2).foreach(i=>i._2(_v2_nx,result))
+      evaluations.get(nx_2).foreach(i => i._2(_v2_nx, result))
     if ((changeFlag2 & (1 << ny_1)) != 0)
-      evaluations.get(ny_2).foreach(i=>i._2(_v2_ny,result))
+      evaluations.get(ny_2).foreach(i => i._2(_v2_ny, result))
     if ((changeFlag2 & (1 << nz_1)) != 0)
-      evaluations.get(nz_2).foreach(i=>i._2(_v2_nz,result))
+      evaluations.get(nz_2).foreach(i => i._2(_v2_nz, result))
     if ((changeFlag2 & (1 << p_1)) != 0)
-      evaluations.get(p_2).foreach(i=>i._2(_v2_p,result))
+      evaluations.get(p_2).foreach(i => i._2(_v2_p, result))
 
     if ((changeFlag3 & (1 << x_1)) != 0)
-      evaluations.get(x_3).foreach(i=>i._2(_v3_x,result))
+      evaluations.get(x_3).foreach(i => i._2(_v3_x, result))
     if ((changeFlag3 & (1 << y_1)) != 0)
-      evaluations.get(y_3).foreach(i=>i._2(_v3_y,result))
+      evaluations.get(y_3).foreach(i => i._2(_v3_y, result))
     if ((changeFlag3 & (1 << z_1)) != 0)
-      evaluations.get(z_3).foreach(i=>i._2(_v3_z,result))
+      evaluations.get(z_3).foreach(i => i._2(_v3_z, result))
     if ((changeFlag3 & (1 << r_1)) != 0)
-      evaluations.get(r_3).foreach(i=>i._2(_v3_r,result))
+      evaluations.get(r_3).foreach(i => i._2(_v3_r, result))
     if ((changeFlag3 & (1 << g_1)) != 0)
-      evaluations.get(g_3).foreach(i=>i._2(_v3_g,result))
+      evaluations.get(g_3).foreach(i => i._2(_v3_g, result))
     if ((changeFlag3 & (1 << b_1)) != 0)
-      evaluations.get(b_3).foreach(i=>i._2(_v3_b,result))
+      evaluations.get(b_3).foreach(i => i._2(_v3_b, result))
     if ((changeFlag3 & (1 << a_1)) != 0)
-      evaluations.get(a_3).foreach(i=>i._2(_v3_a,result))
+      evaluations.get(a_3).foreach(i => i._2(_v3_a, result))
     if ((changeFlag3 & (1 << u_1)) != 0)
-      evaluations.get(u_3).foreach(i=>i._2(_v3_u,result))
+      evaluations.get(u_3).foreach(i => i._2(_v3_u, result))
     if ((changeFlag3 & (1 << v_1)) != 0)
-      evaluations.get(v_3).foreach(i=>i._2(_v3_v,result))
+      evaluations.get(v_3).foreach(i => i._2(_v3_v, result))
     if ((changeFlag3 & (1 << lu_1)) != 0)
-      evaluations.get(lu_3).foreach(i=>i._2(_v3_lu,result))
+      evaluations.get(lu_3).foreach(i => i._2(_v3_lu, result))
     if ((changeFlag3 & (1 << lv_1)) != 0)
-      evaluations.get(lv_3).foreach(i=>i._2(_v3_lv,result))
+      evaluations.get(lv_3).foreach(i => i._2(_v3_lv, result))
     if ((changeFlag3 & (1 << nx_1)) != 0)
-      evaluations.get(nx_3).foreach(i=>i._2(_v3_nx,result))
+      evaluations.get(nx_3).foreach(i => i._2(_v3_nx, result))
     if ((changeFlag3 & (1 << ny_1)) != 0)
-      evaluations.get(ny_3).foreach(i=>i._2(_v3_ny,result))
+      evaluations.get(ny_3).foreach(i => i._2(_v3_ny, result))
     if ((changeFlag3 & (1 << nz_1)) != 0)
-      evaluations.get(nz_3).foreach(i=>i._2(_v3_nz,result))
+      evaluations.get(nz_3).foreach(i => i._2(_v3_nz, result))
     if ((changeFlag3 & (1 << p_1)) != 0)
-      evaluations.get(p_3).foreach(i=>i._2(_v3_p,result))
+      evaluations.get(p_3).foreach(i => i._2(_v3_p, result))
 
     if ((changeFlag4 & (1 << x_1)) != 0)
-      evaluations.get(x_4).foreach(i=>i._2(_v4_x,result))
+      evaluations.get(x_4).foreach(i => i._2(_v4_x, result))
     if ((changeFlag4 & (1 << y_1)) != 0)
-      evaluations.get(y_4).foreach(i=>i._2(_v4_y,result))
+      evaluations.get(y_4).foreach(i => i._2(_v4_y, result))
     if ((changeFlag4 & (1 << z_1)) != 0)
-      evaluations.get(z_4).foreach(i=>i._2(_v4_z,result))
+      evaluations.get(z_4).foreach(i => i._2(_v4_z, result))
     if ((changeFlag4 & (1 << r_1)) != 0)
-      evaluations.get(r_4).foreach(i=>i._2(_v4_r,result))
+      evaluations.get(r_4).foreach(i => i._2(_v4_r, result))
     if ((changeFlag4 & (1 << g_1)) != 0)
-      evaluations.get(g_4).foreach(i=>i._2(_v4_g,result))
+      evaluations.get(g_4).foreach(i => i._2(_v4_g, result))
     if ((changeFlag4 & (1 << b_1)) != 0)
-      evaluations.get(b_4).foreach(i=>i._2(_v4_b,result))
+      evaluations.get(b_4).foreach(i => i._2(_v4_b, result))
     if ((changeFlag4 & (1 << a_1)) != 0)
-      evaluations.get(a_4).foreach(i=>i._2(_v4_a,result))
+      evaluations.get(a_4).foreach(i => i._2(_v4_a, result))
     if ((changeFlag4 & (1 << u_1)) != 0)
-      evaluations.get(u_4).foreach(i=>i._2(_v4_u,result))
+      evaluations.get(u_4).foreach(i => i._2(_v4_u, result))
     if ((changeFlag4 & (1 << v_1)) != 0)
-      evaluations.get(v_4).foreach(i=>i._2(_v4_v,result))
+      evaluations.get(v_4).foreach(i => i._2(_v4_v, result))
     if ((changeFlag4 & (1 << lu_1)) != 0)
-      evaluations.get(lu_4).foreach(i=>i._2(_v4_lu,result))
+      evaluations.get(lu_4).foreach(i => i._2(_v4_lu, result))
     if ((changeFlag4 & (1 << lv_1)) != 0)
-      evaluations.get(lv_4).foreach(i=>i._2(_v4_lv,result))
+      evaluations.get(lv_4).foreach(i => i._2(_v4_lv, result))
     if ((changeFlag4 & (1 << nx_1)) != 0)
-      evaluations.get(nx_4).foreach(i=>i._2(_v4_nx,result))
+      evaluations.get(nx_4).foreach(i => i._2(_v4_nx, result))
     if ((changeFlag4 & (1 << ny_1)) != 0)
-      evaluations.get(ny_4).foreach(i=>i._2(_v4_ny,result))
+      evaluations.get(ny_4).foreach(i => i._2(_v4_ny, result))
     if ((changeFlag4 & (1 << nz_1)) != 0)
-      evaluations.get(nz_4).foreach(i=>i._2(_v4_nz,result))
+      evaluations.get(nz_4).foreach(i => i._2(_v4_nz, result))
     if ((changeFlag4 & (1 << p_1)) != 0)
-      evaluations.get(p_4).foreach(i=>i._2(_v4_p,result))
+      evaluations.get(p_4).foreach(i => i._2(_v4_p, result))
 
 
     result
@@ -1252,80 +1246,83 @@ object BaseUnpackedQuad {
 
   val defaultValue = Float.MinValue + 11
 
+  implicit def flagIndex(vfei: (VertexFormatElement, Int, Vertex)): Int =
+    UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
+
   val x_1 = (DefaultVertexFormats.POSITION_3F, 0, _1)
-val x_2 = (DefaultVertexFormats.POSITION_3F, 0, _2)
-val x_3 = (DefaultVertexFormats.POSITION_3F, 0, _3)
-val x_4 = (DefaultVertexFormats.POSITION_3F, 0, _4)
+  val x_2 = (DefaultVertexFormats.POSITION_3F, 0, _2)
+  val x_3 = (DefaultVertexFormats.POSITION_3F, 0, _3)
+  val x_4 = (DefaultVertexFormats.POSITION_3F, 0, _4)
 
   val y_1 = (DefaultVertexFormats.POSITION_3F, 1, _1)
-val y_2 = (DefaultVertexFormats.POSITION_3F, 1, _2)
-val y_3 = (DefaultVertexFormats.POSITION_3F, 1, _3)
-val y_4 = (DefaultVertexFormats.POSITION_3F, 1, _4)
+  val y_2 = (DefaultVertexFormats.POSITION_3F, 1, _2)
+  val y_3 = (DefaultVertexFormats.POSITION_3F, 1, _3)
+  val y_4 = (DefaultVertexFormats.POSITION_3F, 1, _4)
 
   val z_1 = (DefaultVertexFormats.POSITION_3F, 2, _1)
-val z_2 = (DefaultVertexFormats.POSITION_3F, 2, _2)
-val z_3 = (DefaultVertexFormats.POSITION_3F, 2, _3)
-val z_4 = (DefaultVertexFormats.POSITION_3F, 2, _4)
+  val z_2 = (DefaultVertexFormats.POSITION_3F, 2, _2)
+  val z_3 = (DefaultVertexFormats.POSITION_3F, 2, _3)
+  val z_4 = (DefaultVertexFormats.POSITION_3F, 2, _4)
 
   val r_1 = (DefaultVertexFormats.COLOR_4UB, 0, _1)
-val r_2 = (DefaultVertexFormats.COLOR_4UB, 0, _2)
-val r_3 = (DefaultVertexFormats.COLOR_4UB, 0, _3)
-val r_4 = (DefaultVertexFormats.COLOR_4UB, 0, _4)
+  val r_2 = (DefaultVertexFormats.COLOR_4UB, 0, _2)
+  val r_3 = (DefaultVertexFormats.COLOR_4UB, 0, _3)
+  val r_4 = (DefaultVertexFormats.COLOR_4UB, 0, _4)
 
   val g_1 = (DefaultVertexFormats.COLOR_4UB, 1, _1)
-val g_2 = (DefaultVertexFormats.COLOR_4UB, 1, _2)
-val g_3 = (DefaultVertexFormats.COLOR_4UB, 1, _3)
-val g_4 = (DefaultVertexFormats.COLOR_4UB, 1, _4)
+  val g_2 = (DefaultVertexFormats.COLOR_4UB, 1, _2)
+  val g_3 = (DefaultVertexFormats.COLOR_4UB, 1, _3)
+  val g_4 = (DefaultVertexFormats.COLOR_4UB, 1, _4)
 
   val b_1 = (DefaultVertexFormats.COLOR_4UB, 2, _1)
-val b_2 = (DefaultVertexFormats.COLOR_4UB, 2, _2)
-val b_3 = (DefaultVertexFormats.COLOR_4UB, 2, _3)
-val b_4 = (DefaultVertexFormats.COLOR_4UB, 2, _4)
+  val b_2 = (DefaultVertexFormats.COLOR_4UB, 2, _2)
+  val b_3 = (DefaultVertexFormats.COLOR_4UB, 2, _3)
+  val b_4 = (DefaultVertexFormats.COLOR_4UB, 2, _4)
 
   val a_1 = (DefaultVertexFormats.COLOR_4UB, 3, _1)
-val a_2 = (DefaultVertexFormats.COLOR_4UB, 3, _2)
-val a_3 = (DefaultVertexFormats.COLOR_4UB, 3, _3)
-val a_4 = (DefaultVertexFormats.COLOR_4UB, 3, _4)
+  val a_2 = (DefaultVertexFormats.COLOR_4UB, 3, _2)
+  val a_3 = (DefaultVertexFormats.COLOR_4UB, 3, _3)
+  val a_4 = (DefaultVertexFormats.COLOR_4UB, 3, _4)
 
   val u_1 = (DefaultVertexFormats.TEX_2F, 0, _1)
-val u_2 = (DefaultVertexFormats.TEX_2F, 0, _2)
-val u_3 = (DefaultVertexFormats.TEX_2F, 0, _3)
-val u_4 = (DefaultVertexFormats.TEX_2F, 0, _4)
+  val u_2 = (DefaultVertexFormats.TEX_2F, 0, _2)
+  val u_3 = (DefaultVertexFormats.TEX_2F, 0, _3)
+  val u_4 = (DefaultVertexFormats.TEX_2F, 0, _4)
 
   val v_1 = (DefaultVertexFormats.TEX_2F, 1, _1)
-val v_2 = (DefaultVertexFormats.TEX_2F, 1, _2)
-val v_3 = (DefaultVertexFormats.TEX_2F, 1, _3)
-val v_4 = (DefaultVertexFormats.TEX_2F, 1, _4)
+  val v_2 = (DefaultVertexFormats.TEX_2F, 1, _2)
+  val v_3 = (DefaultVertexFormats.TEX_2F, 1, _3)
+  val v_4 = (DefaultVertexFormats.TEX_2F, 1, _4)
 
   val lu_1 = (DefaultVertexFormats.TEX_2S, 0, _1)
-val lu_2 = (DefaultVertexFormats.TEX_2S, 0, _2)
-val lu_3 = (DefaultVertexFormats.TEX_2S, 0, _3)
-val lu_4 = (DefaultVertexFormats.TEX_2S, 0, _4)
+  val lu_2 = (DefaultVertexFormats.TEX_2S, 0, _2)
+  val lu_3 = (DefaultVertexFormats.TEX_2S, 0, _3)
+  val lu_4 = (DefaultVertexFormats.TEX_2S, 0, _4)
 
   val lv_1 = (DefaultVertexFormats.TEX_2S, 1, _1)
-val lv_2 = (DefaultVertexFormats.TEX_2S, 1, _2)
-val lv_3 = (DefaultVertexFormats.TEX_2S, 1, _3)
-val lv_4 = (DefaultVertexFormats.TEX_2S, 1, _4)
+  val lv_2 = (DefaultVertexFormats.TEX_2S, 1, _2)
+  val lv_3 = (DefaultVertexFormats.TEX_2S, 1, _3)
+  val lv_4 = (DefaultVertexFormats.TEX_2S, 1, _4)
 
   val nx_1 = (DefaultVertexFormats.NORMAL_3B, 0, _1)
-val nx_2 = (DefaultVertexFormats.NORMAL_3B, 0, _2)
-val nx_3 = (DefaultVertexFormats.NORMAL_3B, 0, _3)
-val nx_4 = (DefaultVertexFormats.NORMAL_3B, 0, _4)
+  val nx_2 = (DefaultVertexFormats.NORMAL_3B, 0, _2)
+  val nx_3 = (DefaultVertexFormats.NORMAL_3B, 0, _3)
+  val nx_4 = (DefaultVertexFormats.NORMAL_3B, 0, _4)
 
   val ny_1 = (DefaultVertexFormats.NORMAL_3B, 1, _1)
-val ny_2 = (DefaultVertexFormats.NORMAL_3B, 1, _2)
-val ny_3 = (DefaultVertexFormats.NORMAL_3B, 1, _3)
-val ny_4 = (DefaultVertexFormats.NORMAL_3B, 1, _4)
+  val ny_2 = (DefaultVertexFormats.NORMAL_3B, 1, _2)
+  val ny_3 = (DefaultVertexFormats.NORMAL_3B, 1, _3)
+  val ny_4 = (DefaultVertexFormats.NORMAL_3B, 1, _4)
 
   val nz_1 = (DefaultVertexFormats.NORMAL_3B, 2, _1)
-val nz_2 = (DefaultVertexFormats.NORMAL_3B, 2, _2)
-val nz_3 = (DefaultVertexFormats.NORMAL_3B, 2, _3)
-val nz_4 = (DefaultVertexFormats.NORMAL_3B, 2, _4)
+  val nz_2 = (DefaultVertexFormats.NORMAL_3B, 2, _2)
+  val nz_3 = (DefaultVertexFormats.NORMAL_3B, 2, _3)
+  val nz_4 = (DefaultVertexFormats.NORMAL_3B, 2, _4)
 
   val p_1 = (DefaultVertexFormats.PADDING_1B, 3, _1)
-val p_2 = (DefaultVertexFormats.PADDING_1B, 3, _2)
-val p_3 = (DefaultVertexFormats.PADDING_1B, 3, _3)
-val p_4 = (DefaultVertexFormats.PADDING_1B, 3, _4)
+  val p_2 = (DefaultVertexFormats.PADDING_1B, 3, _2)
+  val p_3 = (DefaultVertexFormats.PADDING_1B, 3, _3)
+  val p_4 = (DefaultVertexFormats.PADDING_1B, 3, _4)
 
 
 }
