@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat,
 trait BaseUnpackedQuad extends QuadOps {
   type Self <: BaseUnpackedQuad
 
-  def quad: BakedQuad
+  private[endothermic] def quad: BakedQuad
 
   def format: VertexFormat = quad.getFormat
 
