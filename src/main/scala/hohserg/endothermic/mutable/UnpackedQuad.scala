@@ -8,19 +8,21 @@ import net.minecraft.util.EnumFacing
 
 
 class UnpackedQuad(
-                    val quad: BakedQuad,
-                    face: EnumFacing,
-                    atlas: TextureAtlasSprite,
-                    tint: Int,
-                    applyDiffuseLighting: Boolean
-                  ) extends BaseUnpackedQuad {
+                    private[endothermic] val quad: BakedQuad,
+                    var face: EnumFacing,
+                    var atlas: TextureAtlasSprite,
+                    var tint: Int,
+                    var applyDiffuseLighting: Boolean
+                  ) extends BaseUnpackedQuad with Cloneable {
 
   def toBakedQuad: BakedQuad =
     new BakedQuad(toRawArray, tint, face, atlas, applyDiffuseLighting, format)
 
   override type Self = UnpackedQuad
 
-  override def reconstructResult(): UnpackedQuad = this
+  private[endothermic] override def reconstructResult(): UnpackedQuad = this
+
+  def copy: Self = this.clone().asInstanceOf[Self]
 
   def v1_x_=(v: Float): Unit = {
     initFlag1 |= (1 << x_1)

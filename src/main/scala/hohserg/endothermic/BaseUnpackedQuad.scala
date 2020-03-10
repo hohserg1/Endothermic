@@ -839,7 +839,7 @@ println("v$1_$2",evaluations(flatAttributeKey($2,_$1))._2)
     result
   }
 
-  def reconstructResult(): Self
+  private[endothermic] def reconstructResult(): Self
 
   def reconstruct(v1_x: Float = this.v1_x,
                   v1_y: Float = this.v1_y,
