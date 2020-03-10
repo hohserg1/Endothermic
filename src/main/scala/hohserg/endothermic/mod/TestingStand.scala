@@ -55,7 +55,11 @@ object TestingStand extends BlockContainer(Material.GLASS) {
       translation -> (q => UnpackedQuad(q).translate(1, 0, 0).toBakedQuad),
       "sliceTest" -> (q =>
         UnpackedQuad(q)
-        .slice(0, 0, 0, 1, 1, 1, 1, 0).toBakedQuad),
+        .slice(
+          0, 0,
+          0.5f, 0,
+          0.5f, 0.5f,
+          0, 0.5f).toBakedQuad),
       identity -> (q => q)
     )
 

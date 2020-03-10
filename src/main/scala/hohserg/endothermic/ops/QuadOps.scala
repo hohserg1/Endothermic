@@ -50,7 +50,7 @@ trait QuadOps {
   def slice(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float, x4: Float, y4: Float): Self = {
     def calcAttribute(x: Float, y: Float, v1: Float, v2: Float, v3: Float, v4: Float): Float = {
       val a = x * y
-      a * v1 - a * v2 - a * v3 + a * v4 - v1 * x - v1 * y + v1 + v2 * x + v3 * y
+      a *v1 - a *v2 + a *v3 - a *v4 - v1 *x - v1 *y + v1 + v2 *x + v4 *y
     }
 
     reconstruct(

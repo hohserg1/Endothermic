@@ -5,7 +5,7 @@ import hohserg.endothermic.format.AttributeRepresentation._
 import hohserg.endothermic.format.UnpackEvaluations
 import hohserg.endothermic.ops.QuadOps
 import net.minecraft.client.renderer.block.model.BakedQuad
-import net.minecraft.client.renderer.vertex.VertexFormat
+import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
 trait BaseUnpackedQuad extends QuadOps {
   type Self <: BaseUnpackedQuad
@@ -14,10 +14,13 @@ trait BaseUnpackedQuad extends QuadOps {
 
   def format: VertexFormat = quad.getFormat
 
-  val evaluations = UnpackEvaluations.getFormatParseRule(format)
+  val evaluations: Map[(VertexFormatElement, Int, Vertex), (BakedQuad => Float, (Float, Array[Int]) => Unit)] = UnpackEvaluations.getFormatParseRule(format)
 
-  def flatAttributeKey(vfei: Int, vertex: Vertex): Int =
-    vfei + vertex.index
+  def flatAttributeKey(vfei: (VertexFormatElement, Int), vertex: Vertex): (VertexFormatElement, Int, Vertex) =
+    (vfei._1, vfei._2, vertex)
+
+  implicit def flagIndex(vfei: (VertexFormatElement, Int)): Int =
+    UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
 
 
   var initFlag1: Int = 0
@@ -36,8 +39,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_x: Float = {
     if ((initFlag1 & (1 << x)) == 0) {
       initFlag1 |= (1 << x)
-      println("v1_x", evaluations(flatAttributeKey(x, _1))._2)
-      _v1_x = evaluations(flatAttributeKey(x, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(x, _1)).foreach(i=>_v1_x=i._1(quad))
     }
     _v1_x
   }
@@ -48,8 +51,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_y: Float = {
     if ((initFlag1 & (1 << y)) == 0) {
       initFlag1 |= (1 << y)
-      println("v1_y", evaluations(flatAttributeKey(y, _1))._2)
-      _v1_y = evaluations(flatAttributeKey(y, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(y, _1)).foreach(i=>_v1_y=i._1(quad))
     }
     _v1_y
   }
@@ -59,8 +62,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_z: Float = {
     if ((initFlag1 & (1 << z)) == 0) {
       initFlag1 |= (1 << z)
-      println("v1_z", evaluations(flatAttributeKey(z, _1))._2)
-      _v1_z = evaluations(flatAttributeKey(z, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(z, _1)).foreach(i=>_v1_z=i._1(quad))
     }
     _v1_z
   }
@@ -70,8 +73,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_r: Float = {
     if ((initFlag1 & (1 << r)) == 0) {
       initFlag1 |= (1 << r)
-      println("v1_r", evaluations(flatAttributeKey(r, _1))._2)
-      _v1_r = evaluations(flatAttributeKey(r, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(r, _1)).foreach(i=>_v1_r=i._1(quad))
     }
     _v1_r
   }
@@ -81,8 +84,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_g: Float = {
     if ((initFlag1 & (1 << g)) == 0) {
       initFlag1 |= (1 << g)
-      println("v1_g", evaluations(flatAttributeKey(g, _1))._2)
-      _v1_g = evaluations(flatAttributeKey(g, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(g, _1)).foreach(i=>_v1_g=i._1(quad))
     }
     _v1_g
   }
@@ -92,8 +95,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_b: Float = {
     if ((initFlag1 & (1 << b)) == 0) {
       initFlag1 |= (1 << b)
-      println("v1_b", evaluations(flatAttributeKey(b, _1))._2)
-      _v1_b = evaluations(flatAttributeKey(b, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(b, _1)).foreach(i=>_v1_b=i._1(quad))
     }
     _v1_b
   }
@@ -103,8 +106,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_a: Float = {
     if ((initFlag1 & (1 << a)) == 0) {
       initFlag1 |= (1 << a)
-      println("v1_a", evaluations(flatAttributeKey(a, _1))._2)
-      _v1_a = evaluations(flatAttributeKey(a, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(a, _1)).foreach(i=>_v1_a=i._1(quad))
     }
     _v1_a
   }
@@ -114,8 +117,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_u: Float = {
     if ((initFlag1 & (1 << u)) == 0) {
       initFlag1 |= (1 << u)
-      println("v1_u", evaluations(flatAttributeKey(u, _1))._2)
-      _v1_u = evaluations(flatAttributeKey(u, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(u, _1)).foreach(i=>_v1_u=i._1(quad))
     }
     _v1_u
   }
@@ -125,8 +128,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_v: Float = {
     if ((initFlag1 & (1 << v)) == 0) {
       initFlag1 |= (1 << v)
-      println("v1_v", evaluations(flatAttributeKey(v, _1))._2)
-      _v1_v = evaluations(flatAttributeKey(v, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(v, _1)).foreach(i=>_v1_v=i._1(quad))
     }
     _v1_v
   }
@@ -136,8 +139,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_lu: Float = {
     if ((initFlag1 & (1 << lu)) == 0) {
       initFlag1 |= (1 << lu)
-      println("v1_lu", evaluations(flatAttributeKey(lu, _1))._2)
-      _v1_lu = evaluations(flatAttributeKey(lu, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(lu, _1)).foreach(i=>_v1_lu=i._1(quad))
     }
     _v1_lu
   }
@@ -147,8 +150,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_lv: Float = {
     if ((initFlag1 & (1 << lv)) == 0) {
       initFlag1 |= (1 << lv)
-      println("v1_lv", evaluations(flatAttributeKey(lv, _1))._2)
-      _v1_lv = evaluations(flatAttributeKey(lv, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(lv, _1)).foreach(i=>_v1_lv=i._1(quad))
     }
     _v1_lv
   }
@@ -158,8 +161,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_nx: Float = {
     if ((initFlag1 & (1 << nx)) == 0) {
       initFlag1 |= (1 << nx)
-      println("v1_nx", evaluations(flatAttributeKey(nx, _1))._2)
-      _v1_nx = evaluations(flatAttributeKey(nx, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(nx, _1)).foreach(i=>_v1_nx=i._1(quad))
     }
     _v1_nx
   }
@@ -169,8 +172,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_ny: Float = {
     if ((initFlag1 & (1 << ny)) == 0) {
       initFlag1 |= (1 << ny)
-      println("v1_ny", evaluations(flatAttributeKey(ny, _1))._2)
-      _v1_ny = evaluations(flatAttributeKey(ny, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(ny, _1)).foreach(i=>_v1_ny=i._1(quad))
     }
     _v1_ny
   }
@@ -180,8 +183,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_nz: Float = {
     if ((initFlag1 & (1 << nz)) == 0) {
       initFlag1 |= (1 << nz)
-      println("v1_nz", evaluations(flatAttributeKey(nz, _1))._2)
-      _v1_nz = evaluations(flatAttributeKey(nz, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(nz, _1)).foreach(i=>_v1_nz=i._1(quad))
     }
     _v1_nz
   }
@@ -191,8 +194,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v1_p: Float = {
     if ((initFlag1 & (1 << p)) == 0) {
       initFlag1 |= (1 << p)
-      println("v1_p", evaluations(flatAttributeKey(p, _1))._2)
-      _v1_p = evaluations(flatAttributeKey(p, _1))._1(quad)
+
+      evaluations.get(flatAttributeKey(p, _1)).foreach(i=>_v1_p=i._1(quad))
     }
     _v1_p
   }
@@ -203,8 +206,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_x: Float = {
     if ((initFlag2 & (1 << x)) == 0) {
       initFlag2 |= (1 << x)
-      println("v2_x", evaluations(flatAttributeKey(x, _2))._2)
-      _v2_x = evaluations(flatAttributeKey(x, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(x, _2)).foreach(i=>_v2_x=i._1(quad))
     }
     _v2_x
   }
@@ -214,8 +217,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_y: Float = {
     if ((initFlag2 & (1 << y)) == 0) {
       initFlag2 |= (1 << y)
-      println("v2_y", evaluations(flatAttributeKey(y, _2))._2)
-      _v2_y = evaluations(flatAttributeKey(y, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(y, _2)).foreach(i=>_v2_y=i._1(quad))
     }
     _v2_y
   }
@@ -225,8 +228,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_z: Float = {
     if ((initFlag2 & (1 << z)) == 0) {
       initFlag2 |= (1 << z)
-      println("v2_z", evaluations(flatAttributeKey(z, _2))._2)
-      _v2_z = evaluations(flatAttributeKey(z, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(z, _2)).foreach(i=>_v2_z=i._1(quad))
     }
     _v2_z
   }
@@ -236,8 +239,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_r: Float = {
     if ((initFlag2 & (1 << r)) == 0) {
       initFlag2 |= (1 << r)
-      println("v2_r", evaluations(flatAttributeKey(r, _2))._2)
-      _v2_r = evaluations(flatAttributeKey(r, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(r, _2)).foreach(i=>_v2_r=i._1(quad))
     }
     _v2_r
   }
@@ -247,8 +250,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_g: Float = {
     if ((initFlag2 & (1 << g)) == 0) {
       initFlag2 |= (1 << g)
-      println("v2_g", evaluations(flatAttributeKey(g, _2))._2)
-      _v2_g = evaluations(flatAttributeKey(g, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(g, _2)).foreach(i=>_v2_g=i._1(quad))
     }
     _v2_g
   }
@@ -258,8 +261,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_b: Float = {
     if ((initFlag2 & (1 << b)) == 0) {
       initFlag2 |= (1 << b)
-      println("v2_b", evaluations(flatAttributeKey(b, _2))._2)
-      _v2_b = evaluations(flatAttributeKey(b, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(b, _2)).foreach(i=>_v2_b=i._1(quad))
     }
     _v2_b
   }
@@ -269,8 +272,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_a: Float = {
     if ((initFlag2 & (1 << a)) == 0) {
       initFlag2 |= (1 << a)
-      println("v2_a", evaluations(flatAttributeKey(a, _2))._2)
-      _v2_a = evaluations(flatAttributeKey(a, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(a, _2)).foreach(i=>_v2_a=i._1(quad))
     }
     _v2_a
   }
@@ -280,8 +283,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_u: Float = {
     if ((initFlag2 & (1 << u)) == 0) {
       initFlag2 |= (1 << u)
-      println("v2_u", evaluations(flatAttributeKey(u, _2))._2)
-      _v2_u = evaluations(flatAttributeKey(u, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(u, _2)).foreach(i=>_v2_u=i._1(quad))
     }
     _v2_u
   }
@@ -291,8 +294,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_v: Float = {
     if ((initFlag2 & (1 << v)) == 0) {
       initFlag2 |= (1 << v)
-      println("v2_v", evaluations(flatAttributeKey(v, _2))._2)
-      _v2_v = evaluations(flatAttributeKey(v, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(v, _2)).foreach(i=>_v2_v=i._1(quad))
     }
     _v2_v
   }
@@ -302,8 +305,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_lu: Float = {
     if ((initFlag2 & (1 << lu)) == 0) {
       initFlag2 |= (1 << lu)
-      println("v2_lu", evaluations(flatAttributeKey(lu, _2))._2)
-      _v2_lu = evaluations(flatAttributeKey(lu, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(lu, _2)).foreach(i=>_v2_lu=i._1(quad))
     }
     _v2_lu
   }
@@ -313,8 +316,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_lv: Float = {
     if ((initFlag2 & (1 << lv)) == 0) {
       initFlag2 |= (1 << lv)
-      println("v2_lv", evaluations(flatAttributeKey(lv, _2))._2)
-      _v2_lv = evaluations(flatAttributeKey(lv, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(lv, _2)).foreach(i=>_v2_lv=i._1(quad))
     }
     _v2_lv
   }
@@ -324,8 +327,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_nx: Float = {
     if ((initFlag2 & (1 << nx)) == 0) {
       initFlag2 |= (1 << nx)
-      println("v2_nx", evaluations(flatAttributeKey(nx, _2))._2)
-      _v2_nx = evaluations(flatAttributeKey(nx, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(nx, _2)).foreach(i=>_v2_nx=i._1(quad))
     }
     _v2_nx
   }
@@ -335,8 +338,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_ny: Float = {
     if ((initFlag2 & (1 << ny)) == 0) {
       initFlag2 |= (1 << ny)
-      println("v2_ny", evaluations(flatAttributeKey(ny, _2))._2)
-      _v2_ny = evaluations(flatAttributeKey(ny, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(ny, _2)).foreach(i=>_v2_ny=i._1(quad))
     }
     _v2_ny
   }
@@ -346,8 +349,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_nz: Float = {
     if ((initFlag2 & (1 << nz)) == 0) {
       initFlag2 |= (1 << nz)
-      println("v2_nz", evaluations(flatAttributeKey(nz, _2))._2)
-      _v2_nz = evaluations(flatAttributeKey(nz, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(nz, _2)).foreach(i=>_v2_nz=i._1(quad))
     }
     _v2_nz
   }
@@ -357,8 +360,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v2_p: Float = {
     if ((initFlag2 & (1 << p)) == 0) {
       initFlag2 |= (1 << p)
-      println("v2_p", evaluations(flatAttributeKey(p, _2))._2)
-      _v2_p = evaluations(flatAttributeKey(p, _2))._1(quad)
+
+      evaluations.get(flatAttributeKey(p, _2)).foreach(i=>_v2_p=i._1(quad))
     }
     _v2_p
   }
@@ -369,8 +372,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_x: Float = {
     if ((initFlag3 & (1 << x)) == 0) {
       initFlag3 |= (1 << x)
-      println("v3_x", evaluations(flatAttributeKey(x, _3))._2)
-      _v3_x = evaluations(flatAttributeKey(x, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(x, _3)).foreach(i=>_v3_x=i._1(quad))
     }
     _v3_x
   }
@@ -380,8 +383,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_y: Float = {
     if ((initFlag3 & (1 << y)) == 0) {
       initFlag3 |= (1 << y)
-      println("v3_y", evaluations(flatAttributeKey(y, _3))._2)
-      _v3_y = evaluations(flatAttributeKey(y, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(y, _3)).foreach(i=>_v3_y=i._1(quad))
     }
     _v3_y
   }
@@ -391,8 +394,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_z: Float = {
     if ((initFlag3 & (1 << z)) == 0) {
       initFlag3 |= (1 << z)
-      println("v3_z", evaluations(flatAttributeKey(z, _3))._2)
-      _v3_z = evaluations(flatAttributeKey(z, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(z, _3)).foreach(i=>_v3_z=i._1(quad))
     }
     _v3_z
   }
@@ -402,8 +405,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_r: Float = {
     if ((initFlag3 & (1 << r)) == 0) {
       initFlag3 |= (1 << r)
-      println("v3_r", evaluations(flatAttributeKey(r, _3))._2)
-      _v3_r = evaluations(flatAttributeKey(r, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(r, _3)).foreach(i=>_v3_r=i._1(quad))
     }
     _v3_r
   }
@@ -413,8 +416,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_g: Float = {
     if ((initFlag3 & (1 << g)) == 0) {
       initFlag3 |= (1 << g)
-      println("v3_g", evaluations(flatAttributeKey(g, _3))._2)
-      _v3_g = evaluations(flatAttributeKey(g, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(g, _3)).foreach(i=>_v3_g=i._1(quad))
     }
     _v3_g
   }
@@ -424,8 +427,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_b: Float = {
     if ((initFlag3 & (1 << b)) == 0) {
       initFlag3 |= (1 << b)
-      println("v3_b", evaluations(flatAttributeKey(b, _3))._2)
-      _v3_b = evaluations(flatAttributeKey(b, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(b, _3)).foreach(i=>_v3_b=i._1(quad))
     }
     _v3_b
   }
@@ -435,8 +438,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_a: Float = {
     if ((initFlag3 & (1 << a)) == 0) {
       initFlag3 |= (1 << a)
-      println("v3_a", evaluations(flatAttributeKey(a, _3))._2)
-      _v3_a = evaluations(flatAttributeKey(a, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(a, _3)).foreach(i=>_v3_a=i._1(quad))
     }
     _v3_a
   }
@@ -446,8 +449,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_u: Float = {
     if ((initFlag3 & (1 << u)) == 0) {
       initFlag3 |= (1 << u)
-      println("v3_u", evaluations(flatAttributeKey(u, _3))._2)
-      _v3_u = evaluations(flatAttributeKey(u, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(u, _3)).foreach(i=>_v3_u=i._1(quad))
     }
     _v3_u
   }
@@ -457,8 +460,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_v: Float = {
     if ((initFlag3 & (1 << v)) == 0) {
       initFlag3 |= (1 << v)
-      println("v3_v", evaluations(flatAttributeKey(v, _3))._2)
-      _v3_v = evaluations(flatAttributeKey(v, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(v, _3)).foreach(i=>_v3_v=i._1(quad))
     }
     _v3_v
   }
@@ -468,8 +471,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_lu: Float = {
     if ((initFlag3 & (1 << lu)) == 0) {
       initFlag3 |= (1 << lu)
-      println("v3_lu", evaluations(flatAttributeKey(lu, _3))._2)
-      _v3_lu = evaluations(flatAttributeKey(lu, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(lu, _3)).foreach(i=>_v3_lu=i._1(quad))
     }
     _v3_lu
   }
@@ -479,8 +482,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_lv: Float = {
     if ((initFlag3 & (1 << lv)) == 0) {
       initFlag3 |= (1 << lv)
-      println("v3_lv", evaluations(flatAttributeKey(lv, _3))._2)
-      _v3_lv = evaluations(flatAttributeKey(lv, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(lv, _3)).foreach(i=>_v3_lv=i._1(quad))
     }
     _v3_lv
   }
@@ -490,8 +493,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_nx: Float = {
     if ((initFlag3 & (1 << nx)) == 0) {
       initFlag3 |= (1 << nx)
-      println("v3_nx", evaluations(flatAttributeKey(nx, _3))._2)
-      _v3_nx = evaluations(flatAttributeKey(nx, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(nx, _3)).foreach(i=>_v3_nx=i._1(quad))
     }
     _v3_nx
   }
@@ -501,8 +504,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_ny: Float = {
     if ((initFlag3 & (1 << ny)) == 0) {
       initFlag3 |= (1 << ny)
-      println("v3_ny", evaluations(flatAttributeKey(ny, _3))._2)
-      _v3_ny = evaluations(flatAttributeKey(ny, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(ny, _3)).foreach(i=>_v3_ny=i._1(quad))
     }
     _v3_ny
   }
@@ -512,8 +515,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_nz: Float = {
     if ((initFlag3 & (1 << nz)) == 0) {
       initFlag3 |= (1 << nz)
-      println("v3_nz", evaluations(flatAttributeKey(nz, _3))._2)
-      _v3_nz = evaluations(flatAttributeKey(nz, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(nz, _3)).foreach(i=>_v3_nz=i._1(quad))
     }
     _v3_nz
   }
@@ -523,8 +526,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v3_p: Float = {
     if ((initFlag3 & (1 << p)) == 0) {
       initFlag3 |= (1 << p)
-      println("v3_p", evaluations(flatAttributeKey(p, _3))._2)
-      _v3_p = evaluations(flatAttributeKey(p, _3))._1(quad)
+
+      evaluations.get(flatAttributeKey(p, _3)).foreach(i=>_v3_p=i._1(quad))
     }
     _v3_p
   }
@@ -535,8 +538,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_x: Float = {
     if ((initFlag4 & (1 << x)) == 0) {
       initFlag4 |= (1 << x)
-      println("v4_x", evaluations(flatAttributeKey(x, _4))._2)
-      _v4_x = evaluations(flatAttributeKey(x, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(x, _4)).foreach(i=>_v4_x=i._1(quad))
     }
     _v4_x
   }
@@ -546,8 +549,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_y: Float = {
     if ((initFlag4 & (1 << y)) == 0) {
       initFlag4 |= (1 << y)
-      println("v4_y", evaluations(flatAttributeKey(y, _4))._2)
-      _v4_y = evaluations(flatAttributeKey(y, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(y, _4)).foreach(i=>_v4_y=i._1(quad))
     }
     _v4_y
   }
@@ -557,8 +560,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_z: Float = {
     if ((initFlag4 & (1 << z)) == 0) {
       initFlag4 |= (1 << z)
-      println("v4_z", evaluations(flatAttributeKey(z, _4))._2)
-      _v4_z = evaluations(flatAttributeKey(z, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(z, _4)).foreach(i=>_v4_z=i._1(quad))
     }
     _v4_z
   }
@@ -568,8 +571,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_r: Float = {
     if ((initFlag4 & (1 << r)) == 0) {
       initFlag4 |= (1 << r)
-      println("v4_r", evaluations(flatAttributeKey(r, _4))._2)
-      _v4_r = evaluations(flatAttributeKey(r, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(r, _4)).foreach(i=>_v4_r=i._1(quad))
     }
     _v4_r
   }
@@ -579,8 +582,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_g: Float = {
     if ((initFlag4 & (1 << g)) == 0) {
       initFlag4 |= (1 << g)
-      println("v4_g", evaluations(flatAttributeKey(g, _4))._2)
-      _v4_g = evaluations(flatAttributeKey(g, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(g, _4)).foreach(i=>_v4_g=i._1(quad))
     }
     _v4_g
   }
@@ -590,8 +593,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_b: Float = {
     if ((initFlag4 & (1 << b)) == 0) {
       initFlag4 |= (1 << b)
-      println("v4_b", evaluations(flatAttributeKey(b, _4))._2)
-      _v4_b = evaluations(flatAttributeKey(b, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(b, _4)).foreach(i=>_v4_b=i._1(quad))
     }
     _v4_b
   }
@@ -601,8 +604,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_a: Float = {
     if ((initFlag4 & (1 << a)) == 0) {
       initFlag4 |= (1 << a)
-      println("v4_a", evaluations(flatAttributeKey(a, _4))._2)
-      _v4_a = evaluations(flatAttributeKey(a, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(a, _4)).foreach(i=>_v4_a=i._1(quad))
     }
     _v4_a
   }
@@ -612,8 +615,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_u: Float = {
     if ((initFlag4 & (1 << u)) == 0) {
       initFlag4 |= (1 << u)
-      println("v4_u", evaluations(flatAttributeKey(u, _4))._2)
-      _v4_u = evaluations(flatAttributeKey(u, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(u, _4)).foreach(i=>_v4_u=i._1(quad))
     }
     _v4_u
   }
@@ -623,8 +626,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_v: Float = {
     if ((initFlag4 & (1 << v)) == 0) {
       initFlag4 |= (1 << v)
-      println("v4_v", evaluations(flatAttributeKey(v, _4))._2)
-      _v4_v = evaluations(flatAttributeKey(v, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(v, _4)).foreach(i=>_v4_v=i._1(quad))
     }
     _v4_v
   }
@@ -634,8 +637,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_lu: Float = {
     if ((initFlag4 & (1 << lu)) == 0) {
       initFlag4 |= (1 << lu)
-      println("v4_lu", evaluations(flatAttributeKey(lu, _4))._2)
-      _v4_lu = evaluations(flatAttributeKey(lu, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(lu, _4)).foreach(i=>_v4_lu=i._1(quad))
     }
     _v4_lu
   }
@@ -645,8 +648,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_lv: Float = {
     if ((initFlag4 & (1 << lv)) == 0) {
       initFlag4 |= (1 << lv)
-      println("v4_lv", evaluations(flatAttributeKey(lv, _4))._2)
-      _v4_lv = evaluations(flatAttributeKey(lv, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(lv, _4)).foreach(i=>_v4_lv=i._1(quad))
     }
     _v4_lv
   }
@@ -656,8 +659,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_nx: Float = {
     if ((initFlag4 & (1 << nx)) == 0) {
       initFlag4 |= (1 << nx)
-      println("v4_nx", evaluations(flatAttributeKey(nx, _4))._2)
-      _v4_nx = evaluations(flatAttributeKey(nx, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(nx, _4)).foreach(i=>_v4_nx=i._1(quad))
     }
     _v4_nx
   }
@@ -667,8 +670,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_ny: Float = {
     if ((initFlag4 & (1 << ny)) == 0) {
       initFlag4 |= (1 << ny)
-      println("v4_ny", evaluations(flatAttributeKey(ny, _4))._2)
-      _v4_ny = evaluations(flatAttributeKey(ny, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(ny, _4)).foreach(i=>_v4_ny=i._1(quad))
     }
     _v4_ny
   }
@@ -678,8 +681,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_nz: Float = {
     if ((initFlag4 & (1 << nz)) == 0) {
       initFlag4 |= (1 << nz)
-      println("v4_nz", evaluations(flatAttributeKey(nz, _4))._2)
-      _v4_nz = evaluations(flatAttributeKey(nz, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(nz, _4)).foreach(i=>_v4_nz=i._1(quad))
     }
     _v4_nz
   }
@@ -689,8 +692,8 @@ trait BaseUnpackedQuad extends QuadOps {
   def v4_p: Float = {
     if ((initFlag4 & (1 << p)) == 0) {
       initFlag4 |= (1 << p)
-      println("v4_p", evaluations(flatAttributeKey(p, _4))._2)
-      _v4_p = evaluations(flatAttributeKey(p, _4))._1(quad)
+
+      evaluations.get(flatAttributeKey(p, _4)).foreach(i=>_v4_p=i._1(quad))
     }
     _v4_p
   }
@@ -712,11 +715,134 @@ println("v$1_$2",evaluations(flatAttributeKey($2,_$1))._2)
 
 
   lazy val toRawArray: Array[Int] = {
-    val r = quad.getVertexData.clone()
+    val result = quad.getVertexData.clone()
 
-    //todo: packing
+    if ((changeFlag1 & (1 << x)) != 0)
+      evaluations.get(flatAttributeKey(x, _1)).foreach(i=>i._2(_v1_x,result))
+    if ((changeFlag1 & (1 << y)) != 0)
+      evaluations.get(flatAttributeKey(y, _1)).foreach(i=>i._2(_v1_y,result))
+    if ((changeFlag1 & (1 << z)) != 0)
+      evaluations.get(flatAttributeKey(z, _1)).foreach(i=>i._2(_v1_z,result))
+    if ((changeFlag1 & (1 << r)) != 0)
+      evaluations.get(flatAttributeKey(r, _1)).foreach(i=>i._2(_v1_r,result))
+    if ((changeFlag1 & (1 << g)) != 0)
+      evaluations.get(flatAttributeKey(g, _1)).foreach(i=>i._2(_v1_g,result))
+    if ((changeFlag1 & (1 << b)) != 0)
+      evaluations.get(flatAttributeKey(b, _1)).foreach(i=>i._2(_v1_b,result))
+    if ((changeFlag1 & (1 << a)) != 0)
+      evaluations.get(flatAttributeKey(a, _1)).foreach(i=>i._2(_v1_a,result))
+    if ((changeFlag1 & (1 << u)) != 0)
+      evaluations.get(flatAttributeKey(u, _1)).foreach(i=>i._2(_v1_u,result))
+    if ((changeFlag1 & (1 << v)) != 0)
+      evaluations.get(flatAttributeKey(v, _1)).foreach(i=>i._2(_v1_v,result))
+    if ((changeFlag1 & (1 << lu)) != 0)
+      evaluations.get(flatAttributeKey(lu, _1)).foreach(i=>i._2(_v1_lu,result))
+    if ((changeFlag1 & (1 << lv)) != 0)
+      evaluations.get(flatAttributeKey(lv, _1)).foreach(i=>i._2(_v1_lv,result))
+    if ((changeFlag1 & (1 << nx)) != 0)
+      evaluations.get(flatAttributeKey(nx, _1)).foreach(i=>i._2(_v1_nx,result))
+    if ((changeFlag1 & (1 << ny)) != 0)
+      evaluations.get(flatAttributeKey(ny, _1)).foreach(i=>i._2(_v1_ny,result))
+    if ((changeFlag1 & (1 << nz)) != 0)
+      evaluations.get(flatAttributeKey(nz, _1)).foreach(i=>i._2(_v1_nz,result))
+    if ((changeFlag1 & (1 << p)) != 0)
+      evaluations.get(flatAttributeKey(p, _1)).foreach(i=>i._2(_v1_p,result))
 
-    r
+    if ((changeFlag2 & (1 << x)) != 0)
+      evaluations.get(flatAttributeKey(x, _2)).foreach(i=>i._2(_v2_x,result))
+    if ((changeFlag2 & (1 << y)) != 0)
+      evaluations.get(flatAttributeKey(y, _2)).foreach(i=>i._2(_v2_y,result))
+    if ((changeFlag2 & (1 << z)) != 0)
+      evaluations.get(flatAttributeKey(z, _2)).foreach(i=>i._2(_v2_z,result))
+    if ((changeFlag2 & (1 << r)) != 0)
+      evaluations.get(flatAttributeKey(r, _2)).foreach(i=>i._2(_v2_r,result))
+    if ((changeFlag2 & (1 << g)) != 0)
+      evaluations.get(flatAttributeKey(g, _2)).foreach(i=>i._2(_v2_g,result))
+    if ((changeFlag2 & (1 << b)) != 0)
+      evaluations.get(flatAttributeKey(b, _2)).foreach(i=>i._2(_v2_b,result))
+    if ((changeFlag2 & (1 << a)) != 0)
+      evaluations.get(flatAttributeKey(a, _2)).foreach(i=>i._2(_v2_a,result))
+    if ((changeFlag2 & (1 << u)) != 0)
+      evaluations.get(flatAttributeKey(u, _2)).foreach(i=>i._2(_v2_u,result))
+    if ((changeFlag2 & (1 << v)) != 0)
+      evaluations.get(flatAttributeKey(v, _2)).foreach(i=>i._2(_v2_v,result))
+    if ((changeFlag2 & (1 << lu)) != 0)
+      evaluations.get(flatAttributeKey(lu, _2)).foreach(i=>i._2(_v2_lu,result))
+    if ((changeFlag2 & (1 << lv)) != 0)
+      evaluations.get(flatAttributeKey(lv, _2)).foreach(i=>i._2(_v2_lv,result))
+    if ((changeFlag2 & (1 << nx)) != 0)
+      evaluations.get(flatAttributeKey(nx, _2)).foreach(i=>i._2(_v2_nx,result))
+    if ((changeFlag2 & (1 << ny)) != 0)
+      evaluations.get(flatAttributeKey(ny, _2)).foreach(i=>i._2(_v2_ny,result))
+    if ((changeFlag2 & (1 << nz)) != 0)
+      evaluations.get(flatAttributeKey(nz, _2)).foreach(i=>i._2(_v2_nz,result))
+    if ((changeFlag2 & (1 << p)) != 0)
+      evaluations.get(flatAttributeKey(p, _2)).foreach(i=>i._2(_v2_p,result))
+
+    if ((changeFlag3 & (1 << x)) != 0)
+      evaluations.get(flatAttributeKey(x, _3)).foreach(i=>i._2(_v3_x,result))
+    if ((changeFlag3 & (1 << y)) != 0)
+      evaluations.get(flatAttributeKey(y, _3)).foreach(i=>i._2(_v3_y,result))
+    if ((changeFlag3 & (1 << z)) != 0)
+      evaluations.get(flatAttributeKey(z, _3)).foreach(i=>i._2(_v3_z,result))
+    if ((changeFlag3 & (1 << r)) != 0)
+      evaluations.get(flatAttributeKey(r, _3)).foreach(i=>i._2(_v3_r,result))
+    if ((changeFlag3 & (1 << g)) != 0)
+      evaluations.get(flatAttributeKey(g, _3)).foreach(i=>i._2(_v3_g,result))
+    if ((changeFlag3 & (1 << b)) != 0)
+      evaluations.get(flatAttributeKey(b, _3)).foreach(i=>i._2(_v3_b,result))
+    if ((changeFlag3 & (1 << a)) != 0)
+      evaluations.get(flatAttributeKey(a, _3)).foreach(i=>i._2(_v3_a,result))
+    if ((changeFlag3 & (1 << u)) != 0)
+      evaluations.get(flatAttributeKey(u, _3)).foreach(i=>i._2(_v3_u,result))
+    if ((changeFlag3 & (1 << v)) != 0)
+      evaluations.get(flatAttributeKey(v, _3)).foreach(i=>i._2(_v3_v,result))
+    if ((changeFlag3 & (1 << lu)) != 0)
+      evaluations.get(flatAttributeKey(lu, _3)).foreach(i=>i._2(_v3_lu,result))
+    if ((changeFlag3 & (1 << lv)) != 0)
+      evaluations.get(flatAttributeKey(lv, _3)).foreach(i=>i._2(_v3_lv,result))
+    if ((changeFlag3 & (1 << nx)) != 0)
+      evaluations.get(flatAttributeKey(nx, _3)).foreach(i=>i._2(_v3_nx,result))
+    if ((changeFlag3 & (1 << ny)) != 0)
+      evaluations.get(flatAttributeKey(ny, _3)).foreach(i=>i._2(_v3_ny,result))
+    if ((changeFlag3 & (1 << nz)) != 0)
+      evaluations.get(flatAttributeKey(nz, _3)).foreach(i=>i._2(_v3_nz,result))
+    if ((changeFlag3 & (1 << p)) != 0)
+      evaluations.get(flatAttributeKey(p, _3)).foreach(i=>i._2(_v3_p,result))
+
+    if ((changeFlag4 & (1 << x)) != 0)
+      evaluations.get(flatAttributeKey(x, _4)).foreach(i=>i._2(_v4_x,result))
+    if ((changeFlag4 & (1 << y)) != 0)
+      evaluations.get(flatAttributeKey(y, _4)).foreach(i=>i._2(_v4_y,result))
+    if ((changeFlag4 & (1 << z)) != 0)
+      evaluations.get(flatAttributeKey(z, _4)).foreach(i=>i._2(_v4_z,result))
+    if ((changeFlag4 & (1 << r)) != 0)
+      evaluations.get(flatAttributeKey(r, _4)).foreach(i=>i._2(_v4_r,result))
+    if ((changeFlag4 & (1 << g)) != 0)
+      evaluations.get(flatAttributeKey(g, _4)).foreach(i=>i._2(_v4_g,result))
+    if ((changeFlag4 & (1 << b)) != 0)
+      evaluations.get(flatAttributeKey(b, _4)).foreach(i=>i._2(_v4_b,result))
+    if ((changeFlag4 & (1 << a)) != 0)
+      evaluations.get(flatAttributeKey(a, _4)).foreach(i=>i._2(_v4_a,result))
+    if ((changeFlag4 & (1 << u)) != 0)
+      evaluations.get(flatAttributeKey(u, _4)).foreach(i=>i._2(_v4_u,result))
+    if ((changeFlag4 & (1 << v)) != 0)
+      evaluations.get(flatAttributeKey(v, _4)).foreach(i=>i._2(_v4_v,result))
+    if ((changeFlag4 & (1 << lu)) != 0)
+      evaluations.get(flatAttributeKey(lu, _4)).foreach(i=>i._2(_v4_lu,result))
+    if ((changeFlag4 & (1 << lv)) != 0)
+      evaluations.get(flatAttributeKey(lv, _4)).foreach(i=>i._2(_v4_lv,result))
+    if ((changeFlag4 & (1 << nx)) != 0)
+      evaluations.get(flatAttributeKey(nx, _4)).foreach(i=>i._2(_v4_nx,result))
+    if ((changeFlag4 & (1 << ny)) != 0)
+      evaluations.get(flatAttributeKey(ny, _4)).foreach(i=>i._2(_v4_ny,result))
+    if ((changeFlag4 & (1 << nz)) != 0)
+      evaluations.get(flatAttributeKey(nz, _4)).foreach(i=>i._2(_v4_nz,result))
+    if ((changeFlag4 & (1 << p)) != 0)
+      evaluations.get(flatAttributeKey(p, _4)).foreach(i=>i._2(_v4_p,result))
+
+
+    result
   }
 
   def reconstructResult(): Self
@@ -1126,20 +1252,20 @@ object BaseUnpackedQuad {
 
   val defaultValue = Float.MinValue + 11
 
-  val x = 0
-  val y = 4
-  val z = 8
-  val r = 12
-  val g = 16
-  val b = 20
-  val a = 24
-  val u = 28
-  val v = 32
-  val lu = 36
-  val lv = 40
-  val nx = 44
-  val ny = 48
-  val nz = 52
-  val p = 56
+  val x = (DefaultVertexFormats.POSITION_3F, 0)
+  val y = (DefaultVertexFormats.POSITION_3F, 1)
+  val z = (DefaultVertexFormats.POSITION_3F, 2)
+  val r = (DefaultVertexFormats.COLOR_4UB, 0)
+  val g = (DefaultVertexFormats.COLOR_4UB, 1)
+  val b = (DefaultVertexFormats.COLOR_4UB, 2)
+  val a = (DefaultVertexFormats.COLOR_4UB, 3)
+  val u = (DefaultVertexFormats.TEX_2F, 0)
+  val v = (DefaultVertexFormats.TEX_2F, 1)
+  val lu = (DefaultVertexFormats.TEX_2S, 0)
+  val lv = (DefaultVertexFormats.TEX_2S, 1)
+  val nx = (DefaultVertexFormats.NORMAL_3B, 0)
+  val ny = (DefaultVertexFormats.NORMAL_3B, 1)
+  val nz = (DefaultVertexFormats.NORMAL_3B, 2)
+  val p = (DefaultVertexFormats.PADDING_1B, 3)
 
 }
