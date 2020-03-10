@@ -15,6 +15,7 @@ trait QuadOps {
       v4_x = v4_x + x, v4_y = v4_y + y, v4_z = v4_z + z
     )
 
+  //todo
   def scale(factor: Float): Self =
     reconstruct(
       v1_x = v1_x * factor, v1_y = v1_y * factor, v1_z = v1_z * factor,
