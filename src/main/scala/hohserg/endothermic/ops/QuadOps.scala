@@ -77,10 +77,10 @@ trait QuadOps {
   private def slice1(x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double, x4: Double, y4: Double): Self = {
 
     //Thx frobeniusfg for help with this
-    def calcAttribute(x: Float, y: Float, v1: Float, v2: Float, v3: Float, v4: Float): Float = {
+    def calcAttribute(x: Double, y: Double, v1: Double, v2: Double, v3: Double, v4: Double): Float = {
       val a = x * y
       a *v1 - a *v2 + a *v3 - a *v4 - v1 *x - v1 *y + v1 + v2 *x + v4 *y
-    }
+    }.toFloat
 
     reconstruct(
       v1_x = calcAttribute(x1, y1,
