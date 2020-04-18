@@ -33,7 +33,6 @@ object UnpackEvaluations {
   type AttributePacker = (Float, Array[Int]) => Unit
 
   private def getFormatParseRule1(format: VertexFormat): Map[AttributeId, (AttributeUnpacker, AttributePacker)] = {
-    //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
     (for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- VertexRepr.values()) yield {
       /*
       Position
