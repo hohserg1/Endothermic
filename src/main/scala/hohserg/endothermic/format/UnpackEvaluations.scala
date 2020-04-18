@@ -18,6 +18,13 @@ object UnpackEvaluations {
     DefaultVertexFormats.PADDING_1B -> 14
   )
 
+  def memoize[A, B](f: A => B): A => B = {
+    val cache = new java.util.HashMap[A, B]()
+    val javaFunctionWrapper = new function.Function[A, B] {
+      override def apply(t: A): B = f(t)
+    }
+    cache.computeIfAbsent(_, javaFunctionWrapper)
+  }
 
   val getFormatParseRule = memoize(getFormatParseRule1)
 
