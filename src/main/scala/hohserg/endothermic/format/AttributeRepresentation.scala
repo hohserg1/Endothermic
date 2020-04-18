@@ -1,10 +1,11 @@
 package hohserg.endothermic.format
 
+import hohserg.endothermic.format.VertexRepr._
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormatElement}
 
 object AttributeRepresentation {
 
-  type AttributeId = (VertexFormatElement, Int, Vertex)
+  type AttributeId = (VertexFormatElement, Int, VertexRepr)
 
   val x_1 = (DefaultVertexFormats.POSITION_3F, 0, _1)
   val x_2 = (DefaultVertexFormats.POSITION_3F, 0, _2)
@@ -80,22 +81,6 @@ object AttributeRepresentation {
   val p_2 = (DefaultVertexFormats.PADDING_1B, 0, _2)
   val p_3 = (DefaultVertexFormats.PADDING_1B, 0, _3)
   val p_4 = (DefaultVertexFormats.PADDING_1B, 0, _4)
-
-  sealed class Vertex(val index: Int) {
-    override def toString: String = "Vertex(" + index + ")"
-  }
-
-  object Vertex {
-    val vertices = Seq(_1, _2, _3, _4)
-  }
-
-  object _1 extends Vertex(0)
-
-  object _2 extends Vertex(1)
-
-  object _3 extends Vertex(2)
-
-  object _4 extends Vertex(3)
 
 
 }

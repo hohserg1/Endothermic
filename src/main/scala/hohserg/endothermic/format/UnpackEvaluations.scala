@@ -2,7 +2,7 @@ package hohserg.endothermic.format
 
 import java.util.function
 
-import hohserg.endothermic.format.AttributeRepresentation.{AttributeId, Vertex}
+import hohserg.endothermic.format.AttributeRepresentation.AttributeId
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
@@ -31,7 +31,7 @@ object UnpackEvaluations {
 
   private def getFormatParseRule1(format: VertexFormat): Map[AttributeId, (BakedQuad => Float, (Float, Array[Int]) => Unit)] = {
     //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
-    (for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
+    (for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- VertexRepr.values()) yield {
       /*
       Position
         x

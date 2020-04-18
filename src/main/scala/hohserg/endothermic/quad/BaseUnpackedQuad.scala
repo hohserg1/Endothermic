@@ -5,7 +5,7 @@ import hohserg.endothermic.format.UnpackEvaluations
 import hohserg.endothermic.quad.BaseUnpackedQuad._
 import hohserg.endothermic.quad.ops.QuadOps
 import net.minecraft.client.renderer.block.model.BakedQuad
-import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
+import net.minecraft.client.renderer.vertex.VertexFormat
 
 trait BaseUnpackedQuad extends QuadOps {
   type Self <: BaseUnpackedQuad
@@ -16,7 +16,7 @@ trait BaseUnpackedQuad extends QuadOps {
 
   def format: VertexFormat = quad.getFormat
 
-  val evaluations: Map[(VertexFormatElement, Int, Vertex), (BakedQuad => Float, (Float, Array[Int]) => Unit)] = UnpackEvaluations.getFormatParseRule(format)
+  val evaluations: Map[AttributeId, (BakedQuad => Float, (Float, Array[Int]) => Unit)] = UnpackEvaluations.getFormatParseRule(format)
 
 
   private[quad] var initFlag1: Int = 0
@@ -1248,9 +1248,8 @@ object BaseUnpackedQuad {
 
   val defaultValue = Float.MinValue + 11
 
-  implicit def flagIndex(vfei: (VertexFormatElement, Int, Vertex)): Int =
+  implicit def flagIndex(vfei: AttributeId): Int =
     UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
-
 
 
 }
