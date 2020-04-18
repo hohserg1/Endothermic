@@ -1,6 +1,6 @@
 package hohserg.endothermic.mod
 
-import hohserg.endothermic.immutable.UnpackedQuad
+import hohserg.endothermic.quad.immutable.UnpackedQuad
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
