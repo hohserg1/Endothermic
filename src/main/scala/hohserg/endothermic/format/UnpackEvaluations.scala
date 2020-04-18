@@ -32,7 +32,9 @@ object UnpackEvaluations {
   type AttributeUnpacker = BakedQuad => Float
   type AttributePacker = (Float, Array[Int]) => Unit
 
-  private def getFormatParseRule1(format: VertexFormat): Map[AttributeId, (AttributeUnpacker, AttributePacker)] = {
+  case class AttributeIsomorphism(unpack: AttributeUnpacker, pack: AttributePacker)
+
+  private def getFormatParseRule1(format: VertexFormat): Map[AttributeId, AttributeIsomorphism] = {
     (for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- VertexRepr.values()) yield {
       /*
       Position
@@ -163,7 +165,7 @@ object UnpackEvaluations {
           data(index) |= (bits & mask) << (offset * 8)
         }
       }
-      (vfe, i, vertex) -> (unpack, pack)
+      (vfe, i, vertex) -> AttributeIsomorphism(unpack, pack)
     }).toMap
   }
 }
