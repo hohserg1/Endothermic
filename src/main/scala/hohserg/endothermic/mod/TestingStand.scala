@@ -52,7 +52,7 @@ object TestingStand extends BlockContainer(Material.GLASS) {
 
   def generateInfluence(): Map[String, BakedQuad => BakedQuad] =
     Map(
-      rotation -> (q => UnpackedQuad(q).rotate(90, 0, 1, 0).toBakedQuad),
+      rotation -> (q => UnpackedQuad(q).rotate(Math.toRadians(-90).toFloat, 0, 1, 0).toBakedQuad),
       translation -> (q => UnpackedQuad(q).translate(1, 0, 0).toBakedQuad),
       "sliceTest" -> (q =>
         UnpackedQuad(q)
