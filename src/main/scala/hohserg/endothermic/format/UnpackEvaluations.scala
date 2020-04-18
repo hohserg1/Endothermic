@@ -1,7 +1,8 @@
 package hohserg.endothermic.format
 
-import hohserg.endothermic.format.AttributeRepresentation.Vertex
-import hohserg.endothermic.format.EvaluationPool.memoize
+import java.util.function
+
+import hohserg.endothermic.format.AttributeRepresentation.{AttributeId, Vertex}
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
@@ -28,7 +29,7 @@ object UnpackEvaluations {
 
   val getFormatParseRule = memoize(getFormatParseRule1)
 
-  private def getFormatParseRule1(format: VertexFormat): Map[(VertexFormatElement, Int, Vertex), (BakedQuad => Float, (Float, Array[Int]) => Unit)] = {
+  private def getFormatParseRule1(format: VertexFormat): Map[AttributeId, (BakedQuad => Float, (Float, Array[Int]) => Unit)] = {
     //Map[(VertexFormatElement, Int, Vertex), BakedQuad => Float]
     (for (vfe <- format.getElements.asScala.toList; i <- 0 until vfe.getElementCount; vertex <- Vertex.vertices) yield {
       /*
