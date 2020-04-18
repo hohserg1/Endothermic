@@ -1,13 +1,13 @@
-package hohserg.endothermic.immutable
+package hohserg.endothermic.quad.immutable
 
-import hohserg.endothermic.BaseUnpackedQuad
+import hohserg.endothermic.quad.BaseUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.EnumFacing
 
 
 class UnpackedQuad(
-                    private[endothermic] val quad: BakedQuad,
+                    private[quad] val quad: BakedQuad,
                     private var _face: EnumFacing,
                     private var _atlas: TextureAtlasSprite,
                     private var _tint: Int,
@@ -27,7 +27,7 @@ class UnpackedQuad(
   lazy val toBakedQuad: BakedQuad =
     new BakedQuad(toRawArray, _tint, _face, _atlas, _applyDiffuseLighting, format)
 
-  private[endothermic] override def reconstructResult(): UnpackedQuad =
+  private[quad] override def reconstructResult(): UnpackedQuad =
     this.clone().asInstanceOf[UnpackedQuad]
 
   def updated(face: EnumFacing = this._face,

@@ -1,6 +1,6 @@
-package hohserg.endothermic.ops
+package hohserg.endothermic.quad.ops
 
-import hohserg.endothermic.BaseUnpackedQuad
+import hohserg.endothermic.quad.BaseUnpackedQuad
 
 import scala.math._
 

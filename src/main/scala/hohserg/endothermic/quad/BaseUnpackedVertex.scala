@@ -1,6 +1,4 @@
-package hohserg.endothermic
-
-import scala.language.higherKinds
+package hohserg.endothermic.quad
 
 trait BaseUnpackedVertex[Self <: BaseUnpackedVertex[Self]] {
 

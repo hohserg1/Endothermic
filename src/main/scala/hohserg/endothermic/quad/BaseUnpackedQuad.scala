@@ -1,9 +1,9 @@
-package hohserg.endothermic
+package hohserg.endothermic.quad
 
-import hohserg.endothermic.BaseUnpackedQuad._
 import hohserg.endothermic.format.AttributeRepresentation._
 import hohserg.endothermic.format.UnpackEvaluations
-import hohserg.endothermic.ops.QuadOps
+import hohserg.endothermic.quad.BaseUnpackedQuad._
+import hohserg.endothermic.quad.ops.QuadOps
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
@@ -12,25 +12,25 @@ trait BaseUnpackedQuad extends QuadOps {
 
   def toBakedQuad: BakedQuad
 
-  private[endothermic] def quad: BakedQuad
+  private[quad] def quad: BakedQuad
 
   def format: VertexFormat = quad.getFormat
 
   val evaluations: Map[(VertexFormatElement, Int, Vertex), (BakedQuad => Float, (Float, Array[Int]) => Unit)] = UnpackEvaluations.getFormatParseRule(format)
 
 
-  private[endothermic] var initFlag1: Int = 0
-  private[endothermic] var initFlag2: Int = 0
-  private[endothermic] var initFlag3: Int = 0
-  private[endothermic] var initFlag4: Int = 0
+  private[quad] var initFlag1: Int = 0
+  private[quad] var initFlag2: Int = 0
+  private[quad] var initFlag3: Int = 0
+  private[quad] var initFlag4: Int = 0
 
-  private[endothermic] var changeFlag1: Int = 0
-  private[endothermic] var changeFlag2: Int = 0
-  private[endothermic] var changeFlag3: Int = 0
-  private[endothermic] var changeFlag4: Int = 0
+  private[quad] var changeFlag1: Int = 0
+  private[quad] var changeFlag2: Int = 0
+  private[quad] var changeFlag3: Int = 0
+  private[quad] var changeFlag4: Int = 0
 
 
-  private[endothermic] var _v1_x: Float = defaultValue
+  private[quad] var _v1_x: Float = defaultValue
 
   def v1_x: Float = {
     if ((initFlag1 & (1 << x_1)) == 0) {
@@ -42,7 +42,7 @@ trait BaseUnpackedQuad extends QuadOps {
   }
 
 
-  private[endothermic] var _v1_y: Float = defaultValue
+  private[quad] var _v1_y: Float = defaultValue
 
   def v1_y: Float = {
     if ((initFlag1 & (1 << y_1)) == 0) {
@@ -53,7 +53,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_y
   }
 
-  private[endothermic] var _v1_z: Float = defaultValue
+  private[quad] var _v1_z: Float = defaultValue
 
   def v1_z: Float = {
     if ((initFlag1 & (1 << z_1)) == 0) {
@@ -64,7 +64,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_z
   }
 
-  private[endothermic] var _v1_r: Float = defaultValue
+  private[quad] var _v1_r: Float = defaultValue
 
   def v1_r: Float = {
     if ((initFlag1 & (1 << r_1)) == 0) {
@@ -75,7 +75,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_r
   }
 
-  private[endothermic] var _v1_g: Float = defaultValue
+  private[quad] var _v1_g: Float = defaultValue
 
   def v1_g: Float = {
     if ((initFlag1 & (1 << g_1)) == 0) {
@@ -86,7 +86,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_g
   }
 
-  private[endothermic] var _v1_b: Float = defaultValue
+  private[quad] var _v1_b: Float = defaultValue
 
   def v1_b: Float = {
     if ((initFlag1 & (1 << b_1)) == 0) {
@@ -97,7 +97,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_b
   }
 
-  private[endothermic] var _v1_a: Float = defaultValue
+  private[quad] var _v1_a: Float = defaultValue
 
   def v1_a: Float = {
     if ((initFlag1 & (1 << a_1)) == 0) {
@@ -108,7 +108,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_a
   }
 
-  private[endothermic] var _v1_u: Float = defaultValue
+  private[quad] var _v1_u: Float = defaultValue
 
   def v1_u: Float = {
     if ((initFlag1 & (1 << u_1)) == 0) {
@@ -119,7 +119,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_u
   }
 
-  private[endothermic] var _v1_v: Float = defaultValue
+  private[quad] var _v1_v: Float = defaultValue
 
   def v1_v: Float = {
     if ((initFlag1 & (1 << v_1)) == 0) {
@@ -130,7 +130,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_v
   }
 
-  private[endothermic] var _v1_lu: Float = defaultValue
+  private[quad] var _v1_lu: Float = defaultValue
 
   def v1_lu: Float = {
     if ((initFlag1 & (1 << lu_1)) == 0) {
@@ -141,7 +141,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_lu
   }
 
-  private[endothermic] var _v1_lv: Float = defaultValue
+  private[quad] var _v1_lv: Float = defaultValue
 
   def v1_lv: Float = {
     if ((initFlag1 & (1 << lv_1)) == 0) {
@@ -152,7 +152,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_lv
   }
 
-  private[endothermic] var _v1_nx: Float = defaultValue
+  private[quad] var _v1_nx: Float = defaultValue
 
   def v1_nx: Float = {
     if ((initFlag1 & (1 << nx_1)) == 0) {
@@ -163,7 +163,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_nx
   }
 
-  private[endothermic] var _v1_ny: Float = defaultValue
+  private[quad] var _v1_ny: Float = defaultValue
 
   def v1_ny: Float = {
     if ((initFlag1 & (1 << ny_1)) == 0) {
@@ -174,7 +174,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_ny
   }
 
-  private[endothermic] var _v1_nz: Float = defaultValue
+  private[quad] var _v1_nz: Float = defaultValue
 
   def v1_nz: Float = {
     if ((initFlag1 & (1 << nz_1)) == 0) {
@@ -185,7 +185,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v1_nz
   }
 
-  private[endothermic] var _v1_p: Float = defaultValue
+  private[quad] var _v1_p: Float = defaultValue
 
   def v1_p: Float = {
     if ((initFlag1 & (1 << p_1)) == 0) {
@@ -197,7 +197,7 @@ trait BaseUnpackedQuad extends QuadOps {
   }
 
 
-  private[endothermic] var _v2_x: Float = defaultValue
+  private[quad] var _v2_x: Float = defaultValue
 
   def v2_x: Float = {
     if ((initFlag2 & (1 << x_1)) == 0) {
@@ -208,7 +208,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_x
   }
 
-  private[endothermic] var _v2_y: Float = defaultValue
+  private[quad] var _v2_y: Float = defaultValue
 
   def v2_y: Float = {
     if ((initFlag2 & (1 << y_1)) == 0) {
@@ -219,7 +219,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_y
   }
 
-  private[endothermic] var _v2_z: Float = defaultValue
+  private[quad] var _v2_z: Float = defaultValue
 
   def v2_z: Float = {
     if ((initFlag2 & (1 << z_1)) == 0) {
@@ -230,7 +230,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_z
   }
 
-  private[endothermic] var _v2_r: Float = defaultValue
+  private[quad] var _v2_r: Float = defaultValue
 
   def v2_r: Float = {
     if ((initFlag2 & (1 << r_1)) == 0) {
@@ -241,7 +241,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_r
   }
 
-  private[endothermic] var _v2_g: Float = defaultValue
+  private[quad] var _v2_g: Float = defaultValue
 
   def v2_g: Float = {
     if ((initFlag2 & (1 << g_1)) == 0) {
@@ -252,7 +252,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_g
   }
 
-  private[endothermic] var _v2_b: Float = defaultValue
+  private[quad] var _v2_b: Float = defaultValue
 
   def v2_b: Float = {
     if ((initFlag2 & (1 << b_1)) == 0) {
@@ -263,7 +263,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_b
   }
 
-  private[endothermic] var _v2_a: Float = defaultValue
+  private[quad] var _v2_a: Float = defaultValue
 
   def v2_a: Float = {
     if ((initFlag2 & (1 << a_1)) == 0) {
@@ -274,7 +274,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_a
   }
 
-  private[endothermic] var _v2_u: Float = defaultValue
+  private[quad] var _v2_u: Float = defaultValue
 
   def v2_u: Float = {
     if ((initFlag2 & (1 << u_1)) == 0) {
@@ -285,7 +285,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_u
   }
 
-  private[endothermic] var _v2_v: Float = defaultValue
+  private[quad] var _v2_v: Float = defaultValue
 
   def v2_v: Float = {
     if ((initFlag2 & (1 << v_1)) == 0) {
@@ -296,7 +296,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_v
   }
 
-  private[endothermic] var _v2_lu: Float = defaultValue
+  private[quad] var _v2_lu: Float = defaultValue
 
   def v2_lu: Float = {
     if ((initFlag2 & (1 << lu_1)) == 0) {
@@ -307,7 +307,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_lu
   }
 
-  private[endothermic] var _v2_lv: Float = defaultValue
+  private[quad] var _v2_lv: Float = defaultValue
 
   def v2_lv: Float = {
     if ((initFlag2 & (1 << lv_1)) == 0) {
@@ -318,7 +318,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_lv
   }
 
-  private[endothermic] var _v2_nx: Float = defaultValue
+  private[quad] var _v2_nx: Float = defaultValue
 
   def v2_nx: Float = {
     if ((initFlag2 & (1 << nx_1)) == 0) {
@@ -329,7 +329,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_nx
   }
 
-  private[endothermic] var _v2_ny: Float = defaultValue
+  private[quad] var _v2_ny: Float = defaultValue
 
   def v2_ny: Float = {
     if ((initFlag2 & (1 << ny_1)) == 0) {
@@ -340,7 +340,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_ny
   }
 
-  private[endothermic] var _v2_nz: Float = defaultValue
+  private[quad] var _v2_nz: Float = defaultValue
 
   def v2_nz: Float = {
     if ((initFlag2 & (1 << nz_1)) == 0) {
@@ -351,7 +351,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v2_nz
   }
 
-  private[endothermic] var _v2_p: Float = defaultValue
+  private[quad] var _v2_p: Float = defaultValue
 
   def v2_p: Float = {
     if ((initFlag2 & (1 << p_1)) == 0) {
@@ -363,7 +363,7 @@ trait BaseUnpackedQuad extends QuadOps {
   }
 
 
-  private[endothermic] var _v3_x: Float = defaultValue
+  private[quad] var _v3_x: Float = defaultValue
 
   def v3_x: Float = {
     if ((initFlag3 & (1 << x_1)) == 0) {
@@ -374,7 +374,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_x
   }
 
-  private[endothermic] var _v3_y: Float = defaultValue
+  private[quad] var _v3_y: Float = defaultValue
 
   def v3_y: Float = {
     if ((initFlag3 & (1 << y_1)) == 0) {
@@ -385,7 +385,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_y
   }
 
-  private[endothermic] var _v3_z: Float = defaultValue
+  private[quad] var _v3_z: Float = defaultValue
 
   def v3_z: Float = {
     if ((initFlag3 & (1 << z_1)) == 0) {
@@ -396,7 +396,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_z
   }
 
-  private[endothermic] var _v3_r: Float = defaultValue
+  private[quad] var _v3_r: Float = defaultValue
 
   def v3_r: Float = {
     if ((initFlag3 & (1 << r_1)) == 0) {
@@ -407,7 +407,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_r
   }
 
-  private[endothermic] var _v3_g: Float = defaultValue
+  private[quad] var _v3_g: Float = defaultValue
 
   def v3_g: Float = {
     if ((initFlag3 & (1 << g_1)) == 0) {
@@ -418,7 +418,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_g
   }
 
-  private[endothermic] var _v3_b: Float = defaultValue
+  private[quad] var _v3_b: Float = defaultValue
 
   def v3_b: Float = {
     if ((initFlag3 & (1 << b_1)) == 0) {
@@ -429,7 +429,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_b
   }
 
-  private[endothermic] var _v3_a: Float = defaultValue
+  private[quad] var _v3_a: Float = defaultValue
 
   def v3_a: Float = {
     if ((initFlag3 & (1 << a_1)) == 0) {
@@ -440,7 +440,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_a
   }
 
-  private[endothermic] var _v3_u: Float = defaultValue
+  private[quad] var _v3_u: Float = defaultValue
 
   def v3_u: Float = {
     if ((initFlag3 & (1 << u_1)) == 0) {
@@ -451,7 +451,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_u
   }
 
-  private[endothermic] var _v3_v: Float = defaultValue
+  private[quad] var _v3_v: Float = defaultValue
 
   def v3_v: Float = {
     if ((initFlag3 & (1 << v_1)) == 0) {
@@ -462,7 +462,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_v
   }
 
-  private[endothermic] var _v3_lu: Float = defaultValue
+  private[quad] var _v3_lu: Float = defaultValue
 
   def v3_lu: Float = {
     if ((initFlag3 & (1 << lu_1)) == 0) {
@@ -473,7 +473,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_lu
   }
 
-  private[endothermic] var _v3_lv: Float = defaultValue
+  private[quad] var _v3_lv: Float = defaultValue
 
   def v3_lv: Float = {
     if ((initFlag3 & (1 << lv_1)) == 0) {
@@ -484,7 +484,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_lv
   }
 
-  private[endothermic] var _v3_nx: Float = defaultValue
+  private[quad] var _v3_nx: Float = defaultValue
 
   def v3_nx: Float = {
     if ((initFlag3 & (1 << nx_1)) == 0) {
@@ -495,7 +495,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_nx
   }
 
-  private[endothermic] var _v3_ny: Float = defaultValue
+  private[quad] var _v3_ny: Float = defaultValue
 
   def v3_ny: Float = {
     if ((initFlag3 & (1 << ny_1)) == 0) {
@@ -506,7 +506,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_ny
   }
 
-  private[endothermic] var _v3_nz: Float = defaultValue
+  private[quad] var _v3_nz: Float = defaultValue
 
   def v3_nz: Float = {
     if ((initFlag3 & (1 << nz_1)) == 0) {
@@ -517,7 +517,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v3_nz
   }
 
-  private[endothermic] var _v3_p: Float = defaultValue
+  private[quad] var _v3_p: Float = defaultValue
 
   def v3_p: Float = {
     if ((initFlag3 & (1 << p_1)) == 0) {
@@ -529,7 +529,7 @@ trait BaseUnpackedQuad extends QuadOps {
   }
 
 
-  private[endothermic] var _v4_x: Float = defaultValue
+  private[quad] var _v4_x: Float = defaultValue
 
   def v4_x: Float = {
     if ((initFlag4 & (1 << x_1)) == 0) {
@@ -540,7 +540,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_x
   }
 
-  private[endothermic] var _v4_y: Float = defaultValue
+  private[quad] var _v4_y: Float = defaultValue
 
   def v4_y: Float = {
     if ((initFlag4 & (1 << y_1)) == 0) {
@@ -551,7 +551,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_y
   }
 
-  private[endothermic] var _v4_z: Float = defaultValue
+  private[quad] var _v4_z: Float = defaultValue
 
   def v4_z: Float = {
     if ((initFlag4 & (1 << z_1)) == 0) {
@@ -562,7 +562,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_z
   }
 
-  private[endothermic] var _v4_r: Float = defaultValue
+  private[quad] var _v4_r: Float = defaultValue
 
   def v4_r: Float = {
     if ((initFlag4 & (1 << r_1)) == 0) {
@@ -573,7 +573,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_r
   }
 
-  private[endothermic] var _v4_g: Float = defaultValue
+  private[quad] var _v4_g: Float = defaultValue
 
   def v4_g: Float = {
     if ((initFlag4 & (1 << g_1)) == 0) {
@@ -584,7 +584,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_g
   }
 
-  private[endothermic] var _v4_b: Float = defaultValue
+  private[quad] var _v4_b: Float = defaultValue
 
   def v4_b: Float = {
     if ((initFlag4 & (1 << b_1)) == 0) {
@@ -595,7 +595,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_b
   }
 
-  private[endothermic] var _v4_a: Float = defaultValue
+  private[quad] var _v4_a: Float = defaultValue
 
   def v4_a: Float = {
     if ((initFlag4 & (1 << a_1)) == 0) {
@@ -606,7 +606,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_a
   }
 
-  private[endothermic] var _v4_u: Float = defaultValue
+  private[quad] var _v4_u: Float = defaultValue
 
   def v4_u: Float = {
     if ((initFlag4 & (1 << u_1)) == 0) {
@@ -617,7 +617,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_u
   }
 
-  private[endothermic] var _v4_v: Float = defaultValue
+  private[quad] var _v4_v: Float = defaultValue
 
   def v4_v: Float = {
     if ((initFlag4 & (1 << v_1)) == 0) {
@@ -628,7 +628,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_v
   }
 
-  private[endothermic] var _v4_lu: Float = defaultValue
+  private[quad] var _v4_lu: Float = defaultValue
 
   def v4_lu: Float = {
     if ((initFlag4 & (1 << lu_1)) == 0) {
@@ -639,7 +639,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_lu
   }
 
-  private[endothermic] var _v4_lv: Float = defaultValue
+  private[quad] var _v4_lv: Float = defaultValue
 
   def v4_lv: Float = {
     if ((initFlag4 & (1 << lv_1)) == 0) {
@@ -650,7 +650,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_lv
   }
 
-  private[endothermic] var _v4_nx: Float = defaultValue
+  private[quad] var _v4_nx: Float = defaultValue
 
   def v4_nx: Float = {
     if ((initFlag4 & (1 << nx_1)) == 0) {
@@ -661,7 +661,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_nx
   }
 
-  private[endothermic] var _v4_ny: Float = defaultValue
+  private[quad] var _v4_ny: Float = defaultValue
 
   def v4_ny: Float = {
     if ((initFlag4 & (1 << ny_1)) == 0) {
@@ -672,7 +672,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_ny
   }
 
-  private[endothermic] var _v4_nz: Float = defaultValue
+  private[quad] var _v4_nz: Float = defaultValue
 
   def v4_nz: Float = {
     if ((initFlag4 & (1 << nz_1)) == 0) {
@@ -683,7 +683,7 @@ trait BaseUnpackedQuad extends QuadOps {
     _v4_nz
   }
 
-  private[endothermic] var _v4_p: Float = defaultValue
+  private[quad] var _v4_p: Float = defaultValue
 
   def v4_p: Float = {
     if ((initFlag4 & (1 << p_1)) == 0) {
@@ -696,7 +696,7 @@ trait BaseUnpackedQuad extends QuadOps {
 
   /*
   
-  private[endothermic] var _v$1_$2: Float = defaultValue
+  private[quad] var _v$1_$2: Float = defaultValue
 def v$1_$2:Float = {
     if ((initFlag$1 & (1 << $2)) == 0) {
       initFlag$1 |= (1 << $2)
@@ -841,7 +841,7 @@ println("v$1_$2",evaluations(flatAttributeKey($2,_$1))._2)
     result
   }
 
-  private[endothermic] def reconstructResult(): Self
+  private[quad] def reconstructResult(): Self
 
   def reconstruct(v1_x: Float = this._v1_x,
                   v1_y: Float = this._v1_y,
@@ -1251,80 +1251,6 @@ object BaseUnpackedQuad {
   implicit def flagIndex(vfei: (VertexFormatElement, Int, Vertex)): Int =
     UnpackEvaluations.flagsIndices(vfei._1) + vfei._2
 
-  val x_1 = (DefaultVertexFormats.POSITION_3F, 0, _1)
-  val x_2 = (DefaultVertexFormats.POSITION_3F, 0, _2)
-  val x_3 = (DefaultVertexFormats.POSITION_3F, 0, _3)
-  val x_4 = (DefaultVertexFormats.POSITION_3F, 0, _4)
-
-  val y_1 = (DefaultVertexFormats.POSITION_3F, 1, _1)
-  val y_2 = (DefaultVertexFormats.POSITION_3F, 1, _2)
-  val y_3 = (DefaultVertexFormats.POSITION_3F, 1, _3)
-  val y_4 = (DefaultVertexFormats.POSITION_3F, 1, _4)
-
-  val z_1 = (DefaultVertexFormats.POSITION_3F, 2, _1)
-  val z_2 = (DefaultVertexFormats.POSITION_3F, 2, _2)
-  val z_3 = (DefaultVertexFormats.POSITION_3F, 2, _3)
-  val z_4 = (DefaultVertexFormats.POSITION_3F, 2, _4)
-
-  val r_1 = (DefaultVertexFormats.COLOR_4UB, 0, _1)
-  val r_2 = (DefaultVertexFormats.COLOR_4UB, 0, _2)
-  val r_3 = (DefaultVertexFormats.COLOR_4UB, 0, _3)
-  val r_4 = (DefaultVertexFormats.COLOR_4UB, 0, _4)
-
-  val g_1 = (DefaultVertexFormats.COLOR_4UB, 1, _1)
-  val g_2 = (DefaultVertexFormats.COLOR_4UB, 1, _2)
-  val g_3 = (DefaultVertexFormats.COLOR_4UB, 1, _3)
-  val g_4 = (DefaultVertexFormats.COLOR_4UB, 1, _4)
-
-  val b_1 = (DefaultVertexFormats.COLOR_4UB, 2, _1)
-  val b_2 = (DefaultVertexFormats.COLOR_4UB, 2, _2)
-  val b_3 = (DefaultVertexFormats.COLOR_4UB, 2, _3)
-  val b_4 = (DefaultVertexFormats.COLOR_4UB, 2, _4)
-
-  val a_1 = (DefaultVertexFormats.COLOR_4UB, 3, _1)
-  val a_2 = (DefaultVertexFormats.COLOR_4UB, 3, _2)
-  val a_3 = (DefaultVertexFormats.COLOR_4UB, 3, _3)
-  val a_4 = (DefaultVertexFormats.COLOR_4UB, 3, _4)
-
-  val u_1 = (DefaultVertexFormats.TEX_2F, 0, _1)
-  val u_2 = (DefaultVertexFormats.TEX_2F, 0, _2)
-  val u_3 = (DefaultVertexFormats.TEX_2F, 0, _3)
-  val u_4 = (DefaultVertexFormats.TEX_2F, 0, _4)
-
-  val v_1 = (DefaultVertexFormats.TEX_2F, 1, _1)
-  val v_2 = (DefaultVertexFormats.TEX_2F, 1, _2)
-  val v_3 = (DefaultVertexFormats.TEX_2F, 1, _3)
-  val v_4 = (DefaultVertexFormats.TEX_2F, 1, _4)
-
-  val lu_1 = (DefaultVertexFormats.TEX_2S, 0, _1)
-  val lu_2 = (DefaultVertexFormats.TEX_2S, 0, _2)
-  val lu_3 = (DefaultVertexFormats.TEX_2S, 0, _3)
-  val lu_4 = (DefaultVertexFormats.TEX_2S, 0, _4)
-
-  val lv_1 = (DefaultVertexFormats.TEX_2S, 1, _1)
-  val lv_2 = (DefaultVertexFormats.TEX_2S, 1, _2)
-  val lv_3 = (DefaultVertexFormats.TEX_2S, 1, _3)
-  val lv_4 = (DefaultVertexFormats.TEX_2S, 1, _4)
-
-  val nx_1 = (DefaultVertexFormats.NORMAL_3B, 0, _1)
-  val nx_2 = (DefaultVertexFormats.NORMAL_3B, 0, _2)
-  val nx_3 = (DefaultVertexFormats.NORMAL_3B, 0, _3)
-  val nx_4 = (DefaultVertexFormats.NORMAL_3B, 0, _4)
-
-  val ny_1 = (DefaultVertexFormats.NORMAL_3B, 1, _1)
-  val ny_2 = (DefaultVertexFormats.NORMAL_3B, 1, _2)
-  val ny_3 = (DefaultVertexFormats.NORMAL_3B, 1, _3)
-  val ny_4 = (DefaultVertexFormats.NORMAL_3B, 1, _4)
-
-  val nz_1 = (DefaultVertexFormats.NORMAL_3B, 2, _1)
-  val nz_2 = (DefaultVertexFormats.NORMAL_3B, 2, _2)
-  val nz_3 = (DefaultVertexFormats.NORMAL_3B, 2, _3)
-  val nz_4 = (DefaultVertexFormats.NORMAL_3B, 2, _4)
-
-  val p_1 = (DefaultVertexFormats.PADDING_1B, 0, _1)
-  val p_2 = (DefaultVertexFormats.PADDING_1B, 0, _2)
-  val p_3 = (DefaultVertexFormats.PADDING_1B, 0, _3)
-  val p_4 = (DefaultVertexFormats.PADDING_1B, 0, _4)
 
 
 }
