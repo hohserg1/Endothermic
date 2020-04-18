@@ -25,26 +25,43 @@ trait QuadOps {
     )
 
   def rotate(O: Float, x: Float, y: Float, z: Float): Self = {
-    val matrix = Seq(
-      Seq(cos(O) + x * x * (1 - cos(O)), x * y * (1 - cos(O)) - z * sin(O), x * z * (1 - cos(O)) + y * sin(O)),
-      Seq(y * x * (1 - cos(O)) + z * sin(O), cos(O) + y * y * (1 - cos(O)), y * z * (1 - cos(O)) - x * sin(O)),
-      Seq(z * x * (1 - cos(O)) - y * sin(O), z * y * (1 - cos(O)) + x * sin(O), cos(O) + z * z * (1 - cos(O)))
-    )
+    val m11 = cos(O) + x * x * (1 - cos(O))
+    val m12 = x * y * (1 - cos(O)) - z * sin(O)
+    val m13 = x * z * (1 - cos(O)) + y * sin(O)
 
-    def calcVertex(v: Seq[Float]) =
-      matrix.map(line => line.zip(v).map { case (a, b) => a * b }.sum).map(_.toFloat)
+    val m21 = y * x * (1 - cos(O)) + z * sin(O)
+    val m22 = cos(O) + y * y * (1 - cos(O))
+    val m23 = y * z * (1 - cos(O)) - x * sin(O)
+
+    val m31 = z * x * (1 - cos(O)) - y * sin(O)
+    val m32 = z * y * (1 - cos(O)) + x * sin(O)
+    val m33 = cos(O) + z * z * (1 - cos(O))
+
+    @inline def mul_sum(v1_1: Double, v1_2: Double, v1_3: Double, v2_1: Float, v2_2: Float, v2_3: Float) =
+      (v1_1 * v2_1 + v1_2 * v2_2 + v1_3 * v2_3).toFloat
 
 
-    val nv1 = calcVertex(Seq(v1_x, v1_y, v1_z))
-    val nv2 = calcVertex(Seq(v2_x, v2_y, v2_z))
-    val nv3 = calcVertex(Seq(v3_x, v3_y, v3_z))
-    val nv4 = calcVertex(Seq(v4_x, v4_y, v4_z))
+    val nv1_x = mul_sum(m11, m12, m13, v1_x, v1_y, v1_z)
+    val nv1_y = mul_sum(m21, m22, m23, v1_x, v1_y, v1_z)
+    val nv1_z = mul_sum(m31, m32, m33, v1_x, v1_y, v1_z)
+
+    val nv2_x = mul_sum(m11, m12, m13, v2_x, v2_y, v2_z)
+    val nv2_y = mul_sum(m21, m22, m23, v2_x, v2_y, v2_z)
+    val nv2_z = mul_sum(m31, m32, m33, v2_x, v2_y, v2_z)
+
+    val nv3_x = mul_sum(m11, m12, m13, v3_x, v3_y, v3_z)
+    val nv3_y = mul_sum(m21, m22, m23, v3_x, v3_y, v3_z)
+    val nv3_z = mul_sum(m31, m32, m33, v3_x, v3_y, v3_z)
+
+    val nv4_x = mul_sum(m11, m12, m13, v4_x, v4_y, v4_z)
+    val nv4_y = mul_sum(m21, m22, m23, v4_x, v4_y, v4_z)
+    val nv4_z = mul_sum(m31, m32, m33, v4_x, v4_y, v4_z)
 
     reconstruct(
-      v1_x = nv1(0), v1_y = nv1(1), v1_z = nv1(2),
-      v2_x = nv2(0), v2_y = nv2(1), v2_z = nv2(2),
-      v3_x = nv3(0), v3_y = nv3(1), v3_z = nv3(2),
-      v4_x = nv4(0), v4_y = nv4(1), v4_z = nv4(2)
+      v1_x = nv1_x, v1_y = nv1_y, v1_z = nv1_z,
+      v2_x = nv2_x, v2_y = nv2_y, v2_z = nv2_z,
+      v3_x = nv3_x, v3_y = nv3_y, v3_z = nv3_z,
+      v4_x = nv4_x, v4_y = nv4_y, v4_z = nv4_z
     )
   }
 
@@ -66,8 +83,8 @@ trait QuadOps {
 
 
   def cyclicNormalize2(v: Double): Double =
-    if (v < 0) 1 + (v-v.toInt)
-    else if (v > 1) v-v.toInt
+    if (v < 0) 1 + (v - v.toInt)
+    else if (v > 1) v - v.toInt
     else v
 
 
@@ -79,7 +96,7 @@ trait QuadOps {
     //Thx frobeniusfg for help with this
     def calcAttribute(x: Double, y: Double, v1: Double, v2: Double, v3: Double, v4: Double): Float = {
       val a = x * y
-      a *v1 - a *v2 + a *v3 - a *v4 - v1 *x - v1 *y + v1 + v2 *x + v4 *y
+      a * v1 - a * v2 + a * v3 - a * v4 - v1 * x - v1 * y + v1 + v2 * x + v4 * y
     }.toFloat
 
     reconstruct(
