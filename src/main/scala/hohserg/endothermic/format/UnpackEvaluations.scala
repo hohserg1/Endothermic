@@ -3,12 +3,36 @@ package hohserg.endothermic.format
 import java.util.function
 
 import hohserg.endothermic.format.AttributeRepresentation.AttributeId
+import hohserg.endothermic.quad.mutable.UnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
 import scala.collection.JavaConverters._
 
 object UnpackEvaluations {
+
+  def memoize[A, B](f: A => B): A => B = {
+    val cache = new java.util.HashMap[A, B]()
+    val javaFunctionWrapper = new function.Function[A, B] {
+      override def apply(t: A): B = f(t)
+    }
+    cache.computeIfAbsent(_, javaFunctionWrapper)
+  }
+
+  val vertexDataSize = memoize(vertexDataSize1)
+
+  private def vertexDataSize1(format: VertexFormat): Int = format.getElements.asScala.map(i => i.getSize).sum * 4
+
+  val defaultVertexData = memoize(defaultVertexData1)
+
+  private def defaultVertexData1(format: VertexFormat) = UnpackedQuad(new BakedQuad(new Array[Int](UnpackEvaluations.vertexDataSize(format)), -1, null, null, false, format))
+    .reconstruct(
+      0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0,
+      0, 0, 0, 255, 255, 255, 255, 1, 0, 0, 0, 1, 0, 0, 0,
+      0, 0, 0, 255, 255, 255, 255, 1, 1, 0, 0, 1, 0, 0, 0,
+      0, 0, 0, 255, 255, 255, 255, 0, 1, 0, 0, 1, 0, 0, 0
+    ).toRawArray
+
 
   val flagsIndices = Map(
     DefaultVertexFormats.POSITION_3F -> 0, //1,2
@@ -19,17 +43,9 @@ object UnpackEvaluations {
     DefaultVertexFormats.PADDING_1B -> 14
   )
 
-  def memoize[A, B](f: A => B): A => B = {
-    val cache = new java.util.HashMap[A, B]()
-    val javaFunctionWrapper = new function.Function[A, B] {
-      override def apply(t: A): B = f(t)
-    }
-    cache.computeIfAbsent(_, javaFunctionWrapper)
-  }
-
   val getFormatParseRule = memoize(getFormatParseRule1)
 
-  type AttributeUnpacker = BakedQuad => Float
+  type AttributeUnpacker = Array[Int] => Float
   type AttributePacker = (Float, Array[Int]) => Unit
 
   case class AttributeIsomorphism(unpack: AttributeUnpacker, pack: AttributePacker)
@@ -88,9 +104,8 @@ object UnpackEvaluations {
         val index = pos >> 2
         val offset = pos & 3
 
-        val evaluation: BakedQuad => Int = if ((pos + size - 1) / 4 != index) {
-          quad: BakedQuad => {
-            val from = quad.getVertexData
+        val evaluation: Array[Int] => Int = if ((pos + size - 1) / 4 != index) {
+          from: Array[Int] => {
             var bits = from(index)
             bits = bits >>> (offset * 8)
 
@@ -101,8 +116,7 @@ object UnpackEvaluations {
           }
         } else {
 
-          quad: BakedQuad => {
-            val from = quad.getVertexData
+          from: Array[Int] => {
             var bits = from(index)
             bits = bits >>> (offset * 8)
 
@@ -130,7 +144,7 @@ object UnpackEvaluations {
         else if (elementType == VertexFormatElement.EnumType.INT) {
           evaluation andThen (bits => ((bits & 0xFFFFFFFFL).toDouble / (0xFFFFFFFFL >> 1)).toFloat)
         } else
-          (_: BakedQuad) => 0f
+          (_: Array[Int]) => 0f
       }
 
       val pack = {
