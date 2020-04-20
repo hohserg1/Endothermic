@@ -24,18 +24,18 @@ trait QuadOps {
       v4_x = v4_x * factor, v4_y = v4_y * factor, v4_z = v4_z * factor
     )
 
-  def rotate(O: Float, x: Float, y: Float, z: Float): Self = {
-    val m11 = cos(O) + x * x * (1 - cos(O))
-    val m12 = x * y * (1 - cos(O)) - z * sin(O)
-    val m13 = x * z * (1 - cos(O)) + y * sin(O)
+  def rotate(angle: Float, x: Float, y: Float, z: Float): Self = {
+    val m11 = cos(angle) + x * x * (1 - cos(angle))
+    val m12 = x * y * (1 - cos(angle)) - z * sin(angle)
+    val m13 = x * z * (1 - cos(angle)) + y * sin(angle)
 
-    val m21 = y * x * (1 - cos(O)) + z * sin(O)
-    val m22 = cos(O) + y * y * (1 - cos(O))
-    val m23 = y * z * (1 - cos(O)) - x * sin(O)
+    val m21 = y * x * (1 - cos(angle)) + z * sin(angle)
+    val m22 = cos(angle) + y * y * (1 - cos(angle))
+    val m23 = y * z * (1 - cos(angle)) - x * sin(angle)
 
-    val m31 = z * x * (1 - cos(O)) - y * sin(O)
-    val m32 = z * y * (1 - cos(O)) + x * sin(O)
-    val m33 = cos(O) + z * z * (1 - cos(O))
+    val m31 = z * x * (1 - cos(angle)) - y * sin(angle)
+    val m32 = z * y * (1 - cos(angle)) + x * sin(angle)
+    val m33 = cos(angle) + z * z * (1 - cos(angle))
 
     @inline def mul_sum(v1_1: Double, v1_2: Double, v1_3: Double, v2_1: Float, v2_2: Float, v2_3: Float) =
       (v1_1 * v2_1 + v1_2 * v2_2 + v1_3 * v2_3).toFloat
