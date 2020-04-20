@@ -37,7 +37,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << x_1)) == 0) {
       initFlag1 |= (1 << x_1)
 
-      evaluations.get(x_1).foreach(i => _v1_x = i.unpack(quad))
+      evaluations.get(x_1).foreach(i => _v1_x = i.unpack(quad.getVertexData))
     }
     _v1_x
   }
@@ -49,7 +49,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << y_1)) == 0) {
       initFlag1 |= (1 << y_1)
 
-      evaluations.get(y_1).foreach(i => _v1_y = i.unpack(quad))
+      evaluations.get(y_1).foreach(i => _v1_y = i.unpack(quad.getVertexData))
     }
     _v1_y
   }
@@ -60,7 +60,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << z_1)) == 0) {
       initFlag1 |= (1 << z_1)
 
-      evaluations.get(z_1).foreach(i => _v1_z = i.unpack(quad))
+      evaluations.get(z_1).foreach(i => _v1_z = i.unpack(quad.getVertexData))
     }
     _v1_z
   }
@@ -71,7 +71,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << r_1)) == 0) {
       initFlag1 |= (1 << r_1)
 
-      evaluations.get(r_1).foreach(i => _v1_r = i.unpack(quad))
+      evaluations.get(r_1).foreach(i => _v1_r = i.unpack(quad.getVertexData))
     }
     _v1_r
   }
@@ -82,7 +82,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << g_1)) == 0) {
       initFlag1 |= (1 << g_1)
 
-      evaluations.get(g_1).foreach(i => _v1_g = i.unpack(quad))
+      evaluations.get(g_1).foreach(i => _v1_g = i.unpack(quad.getVertexData))
     }
     _v1_g
   }
@@ -93,7 +93,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << b_1)) == 0) {
       initFlag1 |= (1 << b_1)
 
-      evaluations.get(b_1).foreach(i => _v1_b = i.unpack(quad))
+      evaluations.get(b_1).foreach(i => _v1_b = i.unpack(quad.getVertexData))
     }
     _v1_b
   }
@@ -104,7 +104,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << a_1)) == 0) {
       initFlag1 |= (1 << a_1)
 
-      evaluations.get(a_1).foreach(i => _v1_a = i.unpack(quad))
+      evaluations.get(a_1).foreach(i => _v1_a = i.unpack(quad.getVertexData))
     }
     _v1_a
   }
@@ -115,7 +115,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << u_1)) == 0) {
       initFlag1 |= (1 << u_1)
 
-      evaluations.get(u_1).foreach(i => _v1_u = i.unpack(quad))
+      evaluations.get(u_1).foreach(i => _v1_u = i.unpack(quad.getVertexData))
     }
     _v1_u
   }
@@ -126,7 +126,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << v_1)) == 0) {
       initFlag1 |= (1 << v_1)
 
-      evaluations.get(v_1).foreach(i => _v1_v = i.unpack(quad))
+      evaluations.get(v_1).foreach(i => _v1_v = i.unpack(quad.getVertexData))
     }
     _v1_v
   }
@@ -137,7 +137,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << lu_1)) == 0) {
       initFlag1 |= (1 << lu_1)
 
-      evaluations.get(lu_1).foreach(i => _v1_lu = i.unpack(quad))
+      evaluations.get(lu_1).foreach(i => _v1_lu = i.unpack(quad.getVertexData))
     }
     _v1_lu
   }
@@ -148,7 +148,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << lv_1)) == 0) {
       initFlag1 |= (1 << lv_1)
 
-      evaluations.get(lv_1).foreach(i => _v1_lv = i.unpack(quad))
+      evaluations.get(lv_1).foreach(i => _v1_lv = i.unpack(quad.getVertexData))
     }
     _v1_lv
   }
@@ -159,7 +159,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << nx_1)) == 0) {
       initFlag1 |= (1 << nx_1)
 
-      evaluations.get(nx_1).foreach(i => _v1_nx = i.unpack(quad))
+      evaluations.get(nx_1).foreach(i => _v1_nx = i.unpack(quad.getVertexData))
     }
     _v1_nx
   }
@@ -170,7 +170,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << ny_1)) == 0) {
       initFlag1 |= (1 << ny_1)
 
-      evaluations.get(ny_1).foreach(i => _v1_ny = i.unpack(quad))
+      evaluations.get(ny_1).foreach(i => _v1_ny = i.unpack(quad.getVertexData))
     }
     _v1_ny
   }
@@ -181,7 +181,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << nz_1)) == 0) {
       initFlag1 |= (1 << nz_1)
 
-      evaluations.get(nz_1).foreach(i => _v1_nz = i.unpack(quad))
+      evaluations.get(nz_1).foreach(i => _v1_nz = i.unpack(quad.getVertexData))
     }
     _v1_nz
   }
@@ -192,7 +192,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag1 & (1 << p_1)) == 0) {
       initFlag1 |= (1 << p_1)
 
-      evaluations.get(p_1).foreach(i => _v1_p = i.unpack(quad))
+      evaluations.get(p_1).foreach(i => _v1_p = i.unpack(quad.getVertexData))
     }
     _v1_p
   }
@@ -204,7 +204,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << x_1)) == 0) {
       initFlag2 |= (1 << x_1)
 
-      evaluations.get(x_2).foreach(i => _v2_x = i.unpack(quad))
+      evaluations.get(x_2).foreach(i => _v2_x = i.unpack(quad.getVertexData))
     }
     _v2_x
   }
@@ -215,7 +215,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << y_1)) == 0) {
       initFlag2 |= (1 << y_1)
 
-      evaluations.get(y_2).foreach(i => _v2_y = i.unpack(quad))
+      evaluations.get(y_2).foreach(i => _v2_y = i.unpack(quad.getVertexData))
     }
     _v2_y
   }
@@ -226,7 +226,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << z_1)) == 0) {
       initFlag2 |= (1 << z_1)
 
-      evaluations.get(z_2).foreach(i => _v2_z = i.unpack(quad))
+      evaluations.get(z_2).foreach(i => _v2_z = i.unpack(quad.getVertexData))
     }
     _v2_z
   }
@@ -237,7 +237,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << r_1)) == 0) {
       initFlag2 |= (1 << r_1)
 
-      evaluations.get(r_2).foreach(i => _v2_r = i.unpack(quad))
+      evaluations.get(r_2).foreach(i => _v2_r = i.unpack(quad.getVertexData))
     }
     _v2_r
   }
@@ -248,7 +248,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << g_1)) == 0) {
       initFlag2 |= (1 << g_1)
 
-      evaluations.get(g_2).foreach(i => _v2_g = i.unpack(quad))
+      evaluations.get(g_2).foreach(i => _v2_g = i.unpack(quad.getVertexData))
     }
     _v2_g
   }
@@ -259,7 +259,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << b_1)) == 0) {
       initFlag2 |= (1 << b_1)
 
-      evaluations.get(b_2).foreach(i => _v2_b = i.unpack(quad))
+      evaluations.get(b_2).foreach(i => _v2_b = i.unpack(quad.getVertexData))
     }
     _v2_b
   }
@@ -270,7 +270,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << a_1)) == 0) {
       initFlag2 |= (1 << a_1)
 
-      evaluations.get(a_2).foreach(i => _v2_a = i.unpack(quad))
+      evaluations.get(a_2).foreach(i => _v2_a = i.unpack(quad.getVertexData))
     }
     _v2_a
   }
@@ -281,7 +281,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << u_1)) == 0) {
       initFlag2 |= (1 << u_1)
 
-      evaluations.get(u_2).foreach(i => _v2_u = i.unpack(quad))
+      evaluations.get(u_2).foreach(i => _v2_u = i.unpack(quad.getVertexData))
     }
     _v2_u
   }
@@ -292,7 +292,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << v_1)) == 0) {
       initFlag2 |= (1 << v_1)
 
-      evaluations.get(v_2).foreach(i => _v2_v = i.unpack(quad))
+      evaluations.get(v_2).foreach(i => _v2_v = i.unpack(quad.getVertexData))
     }
     _v2_v
   }
@@ -303,7 +303,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << lu_1)) == 0) {
       initFlag2 |= (1 << lu_1)
 
-      evaluations.get(lu_2).foreach(i => _v2_lu = i.unpack(quad))
+      evaluations.get(lu_2).foreach(i => _v2_lu = i.unpack(quad.getVertexData))
     }
     _v2_lu
   }
@@ -314,7 +314,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << lv_1)) == 0) {
       initFlag2 |= (1 << lv_1)
 
-      evaluations.get(lv_2).foreach(i => _v2_lv = i.unpack(quad))
+      evaluations.get(lv_2).foreach(i => _v2_lv = i.unpack(quad.getVertexData))
     }
     _v2_lv
   }
@@ -325,7 +325,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << nx_1)) == 0) {
       initFlag2 |= (1 << nx_1)
 
-      evaluations.get(nx_2).foreach(i => _v2_nx = i.unpack(quad))
+      evaluations.get(nx_2).foreach(i => _v2_nx = i.unpack(quad.getVertexData))
     }
     _v2_nx
   }
@@ -336,7 +336,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << ny_1)) == 0) {
       initFlag2 |= (1 << ny_1)
 
-      evaluations.get(ny_2).foreach(i => _v2_ny = i.unpack(quad))
+      evaluations.get(ny_2).foreach(i => _v2_ny = i.unpack(quad.getVertexData))
     }
     _v2_ny
   }
@@ -347,7 +347,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << nz_1)) == 0) {
       initFlag2 |= (1 << nz_1)
 
-      evaluations.get(nz_2).foreach(i => _v2_nz = i.unpack(quad))
+      evaluations.get(nz_2).foreach(i => _v2_nz = i.unpack(quad.getVertexData))
     }
     _v2_nz
   }
@@ -358,7 +358,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag2 & (1 << p_1)) == 0) {
       initFlag2 |= (1 << p_1)
 
-      evaluations.get(p_2).foreach(i => _v2_p = i.unpack(quad))
+      evaluations.get(p_2).foreach(i => _v2_p = i.unpack(quad.getVertexData))
     }
     _v2_p
   }
@@ -370,7 +370,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << x_1)) == 0) {
       initFlag3 |= (1 << x_1)
 
-      evaluations.get(x_3).foreach(i => _v3_x = i.unpack(quad))
+      evaluations.get(x_3).foreach(i => _v3_x = i.unpack(quad.getVertexData))
     }
     _v3_x
   }
@@ -381,7 +381,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << y_1)) == 0) {
       initFlag3 |= (1 << y_1)
 
-      evaluations.get(y_3).foreach(i => _v3_y = i.unpack(quad))
+      evaluations.get(y_3).foreach(i => _v3_y = i.unpack(quad.getVertexData))
     }
     _v3_y
   }
@@ -392,7 +392,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << z_1)) == 0) {
       initFlag3 |= (1 << z_1)
 
-      evaluations.get(z_3).foreach(i => _v3_z = i.unpack(quad))
+      evaluations.get(z_3).foreach(i => _v3_z = i.unpack(quad.getVertexData))
     }
     _v3_z
   }
@@ -403,7 +403,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << r_1)) == 0) {
       initFlag3 |= (1 << r_1)
 
-      evaluations.get(r_3).foreach(i => _v3_r = i.unpack(quad))
+      evaluations.get(r_3).foreach(i => _v3_r = i.unpack(quad.getVertexData))
     }
     _v3_r
   }
@@ -414,7 +414,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << g_1)) == 0) {
       initFlag3 |= (1 << g_1)
 
-      evaluations.get(g_3).foreach(i => _v3_g = i.unpack(quad))
+      evaluations.get(g_3).foreach(i => _v3_g = i.unpack(quad.getVertexData))
     }
     _v3_g
   }
@@ -425,7 +425,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << b_1)) == 0) {
       initFlag3 |= (1 << b_1)
 
-      evaluations.get(b_3).foreach(i => _v3_b = i.unpack(quad))
+      evaluations.get(b_3).foreach(i => _v3_b = i.unpack(quad.getVertexData))
     }
     _v3_b
   }
@@ -436,7 +436,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << a_1)) == 0) {
       initFlag3 |= (1 << a_1)
 
-      evaluations.get(a_3).foreach(i => _v3_a = i.unpack(quad))
+      evaluations.get(a_3).foreach(i => _v3_a = i.unpack(quad.getVertexData))
     }
     _v3_a
   }
@@ -447,7 +447,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << u_1)) == 0) {
       initFlag3 |= (1 << u_1)
 
-      evaluations.get(u_3).foreach(i => _v3_u = i.unpack(quad))
+      evaluations.get(u_3).foreach(i => _v3_u = i.unpack(quad.getVertexData))
     }
     _v3_u
   }
@@ -458,7 +458,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << v_1)) == 0) {
       initFlag3 |= (1 << v_1)
 
-      evaluations.get(v_3).foreach(i => _v3_v = i.unpack(quad))
+      evaluations.get(v_3).foreach(i => _v3_v = i.unpack(quad.getVertexData))
     }
     _v3_v
   }
@@ -469,7 +469,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << lu_1)) == 0) {
       initFlag3 |= (1 << lu_1)
 
-      evaluations.get(lu_3).foreach(i => _v3_lu = i.unpack(quad))
+      evaluations.get(lu_3).foreach(i => _v3_lu = i.unpack(quad.getVertexData))
     }
     _v3_lu
   }
@@ -480,7 +480,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << lv_1)) == 0) {
       initFlag3 |= (1 << lv_1)
 
-      evaluations.get(lv_3).foreach(i => _v3_lv = i.unpack(quad))
+      evaluations.get(lv_3).foreach(i => _v3_lv = i.unpack(quad.getVertexData))
     }
     _v3_lv
   }
@@ -491,7 +491,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << nx_1)) == 0) {
       initFlag3 |= (1 << nx_1)
 
-      evaluations.get(nx_3).foreach(i => _v3_nx = i.unpack(quad))
+      evaluations.get(nx_3).foreach(i => _v3_nx = i.unpack(quad.getVertexData))
     }
     _v3_nx
   }
@@ -502,7 +502,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << ny_1)) == 0) {
       initFlag3 |= (1 << ny_1)
 
-      evaluations.get(ny_3).foreach(i => _v3_ny = i.unpack(quad))
+      evaluations.get(ny_3).foreach(i => _v3_ny = i.unpack(quad.getVertexData))
     }
     _v3_ny
   }
@@ -513,7 +513,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << nz_1)) == 0) {
       initFlag3 |= (1 << nz_1)
 
-      evaluations.get(nz_3).foreach(i => _v3_nz = i.unpack(quad))
+      evaluations.get(nz_3).foreach(i => _v3_nz = i.unpack(quad.getVertexData))
     }
     _v3_nz
   }
@@ -524,7 +524,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag3 & (1 << p_1)) == 0) {
       initFlag3 |= (1 << p_1)
 
-      evaluations.get(p_3).foreach(i => _v3_p = i.unpack(quad))
+      evaluations.get(p_3).foreach(i => _v3_p = i.unpack(quad.getVertexData))
     }
     _v3_p
   }
@@ -536,7 +536,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << x_1)) == 0) {
       initFlag4 |= (1 << x_1)
 
-      evaluations.get(x_4).foreach(i => _v4_x = i.unpack(quad))
+      evaluations.get(x_4).foreach(i => _v4_x = i.unpack(quad.getVertexData))
     }
     _v4_x
   }
@@ -547,7 +547,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << y_1)) == 0) {
       initFlag4 |= (1 << y_1)
 
-      evaluations.get(y_4).foreach(i => _v4_y = i.unpack(quad))
+      evaluations.get(y_4).foreach(i => _v4_y = i.unpack(quad.getVertexData))
     }
     _v4_y
   }
@@ -558,7 +558,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << z_1)) == 0) {
       initFlag4 |= (1 << z_1)
 
-      evaluations.get(z_4).foreach(i => _v4_z = i.unpack(quad))
+      evaluations.get(z_4).foreach(i => _v4_z = i.unpack(quad.getVertexData))
     }
     _v4_z
   }
@@ -569,7 +569,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << r_1)) == 0) {
       initFlag4 |= (1 << r_1)
 
-      evaluations.get(r_4).foreach(i => _v4_r = i.unpack(quad))
+      evaluations.get(r_4).foreach(i => _v4_r = i.unpack(quad.getVertexData))
     }
     _v4_r
   }
@@ -580,7 +580,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << g_1)) == 0) {
       initFlag4 |= (1 << g_1)
 
-      evaluations.get(g_4).foreach(i => _v4_g = i.unpack(quad))
+      evaluations.get(g_4).foreach(i => _v4_g = i.unpack(quad.getVertexData))
     }
     _v4_g
   }
@@ -591,7 +591,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << b_1)) == 0) {
       initFlag4 |= (1 << b_1)
 
-      evaluations.get(b_4).foreach(i => _v4_b = i.unpack(quad))
+      evaluations.get(b_4).foreach(i => _v4_b = i.unpack(quad.getVertexData))
     }
     _v4_b
   }
@@ -602,7 +602,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << a_1)) == 0) {
       initFlag4 |= (1 << a_1)
 
-      evaluations.get(a_4).foreach(i => _v4_a = i.unpack(quad))
+      evaluations.get(a_4).foreach(i => _v4_a = i.unpack(quad.getVertexData))
     }
     _v4_a
   }
@@ -613,7 +613,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << u_1)) == 0) {
       initFlag4 |= (1 << u_1)
 
-      evaluations.get(u_4).foreach(i => _v4_u = i.unpack(quad))
+      evaluations.get(u_4).foreach(i => _v4_u = i.unpack(quad.getVertexData))
     }
     _v4_u
   }
@@ -624,7 +624,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << v_1)) == 0) {
       initFlag4 |= (1 << v_1)
 
-      evaluations.get(v_4).foreach(i => _v4_v = i.unpack(quad))
+      evaluations.get(v_4).foreach(i => _v4_v = i.unpack(quad.getVertexData))
     }
     _v4_v
   }
@@ -635,7 +635,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << lu_1)) == 0) {
       initFlag4 |= (1 << lu_1)
 
-      evaluations.get(lu_4).foreach(i => _v4_lu = i.unpack(quad))
+      evaluations.get(lu_4).foreach(i => _v4_lu = i.unpack(quad.getVertexData))
     }
     _v4_lu
   }
@@ -646,7 +646,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << lv_1)) == 0) {
       initFlag4 |= (1 << lv_1)
 
-      evaluations.get(lv_4).foreach(i => _v4_lv = i.unpack(quad))
+      evaluations.get(lv_4).foreach(i => _v4_lv = i.unpack(quad.getVertexData))
     }
     _v4_lv
   }
@@ -657,7 +657,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << nx_1)) == 0) {
       initFlag4 |= (1 << nx_1)
 
-      evaluations.get(nx_4).foreach(i => _v4_nx = i.unpack(quad))
+      evaluations.get(nx_4).foreach(i => _v4_nx = i.unpack(quad.getVertexData))
     }
     _v4_nx
   }
@@ -668,7 +668,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << ny_1)) == 0) {
       initFlag4 |= (1 << ny_1)
 
-      evaluations.get(ny_4).foreach(i => _v4_ny = i.unpack(quad))
+      evaluations.get(ny_4).foreach(i => _v4_ny = i.unpack(quad.getVertexData))
     }
     _v4_ny
   }
@@ -679,7 +679,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << nz_1)) == 0) {
       initFlag4 |= (1 << nz_1)
 
-      evaluations.get(nz_4).foreach(i => _v4_nz = i.unpack(quad))
+      evaluations.get(nz_4).foreach(i => _v4_nz = i.unpack(quad.getVertexData))
     }
     _v4_nz
   }
@@ -690,7 +690,7 @@ trait BaseUnpackedQuad extends QuadOps {
     if ((initFlag4 & (1 << p_1)) == 0) {
       initFlag4 |= (1 << p_1)
 
-      evaluations.get(p_4).foreach(i => _v4_p = i.unpack(quad))
+      evaluations.get(p_4).foreach(i => _v4_p = i.unpack(quad.getVertexData))
     }
     _v4_p
   }
