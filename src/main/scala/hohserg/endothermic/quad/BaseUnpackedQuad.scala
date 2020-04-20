@@ -1215,6 +1215,8 @@ println("v$1_$2",evaluations(flatAttributeKey($2,_$1))._2)
     result
   }
 
+  def reconstructBuilder:ReconstructBuilder[Self]=ReconstructBuilder.getPooledFor[Self](this.asInstanceOf[Self])
+
   /*
 
   r._v$1_x=v$1
