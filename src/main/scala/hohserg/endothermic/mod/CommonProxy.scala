@@ -15,7 +15,8 @@ class CommonProxy extends IGuiHandler {
   def init(event: FMLInitializationEvent): Unit = {}
 
   def postinit(event: FMLPostInitializationEvent): Unit = {
-    TestingStand.reload()
+    if (Config.enable_testing_stand)
+      TestingStand.reload()
   }
 
   override def getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): AnyRef = null

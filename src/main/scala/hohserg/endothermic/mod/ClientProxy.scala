@@ -22,7 +22,8 @@ class ClientProxy extends CommonProxy {
 
   override def init(event: FMLInitializationEvent): Unit = {
     super.init(event)
-    ClientRegistry.bindTileEntitySpecialRenderer(classOf[TestingStand.TileTestingStand], new TileTestingStandRenderer)
+    if (Config.enable_testing_stand)
+      ClientRegistry.bindTileEntitySpecialRenderer(classOf[TestingStand.TileTestingStand], new TileTestingStandRenderer)
   }
 
   override def postinit(event: FMLPostInitializationEvent): Unit = {
