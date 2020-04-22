@@ -42,7 +42,7 @@ object TestingStand extends BlockContainer(Material.GLASS) {
   def generateBechmarks(): Map[String, List[BakedQuad]] =
     Map(
       ender_eye -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList,
-      "ender_eye_simplified" -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList.slice(21,22),
+      "ender_eye_simplified" -> mc.getRenderItem.getItemModelWithOverrides(new ItemStack(Items.ENDER_EYE), mc.world, null).getQuads(null, null, 0).asScala.toList.slice(21, 22),
       "block" -> mc.getBlockRendererDispatcher.getModelForState(Blocks.DIAMOND_BLOCK.getDefaultState).getQuads(Blocks.DIAMOND_BLOCK.getDefaultState, EnumFacing.UP, 0).asScala.toList
     )
 
@@ -56,12 +56,21 @@ object TestingStand extends BlockContainer(Material.GLASS) {
       translation -> (q => LazyUnpackedQuad(q).translate(1, 0, 0).toBakedQuad),
       "sliceTest" -> (q =>
         LazyUnpackedQuad(q)
-        .slice(
-          0, 0,
-          0.5f, 0,
-          0.5f, 0.5f,
-          0, 0.5f).toBakedQuad),
-      identity -> (q => q)
+          .slice(
+            0, 0,
+            0.5f, 0,
+            0.5f, 0.5f,
+            0, 0.5f).toBakedQuad),
+      identity -> (q => q),
+      "immutable_test" -> {
+        q =>
+          val q1 = LazyUnpackedQuad(q)
+          val q2 = q1.translate(1, 1, 1)
+
+          println(q1.v1_x, q2.v1_x)
+
+          q1.toBakedQuad
+      }
     )
 
   override def shouldSideBeRendered(blockState: IBlockState, blockAccess: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean = true
