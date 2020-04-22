@@ -16,14 +16,14 @@ object EventHandler {
 
   @SubscribeEvent
   def onBlockRegistry(e: RegistryEvent.Register[Block]): Unit =
-    if (Config.enable_testing_stand) {
+    if (ModConfig.enable_testing_stand) {
       e.getRegistry.register(TestingStand.setRegistryName(testing_stand).setUnlocalizedName(testing_stand))
       GameRegistry.registerTileEntity(classOf[TileTestingStand], new ResourceLocation(Title.modid, classOf[TileTestingStand].getSimpleName))
     }
 
   @SubscribeEvent
   def onItemRegistry(e: RegistryEvent.Register[Item]): Unit =
-    if (Config.enable_testing_stand)
+    if (ModConfig.enable_testing_stand)
       e.getRegistry.register(new ItemBlock(TestingStand).setRegistryName(testing_stand).setUnlocalizedName(testing_stand).setCreativeTab(CreativeTabs.TOOLS))
 
 

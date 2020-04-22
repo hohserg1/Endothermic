@@ -15,7 +15,7 @@ class CommonProxy extends IGuiHandler {
   def init(event: FMLInitializationEvent): Unit = {}
 
   def postinit(event: FMLPostInitializationEvent): Unit = {
-    if (Config.enable_testing_stand)
+    if (ModConfig.enable_testing_stand)
       TestingStand.reload()
   }
 
