@@ -8,7 +8,7 @@
   "url": "",
   "updateUrl": "",
   "authorList": ["hohserg"],
-  "credits": "Thx @Dahaka for discussions and review. Thx @frobeniusfg for help with slice operation",
+  "credits": "\nThx @Dahaka for discussions and review. \nThx @frobeniusfg for help with slice operation",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
