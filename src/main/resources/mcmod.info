@@ -2,7 +2,7 @@
 {
   "modid": "endothermic",
   "name": "Endothermic",
-  "description": "Library for quad manipulating",
+  "description": "Library for baked quad manipulating",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
