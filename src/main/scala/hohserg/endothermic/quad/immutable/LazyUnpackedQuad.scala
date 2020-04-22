@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.EnumFacing
 
 
-class LazyUnpackedQuad(
+class LazyUnpackedQuad private[endothermic](
                     private[quad] val quad: BakedQuad,
                     private var _face: EnumFacing,
                     private var _atlas: TextureAtlasSprite,
