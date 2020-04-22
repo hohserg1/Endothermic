@@ -97,7 +97,7 @@ trait QuadOps {
       x1, y2)
 
 
-  def cyclicNormalize2(v: Double): Double =
+  private def cyclicNormalize2(v: Double): Double =
     if (v < 0) 1 + (v - v.toInt)
     else if (v > 1) v - v.toInt
     else v
