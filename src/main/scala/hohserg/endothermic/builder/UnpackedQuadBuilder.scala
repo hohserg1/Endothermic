@@ -1,7 +1,7 @@
 package hohserg.endothermic.builder
 
 import hohserg.endothermic.format.UnpackEvaluations
-import hohserg.endothermic.quad.mutable.UnpackedQuad
+import hohserg.endothermic.quad.mutable.LazyUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.vertex.VertexFormat
@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing
 
 class UnpackedQuadBuilder(format: VertexFormat) {
 
-  val quad = UnpackedQuad(new BakedQuad(UnpackEvaluations.defaultVertexData(format), -1, null, null, false, format))
+  val quad = LazyUnpackedQuad(new BakedQuad(UnpackEvaluations.defaultVertexData(format), -1, null, null, false, format))
 
   def tintIndex(value: Int): this.type = {
     quad.tint = value
@@ -31,6 +31,6 @@ class UnpackedQuadBuilder(format: VertexFormat) {
     this
   }
 
-  def toUnpackerQuad: UnpackedQuad = quad
+  def toUnpackerQuad: LazyUnpackedQuad = quad
 
 }

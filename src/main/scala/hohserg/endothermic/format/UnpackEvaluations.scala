@@ -3,7 +3,7 @@ package hohserg.endothermic.format
 import java.util.function
 
 import hohserg.endothermic.format.AttributeRepresentation.AttributeId
-import hohserg.endothermic.quad.mutable.UnpackedQuad
+import hohserg.endothermic.quad.mutable.LazyUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
 
@@ -25,7 +25,7 @@ object UnpackEvaluations {
 
   val defaultVertexData = memoize(defaultVertexData1)
 
-  private def defaultVertexData1(format: VertexFormat) = UnpackedQuad(new BakedQuad(new Array[Int](UnpackEvaluations.vertexDataSize(format)), -1, null, null, false, format))
+  private def defaultVertexData1(format: VertexFormat) = LazyUnpackedQuad(new BakedQuad(new Array[Int](UnpackEvaluations.vertexDataSize(format)), -1, null, null, false, format))
     .reconstruct(
       0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0,
       0, 0, 0, 255, 255, 255, 255, 1, 0, 0, 0, 1, 0, 0, 0,

@@ -1,6 +1,6 @@
 package hohserg.endothermic.mod
 
-import hohserg.endothermic.quad.immutable.UnpackedQuad
+import hohserg.endothermic.quad.immutable.LazyUnpackedQuad
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -52,10 +52,10 @@ object TestingStand extends BlockContainer(Material.GLASS) {
 
   def generateInfluence(): Map[String, BakedQuad => BakedQuad] =
     Map(
-      rotation -> (q => UnpackedQuad(q).rotate(Math.toRadians(-90).toFloat, 0, 1, 0).toBakedQuad),
-      translation -> (q => UnpackedQuad(q).translate(1, 0, 0).toBakedQuad),
+      rotation -> (q => LazyUnpackedQuad(q).rotate(Math.toRadians(-90).toFloat, 0, 1, 0).toBakedQuad),
+      translation -> (q => LazyUnpackedQuad(q).translate(1, 0, 0).toBakedQuad),
       "sliceTest" -> (q =>
-        UnpackedQuad(q)
+        LazyUnpackedQuad(q)
         .slice(
           0, 0,
           0.5f, 0,

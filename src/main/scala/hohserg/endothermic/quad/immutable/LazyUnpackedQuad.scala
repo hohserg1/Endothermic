@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.EnumFacing
 
 
-class UnpackedQuad(
+class LazyUnpackedQuad(
                     private[quad] val quad: BakedQuad,
                     private var _face: EnumFacing,
                     private var _atlas: TextureAtlasSprite,
@@ -22,18 +22,18 @@ class UnpackedQuad(
 
   def applyDiffuseLighting: Boolean = _applyDiffuseLighting
 
-  override type Self = UnpackedQuad
+  override type Self = LazyUnpackedQuad
 
   lazy val toBakedQuad: BakedQuad =
     new BakedQuad(toRawArray, _tint, _face, _atlas, _applyDiffuseLighting, format)
 
-  private[quad] override def reconstructResult(): UnpackedQuad =
-    this.clone().asInstanceOf[UnpackedQuad]
+  private[quad] override def reconstructResult(): LazyUnpackedQuad =
+    this.clone().asInstanceOf[LazyUnpackedQuad]
 
   def updated(face: EnumFacing = this._face,
               atlas: TextureAtlasSprite = this._atlas,
               tint: Int = this._tint,
-              applyDiffuseLighting: Boolean = this._applyDiffuseLighting): UnpackedQuad = {
+              applyDiffuseLighting: Boolean = this._applyDiffuseLighting): LazyUnpackedQuad = {
     val r = reconstructResult()
 
     r._face = face
@@ -67,11 +67,11 @@ class UnpackedQuad(
 
 }
 
-object UnpackedQuad {
+object LazyUnpackedQuad {
 
-  def apply(quad: BakedQuad): UnpackedQuad =
-    new UnpackedQuad(quad, quad.getFace, quad.getSprite, quad.getTintIndex, quad.shouldApplyDiffuseLighting())
+  def apply(quad: BakedQuad): LazyUnpackedQuad =
+    new LazyUnpackedQuad(quad, quad.getFace, quad.getSprite, quad.getTintIndex, quad.shouldApplyDiffuseLighting())
 
 
-  //UnpackedQuad(???).updated(v2f = v => v.reconstruct(x = v.x + 1)).toRawArray
+  //LazyUnpackedQuad(???).updated(v2f = v => v.reconstruct(x = v.x + 1)).toRawArray
 }

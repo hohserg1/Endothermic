@@ -1,6 +1,6 @@
 package hohserg.endothermic.mod
 
-import hohserg.endothermic.quad.immutable.UnpackedQuad
+import hohserg.endothermic.quad.immutable.LazyUnpackedQuad
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
@@ -38,7 +38,7 @@ class ClientProxy extends CommonProxy {
       EnumFacing.values().toSeq.flatMap(f =>
         Try(m.getQuads(null, f, 0).asScala.toList.map(identity)).toOption).flatten
     )
-    val noneTrivialQuads = quads.map(UnpackedQuad.apply).filterNot { q =>
+    val noneTrivialQuads = quads.map(LazyUnpackedQuad.apply).filterNot { q =>
 
       (q.v1_u == q.v2_u && q.v4_u == q.v3_u &&
         q.v1_v == q.v4_v && q.v2_v == q.v3_v) ||

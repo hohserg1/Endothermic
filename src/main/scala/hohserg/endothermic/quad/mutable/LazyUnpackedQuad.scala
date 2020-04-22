@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.EnumFacing
 
 
-class UnpackedQuad(
+class LazyUnpackedQuad(
                     private[quad] val quad: BakedQuad,
                     var face: EnumFacing,
                     var atlas: TextureAtlasSprite,
@@ -19,9 +19,9 @@ class UnpackedQuad(
   def toBakedQuad: BakedQuad =
     new BakedQuad(toRawArray, tint, face, atlas, applyDiffuseLighting, format)
 
-  override type Self = UnpackedQuad
+  override type Self = LazyUnpackedQuad
 
-  private[quad] override def reconstructResult(): UnpackedQuad = this
+  private[quad] override def reconstructResult(): LazyUnpackedQuad = this
 
   def copy: Self = this.clone().asInstanceOf[Self]
 
@@ -387,13 +387,13 @@ class UnpackedQuad(
 
 }
 
-object UnpackedQuad {
+object LazyUnpackedQuad {
 
-  def apply(quad: BakedQuad): UnpackedQuad =
-    new UnpackedQuad(quad, quad.getFace, quad.getSprite, quad.getTintIndex, quad.shouldApplyDiffuseLighting())
+  def apply(quad: BakedQuad): LazyUnpackedQuad =
+    new LazyUnpackedQuad(quad, quad.getFace, quad.getSprite, quad.getTintIndex, quad.shouldApplyDiffuseLighting())
 
 
-  private val unpackedQuad = UnpackedQuad(???)
+  private val unpackedQuad = LazyUnpackedQuad(???)
   //unpackedQuad.v2_x += 1
   unpackedQuad.toRawArray
 }
