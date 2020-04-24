@@ -514,7 +514,7 @@ class ReconstructBuilder[Self <: BaseUnpackedQuad] {
 object ReconstructBuilder {
   private val free = new collection.mutable.HashSet[ReconstructBuilder[_]]()
 
-  free ++= (1 to 50 map (_ => new ReconstructBuilder))
+  expandPool(50)
 
   private def returnToPool(value: ReconstructBuilder[_]) = {
     value.clear()
@@ -532,6 +532,10 @@ object ReconstructBuilder {
 
     builder.init(quad)
     builder
+  }
+
+  def expandPool(count: Int): Unit = {
+    free ++= (1 to count map (_ => new ReconstructBuilder))
   }
 
 }
