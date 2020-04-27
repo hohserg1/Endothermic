@@ -391,9 +391,4 @@ object LazyUnpackedQuad {
 
   def apply(quad: BakedQuad): LazyUnpackedQuad =
     new LazyUnpackedQuad(quad, quad.getFace, quad.getSprite, quad.getTintIndex, quad.shouldApplyDiffuseLighting())
-
-
-  private val unpackedQuad = LazyUnpackedQuad(???)
-  //unpackedQuad.v2_x += 1
-  unpackedQuad.toRawArray
 }
