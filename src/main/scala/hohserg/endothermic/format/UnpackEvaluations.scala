@@ -178,7 +178,7 @@ object UnpackEvaluations {
           data(index) |= (bits & mask) << (offset * 8)
         }
       }
-      (vfe, i, vertex) -> AttributeIsomorphism(unpack, pack)
+      AttributeId(vfe, i, vertex) -> AttributeIsomorphism(unpack, pack)
     }).toMap
   }
 }
