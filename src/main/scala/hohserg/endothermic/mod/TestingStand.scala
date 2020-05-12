@@ -1,5 +1,6 @@
 package hohserg.endothermic.mod
 
+import hohserg.endothermic.example.java.{ColoredElixXExample, ColoredExample, SliceExample}
 import hohserg.endothermic.quad.immutable.LazyUnpackedQuad
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
@@ -61,6 +62,7 @@ object TestingStand extends BlockContainer(Material.GLASS) {
             0.5f, 0,
             0.5f, 0.5f,
             0, 0.5f).toBakedQuad),
+      "slice_test_java" -> new SliceExample().apply _,
       identity -> (q => q),
       "immutable_test" -> {
         q =>
@@ -70,7 +72,10 @@ object TestingStand extends BlockContainer(Material.GLASS) {
           println(q1.v1_x, q2.v1_x)
 
           q1.toBakedQuad
-      }
+      },
+      "alloc_test1" -> new hohserg.endothermic.example.scala.ColoredExample,
+      "alloc_test2" -> new ColoredExample().apply _,
+      "alloc_test3" -> new ColoredElixXExample().apply _
     )
 
   override def shouldSideBeRendered(blockState: IBlockState, blockAccess: IBlockAccess, pos: BlockPos, side: EnumFacing): Boolean = true
