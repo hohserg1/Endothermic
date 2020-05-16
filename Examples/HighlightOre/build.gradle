@@ -2,9 +2,15 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -34,6 +40,7 @@ minecraft {
 }
 
 dependencies {
+    compile 'com.github.hohserg1:Endothermic:2.1.2'
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
