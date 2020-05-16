@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.vertex.VertexFormat
 import net.minecraft.util.EnumFacing
 
 class BakedQuadBuilder(format: VertexFormat) {
+  private val lens = QuadAttributeLens.getForFormat(format)
+
   private val vertexData = UnpackEvaluations.defaultVertexData(format)
   private var _tintIndex: Int = -1
   private var _face: EnumFacing = _
@@ -37,7 +39,7 @@ class BakedQuadBuilder(format: VertexFormat) {
   }
 
   def withAttribute(attributeId: AttributeId, value: Float): this.type = {
-    QuadAttributeLens.set(attributeId, format, vertexData, value)
+    lens.set(attributeId, vertexData, value)
     this
   }
 
