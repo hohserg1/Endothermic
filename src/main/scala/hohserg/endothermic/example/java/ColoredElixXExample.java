@@ -24,7 +24,7 @@ public class ColoredElixXExample implements Function<BakedQuad, BakedQuad> {
         List<BakedQuad> list = new ArrayList<>(1000);
         long threadAllocatedBytes = threadMXBean.getThreadAllocatedBytes(Thread.currentThread().getId());
         long time = System.nanoTime();
-        for (int i = 0; i < 1000; i++) {
+        for (int i1 = 0; i1 < 1000; i1++) {
             UnpackedBakedQuad unpacked = UnpackedBakedQuad.unpack(quad);
             unpacked.getVertices().getVertices().get(0).setColor(red);
             unpacked.getVertices().getVertices().get(1).setColor(green);

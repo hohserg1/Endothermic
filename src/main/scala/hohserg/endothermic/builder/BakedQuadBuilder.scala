@@ -1,6 +1,6 @@
 package hohserg.endothermic.builder
 
-import hohserg.endothermic.format.AttributeRepresentation.AttributeId
+import hohserg.endothermic.format.AttributeId
 import hohserg.endothermic.format.UnpackEvaluations
 import hohserg.endothermic.lense.QuadAttributeLens
 import net.minecraft.client.renderer.block.model.BakedQuad

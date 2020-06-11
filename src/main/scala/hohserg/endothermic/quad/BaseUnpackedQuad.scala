@@ -1,7 +1,7 @@
 package hohserg.endothermic.quad
 
 import hohserg.endothermic.format.AttributeRepresentation._
-import hohserg.endothermic.format.UnpackEvaluations
+import hohserg.endothermic.format.{AttributeId, UnpackEvaluations}
 import hohserg.endothermic.format.UnpackEvaluations.AttributeIsomorphism
 import hohserg.endothermic.quad.BaseUnpackedQuad._
 import hohserg.endothermic.quad.ops.QuadOps

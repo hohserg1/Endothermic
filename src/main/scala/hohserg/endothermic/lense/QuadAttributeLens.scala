@@ -1,6 +1,6 @@
 package hohserg.endothermic.lense
 
-import hohserg.endothermic.format.AttributeRepresentation.AttributeId
+import hohserg.endothermic.format.AttributeId
 import hohserg.endothermic.format.UnpackEvaluations.{AttributeIsomorphism, _}
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.VertexFormat

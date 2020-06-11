@@ -2,7 +2,7 @@ package hohserg.endothermic.format
 
 import java.util.function
 
-import hohserg.endothermic.format.AttributeRepresentation.AttributeId
+import hohserg.endothermic.format.AttributeId
 import hohserg.endothermic.quad.mutable.LazyUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.vertex.{DefaultVertexFormats, VertexFormat, VertexFormatElement}
