@@ -1,5 +1,6 @@
 package hohserg.endothermic.quad.immutable
 
+import hohserg.endothermic.format.AttributeRepresentation._
 import hohserg.endothermic.quad.BaseUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
