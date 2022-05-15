@@ -1,6 +1,5 @@
 package hohserg.endothermic.quad.immutable
 
-import hohserg.endothermic.format.AttributeRepresentation._
 import hohserg.endothermic.quad.BaseUnpackedQuad
 import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
@@ -61,7 +60,9 @@ class LazyUnpackedQuad private[endothermic](
       r._v2_v = transposeUVToNewAtlas(r.v2_v, _atlas.getMinV, atlasWidthV, atlas.getMinV, newAtlasWidthV)
       r._v3_v = transposeUVToNewAtlas(r.v3_v, _atlas.getMinV, atlasWidthV, atlas.getMinV, newAtlasWidthV)
       r._v4_v = transposeUVToNewAtlas(r.v4_v, _atlas.getMinV, atlasWidthV, atlas.getMinV, newAtlasWidthV)
-      
+
+      import hohserg.endothermic.format.AttributeRepresentation._
+      import BaseUnpackedQuad._
       r.changeFlag1 |= (1 << u_1)
       r.changeFlag1 |= (1 << u_2)
       r.changeFlag1 |= (1 << u_3)
